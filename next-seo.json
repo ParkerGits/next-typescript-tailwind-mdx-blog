@@ -1,10 +1,10 @@
 {
-  "title": "Next.js and MDX fueled",
-  "titleTemplate": "%s | Joel",
-  "description": "THis is my Next.js TypeScript Tailwind Site",
+  "title": "Parker's Digital Domain",
+  "titleTemplate": "%s | Parker's Digital Domain",
+  "description": "Parker's Corner of the Internet",
   "favicon": "/favicon.ico",
   "additionalMetaTags": [
-    {"property": "author", "content": "joel hooks"},
+    {"property": "author", "content": "Parker Landon"},
     {
       "property": "keywords",
       "content": ""
@@ -12,14 +12,14 @@
   ],
   "twitter": {
     "cardType": "summary",
-    "handle": "jhooks",
-    "site": "jhooks"
+    "handle": "LordPrkr",
+    "site": "LordPrkr"
   },
   "openGraph": {
     "type": "website",
-    "site_name": "Joel's Site",
+    "site_name": "Lord Parker's Digital Domain",
     "profile": {
-      "firstName": "Joel"
+      "firstName": "Parker"
     },
     "images": [
       {

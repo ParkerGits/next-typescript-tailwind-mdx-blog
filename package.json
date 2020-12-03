@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_ENV=production next build",
-    "postbuild": "NODE_ENV=production next-sitemap",
+    "build": "set NODE_ENV=\"production\" next build",
+    "postbuild": "set NODE_ENV=\"production\" next-sitemap",
     "start": "next start",
     "test": "jest --watch"
   },

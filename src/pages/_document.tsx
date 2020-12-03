@@ -32,7 +32,7 @@ export default class MyDocument extends Document {
         <Head>
           <link
             rel="icon"
-            href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/cloud-with-lightning-and-rain_26c8-fe0f.png"
+            href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/crown_1f451.png"
           />
         </Head>
         <body>
