@@ -1,6 +1,5 @@
 const withPlugins = require('next-compose-plugins')
-const withMDX = require('@next/mdx')()
-
+const withMdxFm = require('next-mdx-frontmatter')()
 const nextConfig = {
   reactStrictMode: true,
   async redirects() {
@@ -10,7 +9,7 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withMDX({
+    withMdxFm({
       pageExtensions: ['ts', 'tsx', 'mdx'],
       remarkPlugins: [
         require('remark-slug'),

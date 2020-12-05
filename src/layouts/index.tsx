@@ -2,6 +2,8 @@ import React, {FunctionComponent} from 'react'
 import {NextSeo} from 'next-seo'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import matter from 'gray-matter'
+
 type LayoutProps = {
   meta: any
 }
@@ -34,7 +36,7 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({children, meta}) => {
         >
           {title && <h1 className="mx-14">{title}</h1>}
         </div>
-        <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto mt-6 prose">
+        <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto mt-6">
           {children}
         </article>
         <Footer />

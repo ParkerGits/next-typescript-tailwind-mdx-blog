@@ -38,19 +38,6 @@ const Footer = () => (
           />
         </a>
         <a
-          href="https://www.twitch.tv/lordprkr"
-          target="_blank"
-          className="flex items-center px-1"
-        >
-          <Image
-            src="/images/twitch.svg"
-            alt="Twitch"
-            width={40}
-            height={40}
-            className="opacity-50 hover:opacity-100"
-          />
-        </a>
-        <a
           href="https://github.com/ParkerGits"
           target="_blank"
           className="flex items-center px-1"

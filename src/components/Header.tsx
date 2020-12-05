@@ -17,7 +17,7 @@ const Header = () => (
           </h1>
         </div>
       </Link>
-      <Link href="/topics">
+      <Link href="/list">
         <div className="flex items-center mr-4">
           <Image
             src="/images/list.svg"
