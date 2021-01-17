@@ -1,3 +1,6 @@
+# parkerlandon.com
+This is a blog created with [this Next.js starter](https://github.com/joelhooks/next-typescript-tailwind-mdx-starter).
+
 This is an opinonated Next.js starter project that makes it relatively simple to spin up a new project.
 
 ## Getting Started
