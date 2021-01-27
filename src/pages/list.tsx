@@ -33,11 +33,12 @@ const List = ({
 export async function getServerSideProps() {
   const posts = './src/pages/posts'
   const dir = path.resolve(posts)
-  const folders = readdirSync(dir)
+  const folders: string[] = readdirSync(dir)
   let frontmatterEach = folders.map((folder) => {
     let files: string[] = readdirSync(posts + '/' + folder)
     return files.map((file) => {
-      let content = readFileSync(posts + '/' + folder + '/' + file, 'utf8')
+      let categoryDir = path.resolve(posts, folder)
+      let content = readFileSync(categoryDir + '/' + file, 'utf8')
       let frontmatter = matter(content).data
       return frontmatter
     })
