@@ -30,7 +30,7 @@ const List = ({
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const path = './src/pages/posts'
   let folders = fs.readdirSync(path)
   let frontmatterEach = folders.map((folder) => {
