@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "list.tsx": {
-      "includeFiles": "pages/posts/**"
-    }
-  }
-}

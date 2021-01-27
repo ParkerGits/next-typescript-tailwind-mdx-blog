@@ -1,6 +1,6 @@
 import {readdirSync, readFileSync} from 'fs'
 import matter from 'gray-matter'
-
+import path from 'path'
 import Layout from '../layouts/index'
 import PostList from '../components/PostList'
 
@@ -31,12 +31,13 @@ const List = ({
 }
 
 export async function getServerSideProps() {
-  const path = './src/pages/posts'
-  let folders: string[] = readdirSync(path)
+  const posts = './src/pages/posts'
+  const dir = path.resolve(posts)
+  const folders = readdirSync(dir)
   let frontmatterEach = folders.map((folder) => {
-    let files: string[] = readdirSync(path + '/' + folder)
+    let files: string[] = readdirSync(posts + '/' + folder)
     return files.map((file) => {
-      let content = readFileSync(path + '/' + folder + '/' + file, 'utf8')
+      let content = readFileSync(posts + '/' + folder + '/' + file, 'utf8')
       let frontmatter = matter(content).data
       return frontmatter
     })
