@@ -1,4 +1,4 @@
-import fs from 'fs'
+const {readdirSync, readFileSync} = require('fs')
 import matter from 'gray-matter'
 
 import Layout from '../layouts/index'
@@ -32,11 +32,11 @@ const List = ({
 
 export async function getServerSideProps() {
   const path = './src/pages/posts'
-  let folders = fs.readdirSync(path)
+  let folders: string[] = readdirSync(path)
   let frontmatterEach = folders.map((folder) => {
-    let files = fs.readdirSync(path + '/' + folder)
+    let files: string[] = readdirSync(path + '/' + folder)
     return files.map((file) => {
-      let content = fs.readFileSync(path + '/' + folder + '/' + file, 'utf8')
+      let content = readFileSync(path + '/' + folder + '/' + file, 'utf8')
       let frontmatter = matter(content).data
       return frontmatter
     })
