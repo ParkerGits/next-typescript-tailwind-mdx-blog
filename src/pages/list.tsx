@@ -1,6 +1,7 @@
-import {readdirSync, readFileSync} from 'fs'
-import matter from 'gray-matter'
+import fs, {readdirSync, readFile, readFileSync} from 'fs'
 import path from 'path'
+import {GetStaticProps} from 'next'
+import matter from 'gray-matter'
 import Layout from '../layouts/index'
 import PostList from '../components/PostList'
 
@@ -8,14 +9,9 @@ interface frontmatter {
   title: string
   topic: string
   routename: string
-  readtime: string
 }
 
-const List = ({
-  frontmatterEach,
-}: {
-  frontmatterEach: Array<Array<frontmatter>>
-}) => {
+const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
   return (
     <Layout
       meta={{
@@ -25,27 +21,32 @@ const List = ({
         url: '',
       }}
     >
-      <PostList frontmatterEach={frontmatterEach} />
+      <PostList frontmatterList={frontmatterList} />
     </Layout>
   )
 }
 
-export async function getServerSideProps() {
-  const posts = './src/pages/posts'
-  const dir = path.resolve(posts)
-  const folders: string[] = readdirSync(dir)
-  let frontmatterEach = folders.map((folder) => {
-    let files: string[] = readdirSync(posts + '/' + folder)
-    return files.map((file) => {
-      let categoryDir = path.resolve(posts, folder)
-      let content = readFileSync(categoryDir + '/' + file, 'utf8')
-      let frontmatter = matter(content).data
-      return frontmatter
+export const getStaticProps: GetStaticProps = async () => {
+  const postCategoriesDir: string = path.join(
+    process.cwd(),
+    'src',
+    'pages',
+    'posts',
+  )
+  const categories: string[] = fs.readdirSync(postCategoriesDir)
+  const frontmatterList = categories.map((category) => {
+    const categoryDir = path.join(postCategoriesDir, category)
+    const posts = fs.readdirSync(categoryDir)
+    const frontMatterPost = posts.map((post) => {
+      const postFile = path.join(categoryDir, post)
+      return matter(readFileSync(postFile, 'utf-8')).data
     })
+    return [...frontMatterPost]
   })
+  console.log(frontmatterList)
   return {
     props: {
-      frontmatterEach: frontmatterEach,
+      frontmatterList: frontmatterList,
     },
   }
 }
