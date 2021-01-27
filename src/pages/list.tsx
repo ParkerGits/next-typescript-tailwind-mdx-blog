@@ -43,7 +43,6 @@ export const getStaticProps: GetStaticProps = async () => {
     })
     return [...frontMatterPost]
   })
-  console.log(frontmatterList)
   return {
     props: {
       frontmatterList: frontmatterList,
