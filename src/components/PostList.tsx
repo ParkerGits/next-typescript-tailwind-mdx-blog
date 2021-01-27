@@ -11,7 +11,6 @@ export default function PostList({
 }: {
   frontmatterList: frontmatter[][]
 }) {
-  console.log(frontmatterList[1][0])
   return (
     <>
       {/* {frontmatterList[0][0] && <h3 className="dark:text-white">Math 🔢</h3>}
@@ -24,12 +23,12 @@ export default function PostList({
           ))}
         </ul>
       )} */}
-      {frontmatterList[1][0] && (
+      {frontmatterList[0][0] && (
         <h3 className="dark:text-white">Personal Stories 📖</h3>
       )}
-      {frontmatterList[1][0] && (
+      {frontmatterList[0][0] && (
         <ul id="personal-list">
-          {frontmatterList[1].map((frontmatter, index) => (
+          {frontmatterList[0].map((frontmatter, index) => (
             <li key={index}>
               <Post frontmatter={frontmatter} />
             </li>
