@@ -1,4 +1,4 @@
-const {readdirSync, readFileSync} = require('fs')
+import {readdirSync, readFileSync} from 'fs'
 import matter from 'gray-matter'
 
 import Layout from '../layouts/index'
