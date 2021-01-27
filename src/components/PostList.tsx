@@ -13,7 +13,7 @@ export default function PostList({
 }) {
   return (
     <>
-      {frontmatterEach[0][0] && <h3 className="dark:text-white">Math 🔢</h3>}
+      {/* {frontmatterEach[0][0] && <h3 className="dark:text-white">Math 🔢</h3>}
       {frontmatterEach[0][0] && (
         <ul id="math-list">
           {frontmatterEach[0].map((frontmatter, index) => (
@@ -22,7 +22,7 @@ export default function PostList({
             </li>
           ))}
         </ul>
-      )}
+      )} */}
       {frontmatterEach[1][0] && (
         <h3 className="dark:text-white">Personal Stories 📖</h3>
       )}
@@ -35,7 +35,7 @@ export default function PostList({
           ))}
         </ul>
       )}
-      {frontmatterEach[2][0] && (
+      {/* {frontmatterEach[2][0] && (
         <h3 className="dark:text-white">Programming💻</h3>
       )}
       {frontmatterEach[2][0] && (
@@ -46,7 +46,7 @@ export default function PostList({
             </li>
           ))}
         </ul>
-      )}
+      )} */}
     </>
   )
 }
