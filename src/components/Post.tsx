@@ -3,7 +3,6 @@ interface frontmatter {
   title: string
   topic: string
   routename: string
-  readtime: string
 }
 
 const Post = ({frontmatter}: {frontmatter: frontmatter}) => {
@@ -14,9 +13,10 @@ const Post = ({frontmatter}: {frontmatter: frontmatter}) => {
           {frontmatter.title}
         </a>
       </Link>
+      {/* READ TIME BUTTON 
       <span className="text-sm ml-2 rounded-lg p-2 text-white hover:text font-semibold bg-pink-lord">
         {frontmatter.readtime}
-      </span>
+      </span> */}
     </div>
   )
 }

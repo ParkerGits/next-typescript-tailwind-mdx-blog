@@ -35,7 +35,7 @@ export default class MyDocument extends Document {
             href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/crown_1f451.png"
           />
         </Head>
-        <body>
+        <body className="dark:bg-gray-800">
           <Main />
           <NextScript />
         </body>

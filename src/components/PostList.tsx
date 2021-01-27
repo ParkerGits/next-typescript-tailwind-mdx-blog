@@ -4,7 +4,6 @@ interface frontmatter {
   title: string
   topic: string
   routename: string
-  readtime: string
 }
 
 export default function PostList({
@@ -13,10 +12,10 @@ export default function PostList({
   frontmatterEach: Array<Array<frontmatter>>
 }) {
   return (
-    <div>
-      {frontmatterEach[0][0] && <h3>Math 🔢</h3>}
+    <>
+      {frontmatterEach[0][0] && <h3 className="dark:text-white">Math 🔢</h3>}
       {frontmatterEach[0][0] && (
-        <ul id="programming-list">
+        <ul id="math-list">
           {frontmatterEach[0].map((frontmatter, index) => (
             <li key={index}>
               <Post frontmatter={frontmatter} />
@@ -24,9 +23,11 @@ export default function PostList({
           ))}
         </ul>
       )}
-      {frontmatterEach[1][0] && <h3>Personal Stories 📖</h3>}
       {frontmatterEach[1][0] && (
-        <ul id="math-list">
+        <h3 className="dark:text-white">Personal Stories 📖</h3>
+      )}
+      {frontmatterEach[1][0] && (
+        <ul id="personal-list">
           {frontmatterEach[1].map((frontmatter, index) => (
             <li key={index}>
               <Post frontmatter={frontmatter} />
@@ -34,9 +35,11 @@ export default function PostList({
           ))}
         </ul>
       )}
-      {frontmatterEach[2][0] && <h3>Programming💻</h3>}
       {frontmatterEach[2][0] && (
-        <ul id="personal-list">
+        <h3 className="dark:text-white">Programming💻</h3>
+      )}
+      {frontmatterEach[2][0] && (
+        <ul id="programming-list">
           {frontmatterEach[2].map((frontmatter, index) => (
             <li key={index}>
               <Post frontmatter={frontmatter} />
@@ -44,6 +47,6 @@ export default function PostList({
           ))}
         </ul>
       )}
-    </div>
+    </>
   )
 }

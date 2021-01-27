@@ -1,7 +1,8 @@
 const {NONAME} = require('dns')
 
 module.exports = {
-  purge: ['./src/**/*.{jsx,tsx}'],
+  darkMode: 'class',
+  purge: ['./src/**/*.tsx'],
   theme: {
     colors: {
       blue: {
@@ -9,6 +10,11 @@ module.exports = {
       },
       pink: {
         lord: '#DB2777',
+      },
+      gray: {
+        300: '#d1d5db',
+        500: '#6b7280',
+        800: '#121212',
       },
       white: '#FFFFFF',
       black: '#000000',
@@ -19,24 +25,30 @@ module.exports = {
           css: {
             a: {
               textDecoration: 'none',
-              color: '#2e9bf0',
+              color: '#6200ed',
               '&:hover': {
-                color: '#2273b3',
+                color: '#3700b3',
               },
             },
           },
         },
-        '3xl': {
+        dark: {
           css: {
-            fontSize: '1.875rem',
-            h1: {
-              fontSize: '4rem',
+            color: 'white',
+            a: {
+              textDecoration: 'none',
+              color: '#bb86fb',
+              '&:hover': {
+                color: '#985eff',
+              },
             },
           },
         },
       }),
     },
   },
-  variants: {},
+  variants: {
+    typography: ['dark', 'responsive'],
+  },
   plugins: [require('@tailwindcss/typography')],
 }
