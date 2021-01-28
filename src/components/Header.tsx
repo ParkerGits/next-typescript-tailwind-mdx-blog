@@ -21,17 +21,6 @@ const Header = () => {
           </div>
         </Link>
         <div className="flex items-center mr-4">
-          <Link href="/list">
-            <Image
-              src={
-                theme === 'dark' ? '/images/list-dark.svg' : '/images/list.svg'
-              }
-              alt="Post List"
-              width={30}
-              height={30}
-              className="opacity-50 hover:opacity-100 cursor-pointer"
-            />
-          </Link>
           <Image
             src={
               theme === 'dark'
@@ -44,6 +33,17 @@ const Header = () => {
             className="opacity-50 hover:opacity-100 cursor-pointer"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           />
+          <Link href="/list">
+            <Image
+              src={
+                theme === 'dark' ? '/images/list-dark.svg' : '/images/list.svg'
+              }
+              alt="Post List"
+              width={30}
+              height={30}
+              className="opacity-50 hover:opacity-100 cursor-pointer"
+            />
+          </Link>
         </div>
       </div>
     </header>

@@ -23,18 +23,14 @@ export default function PostList({
           ))}
         </ul>
       )} */}
-      {frontmatterList[0][0] && (
-        <h3 className="dark:text-white">Personal Stories 📖</h3>
-      )}
-      {frontmatterList[0][0] && (
-        <ul id="personal-list">
-          {frontmatterList[0].map((frontmatter, index) => (
-            <li key={index}>
-              <Post frontmatter={frontmatter} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <h3 className="dark:text-white">Personal Stories 📖</h3>
+      <ul id="personal-list">
+        {frontmatterList[0].map((frontmatter, index) => (
+          <li key={index}>
+            <Post frontmatter={frontmatter} />
+          </li>
+        ))}
+      </ul>
       {/* {frontmatterList[2][0] && (
         <h3 className="dark:text-white">Programming💻</h3>
       )}

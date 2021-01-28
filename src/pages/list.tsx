@@ -18,7 +18,6 @@ const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
         title: 'List of Posts 📝',
         description: "Every post ever made under Parker's rule.",
         titleAppendSiteName: true,
-        url: '',
       }}
     >
       <PostList frontmatterList={frontmatterList} />

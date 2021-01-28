@@ -1,7 +1,7 @@
 {
   "title": "Parker's Digital Domain",
   "titleTemplate": "%s | Parker's Digital Domain",
-  "description": "Parker's Corner of the Internet",
+  "description": "Parker's corner of the internet.",
   "favicon": "/favicon.ico",
   "additionalMetaTags": [
     {"property": "author", "content": "Parker Landon"},
