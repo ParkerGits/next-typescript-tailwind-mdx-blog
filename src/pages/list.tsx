@@ -15,7 +15,7 @@ const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
   return (
     <Layout
       meta={{
-        title: 'List of Posts 📝',
+        title: 'List of Posts📝',
         description: "Every post ever made under Parker's rule.",
         titleAppendSiteName: true,
       }}

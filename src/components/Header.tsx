@@ -6,7 +6,7 @@ const Header = () => {
   const {theme, setTheme} = useTheme()
   return (
     <header>
-      <div className="flex my-5 xl:my-11 justify-between mx-5 py-3 ">
+      <div className="flex my-5 xl:my-11 justify-between mx-1 md:mx-5 py-3 ">
         <Link href="/">
           <div className="flex items-center cursor-pointer ">
             <Image
@@ -15,12 +15,12 @@ const Header = () => {
               width={75}
               height={75}
             />
-            <h1 className="prose dark:prose-dark font-serif prose-md sm:prose-2xl hover:text-pink-lord">
+            <h1 className="prose dark:prose-dark font-serif prose-md sm:prose-2xl hover:text-pink-lord hidden sm:block">
               Parker's Digital Domain
             </h1>
           </div>
         </Link>
-        <div className="flex items-center mr-4">
+        <div className="flex items-center mr-2">
           <Image
             src={
               theme === 'dark'
