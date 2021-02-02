@@ -16,6 +16,8 @@ export const meta = {
   },
 }
 
+![My OpenGraph Image!](https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Building%20an%20OpenGraph%20Image%20Generation%20API&tags=cloudinary,netlify,react)
+
 This post follows along with [Chris Biscardi's Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React course](https://egghead.io/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e) on [egghead.io](https://egghead.io/).
 
 After deploying this site, I pasted a link in my Discord server to share with my friends. I was pleased to see that my link was followed with a card displaying the article title, description, and favicon, but I noticed that the image box was filled with a loading circle. This was no surprise to me, as I had not yet set up images for each of my articles. Thankfully, I stumbled upon this egghead lesson with which I plan to develop an API to automatically generate an OpenGraph image for each of the articles on this site.
@@ -600,6 +602,10 @@ Create a `_redirects` file in the root of our function, and include the followin
 ```
 
 Once we've deployed, we can use the new path.
+
+## Conclusion
+
+This course was super helpful, and I only ran into problems with including an image in my React component and with the last lesson about redirects. Thanks Chris for helping me create OpenGraph images for this blog!
 
 import DefaultLayout from '../../../layouts/index'
 
