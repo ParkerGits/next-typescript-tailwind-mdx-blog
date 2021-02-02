@@ -11,9 +11,9 @@
     }
   ],
   "twitter": {
-    "cardType": "summary",
+    "cardType": "summary_large_image",
     "handle": "LordPrkr",
-    "site": "LordPrkr"
+    "site": "parkerlandon.com"
   },
   "openGraph": {
     "type": "website",
@@ -27,11 +27,6 @@
         "width": 1200,
         "height": 630
       }
-    ],
-    "twitter": {
-      "handle": "@lordprkr",
-      "site": "parkerlandon.com",
-      "cardType": "summary_large_image"
-    }
+    ]
   }
 }
