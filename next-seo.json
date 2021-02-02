@@ -23,7 +23,7 @@
     },
     "images": [
       {
-        "url": "/images/og.jpg",
+        "url": "https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Welcome%20to%20Parker%27s%20Digital%20Domain&tags=parkerlandon.com",
         "width": 1200,
         "height": 630
       }
