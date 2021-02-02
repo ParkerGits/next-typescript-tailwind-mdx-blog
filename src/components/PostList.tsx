@@ -25,7 +25,7 @@ export default function PostList({
         </ul>
       )} */}
       {frontmatterList[1][0] && (
-        <h3 className="dark:text-white mb-0">Programming💻</h3>
+        <h3 className="dark:text-white mb-0">Programming 💻</h3>
       )}
       <ul id="programming-list">
         {frontmatterList[1].map((frontmatter, index) => (
