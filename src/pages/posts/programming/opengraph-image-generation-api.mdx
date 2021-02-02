@@ -36,7 +36,7 @@ Figma helps us get a good idea of what we want our OpenGraph image to look like.
 
 ## 2. Building an OpenGraph image React component in CodeSandbox, based on a Figma design
 
-In this lesson, we use [CodeSandbox](https://codesandbox.io/) to quickly begin working on our React component.
+Now we'll use [CodeSandbox](https://codesandbox.io/) to quickly begin working on our React component.
 
 Our first step is to `import { jsx } from '@emotion/react'` (Chris uses `@emotion/core`, but `jsx` is now found in `@emotion/react`). Emotion is a css-in-js library that I am already familiar with and have enjoyed using in the past.
 
@@ -65,9 +65,9 @@ After plenty of flexboxes, this is the React component I came up with:
 
 ## 3. Setting up a new GitHub repo to deploy functions on Netlify with Make and netlify.toml
 
-In this lesson, we will set up a Git repo and deploy to Netlify.
+We can now set up a Git repo and deploy to Netlify.
 
-We create a new directory, initialize Git with `git init`, create a package.json with `yarn init -y`, then create an `index.html` and a `netlify.toml`.
+First, we create a new directory, initialize Git with `git init`, create a package.json with `yarn init -y`, then create an `index.html` and a `netlify.toml`.
 
 Inside `netlify.toml`, we specify the directory that the functions will live in and the command we'll use to build everything. We're going to use Make because we will end up with multiple functions with separately installed dependencies.
 
@@ -92,7 +92,7 @@ Now we can just push our repository to GitHub and connect with Netlify to deploy
 
 ## 4. Scaffolding and deploying a Netlify function in Javascript
 
-In this lesson, we'll create our first function. This function will generate our OpenGraph image using Playwright.
+In our new repository, we'll create our first function. This function will generate our OpenGraph image using [Playwright](https://github.com/microsoft/playwright).
 
 We start by creating a `functions` directory, and, inside, a `gen-opengraph-image` directory. Here, we initialize a new `package.json` and create `gen-opengraph-image.js` (the file name must match the directory name).
 
