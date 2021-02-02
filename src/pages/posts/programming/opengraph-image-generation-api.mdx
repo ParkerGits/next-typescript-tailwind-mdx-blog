@@ -1,0 +1,602 @@
+---
+title: Building an OpenGraph image generation API 📷
+topic: programming
+routename: opengraph-image-generation-api
+---
+
+export const meta = {
+  title: 'Building an OpenGraph Image Generation API 📷',
+  description: "Notes from Chris Biscardi's course on egghead.io",
+  titleAppendSiteName: true,
+  ogImage:
+    'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Building%20an%20OpenGraph%20Image%20Generation%20API&tags=cloudinary,netlify,react',
+}
+
+This post follows along with [Chris Biscardi's Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React course](https://egghead.io/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e) on [egghead.io](https://egghead.io/).
+
+After deploying this site, I pasted a link in my Discord server to share with my friends. I was pleased to see that my link was followed with a card displaying the article title, description, and favicon, but I noticed that the image box was filled with a loading circle. This was no surprise to me, as I had not yet set up images for each of my articles. Thankfully, I stumbled upon this egghead lesson with which I plan to develop an API to automatically generate an OpenGraph image for each of the articles on this site.
+
+Here, I'll be sharing some takeaways from each lesson.
+
+## 1. Designing OpenGraph unfurls in Figma
+
+I'm excited to see Figma in the title of this lesson, as I have been meaning to begin using it.
+
+We start by using [Ryan Warner's community social branding templates](https://twitter.com/ryanwarnercodes/status/1239578329340170240) which could come in handy for any design work that I do in the future.
+
+We're also using [Gradient Magic](https://www.gradientmagic.com/) to grab an interesting gradient background. We use Chrome DevTools to set the width and height of the element, and then we use the command palette to take a "node screenshot" of the element. Never knew you could do that!
+
+Figma helps us get a good idea of what we want our OpenGraph image to look like. Chris reminds us that our Figma creation is not the final product, and that we should therefore not spend too much time perfecting it. Our final product is the React component that we will create.
+
+## 2. Building an OpenGraph image React component in CodeSandbox, based on a Figma design
+
+In this lesson, we use [CodeSandbox](https://codesandbox.io/) to quickly begin working on our React component.
+
+Our first step is to `import { jsx } from '@emotion/react'` (Chris uses `@emotion/core`, but `jsx` is now found in `@emotion/react`). Emotion is a css-in-js library that I am already familiar with and have enjoyed using in the past.
+
+For me, the `/** @jsx jsx */` pragma at the top of the file gave me this error: `pragma and pragmaFrag cannot be set when runtime is automatic`. I fixed this by also including `/** @jsxRuntime classic */`.
+
+We can use the `<Global />` component from Emotion to define global styles:
+
+```jsx:global-styles-emotion
+<Global
+  styles={{
+    "*": {
+      boxSizing: "border-box",
+      margin: 0,
+      padding: 0,
+      fontFamily: "system-ui",
+      fontSize: 20
+    }
+  }}
+/>
+```
+
+A lot of the formatting of this component is done with CSS flexboxes. One useful component to note is `<Textfit/>` from `react-textfit`. This component scales the text within it to the parent element automatically, and becomes customizable with the `max`, `min`, and `mode` props.
+
+After plenty of flexboxes, this is the React component I came up with:
+![OpenGraph Image React Component](/images/posts/opengraph-image-generation-api/opengraph-design.png)
+
+## 3. Setting up a new GitHub repo to deploy functions on Netlify with Make and netlify.toml
+
+In this lesson, we will set up a Git repo and deploy to Netlify.
+
+We create a new directory, initialize Git with `git init`, create a package.json with `yarn init -y`, then create an `index.html` and a `netlify.toml`.
+
+Inside `netlify.toml`, we specify the directory that the functions will live in and the command we'll use to build everything. We're going to use Make because we will end up with multiple functions with separately installed dependencies.
+
+### netlify.toml
+
+```toml
+[build]
+  functions = "functions"
+  command = "make install"
+```
+
+To use Make, we create a `Makefile` with an `install` command. For now, we echo to the console "installed" when the command is called.
+
+### Makefile
+
+```
+install:
+	echo "installed"
+```
+
+Now we can just push our repository to GitHub and connect with Netlify to deploy our repository. On Netlify, we want to set the build command to `make install` (if it doesn't already do this automatically).
+
+## 4. Scaffolding and deploying a Netlify function in Javascript
+
+In this lesson, we'll create our first function. This function will generate our OpenGraph image using Playwright.
+
+We start by creating a `functions` directory, and, inside, a `gen-opengraph-image` directory. Here, we initialize a new `package.json` and create `gen-opengraph-image.js` (the file name must match the directory name).
+
+To `gen-opengraph-image.js`, we add the following function:
+
+### gen-opengraph-image.js
+
+```js
+exports.handler = async function (event, context) {
+  return {
+    statusCode: 200,
+    body: 'gen function works',
+  }
+}
+```
+
+Now we can push our new changes to GitHub and view our function under the **Functions** tab on Netlify.
+
+## 5. Using Playwright to screenshot the DOM and return an image from a Netlify Function
+
+[Playwright](https://github.com/microsoft/playwright) is a library that will run headless browsers for us.
+
+A [headless browser](https://en.wikipedia.org/wiki/Headless_browser), according to my quick Google search, is a web browser without a graphical user interface. I have not worked with headless browsers before, but I have used programs that employs them.
+
+Running `npm i playwright` installs for Chromium, Firefox, and Webkit. Chris reminds us that this can be unnecessarily large, and that we can install Playwright for just one of these browsers instead.
+
+We're going to use [Playwright AWS Lambda](https://github.com/JupiterOne/playwright-aws-lambda) which only supports Chromium and isn't officially supported by Playwright, but will work for our needs.
+
+```
+npm install playwright-core playwright-aws-lambda --save
+```
+
+The `playwright-core` package was being stubborn for me. I was finally able to install it with the following:
+
+```
+npm install --no-optional playwright-core
+```
+
+Chris adds a lot of code here, which I will share below.
+
+### gen-opengraph-image.js
+
+```js
+const playwright = require('playwright-aws-lambda')
+
+exports.handler = async function (event, ctx) {
+  const browser = await playwright.launchChromium()
+  const context = await browser._defaultContext
+  const page = await context.newPage()
+  await page.setContent(`<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+    </head>
+  
+    <body>
+      <div id="corgi"><div>CORGIIIS</div></div>
+    </body>
+  </html>
+  `)
+  const boundingRect = await page.evaluate(() => {
+    const corgi = document.getElementById('corgi')
+    const {x, y, width, height} = corgi.children[0].getBoundingClientRect()
+    return {x, y, width, height}
+  })
+
+  const screenshotBuffer = await page.screenshot({clip: boundingRect})
+  await browser.close()
+  return {
+    isBase64Encoded: true,
+    statusCode: 200,
+    headers: {
+      'Content-Type': 'image/png',
+      'Content-Length': screenshotBuffer.length.toString(),
+    },
+    body: screenshotBuffer.toString('base64'),
+  }
+}
+```
+
+With this code, we launch Chromium and set the content of the page to some HTML. We then grab the dimensions of the node we want to screenshot by first using `page.evaluate()` to evaluate a function or string of code inside the browser context page, and then by using `getBoundingClientRect` to grab the position, width, and height.
+
+With `page.screenshot({ clip: boundingRect })`, we grab a screenshot of the page from our determined x, y, width, and height of the element. Our return object includes some magic properties. Notably, we `.toString` our `"Content-Length"` header and `.toString("base64")` our screenshotBuffer.
+
+Chris demonstrates that we won't be able to test the function locally. However, with Netlify functions, we can use a deploy preview to test the function when we make changes.
+
+When we commit our changes and push to GitHub, we'll see that our build fails on Netlify. This is because Netlify does not automatically handle our dependencies for us, so we need to handle them ourselves with the Makefile.
+
+### Makefile
+
+```
+install:
+	cd functions/gen-opengraph-image && npm i
+```
+
+Now, we shouldn't have any issues deploying to Netlify. Note: I was getting an error `context`, and fixed it by changing the versions of the `playwright` packages to the ones that Chris uses (`playwright-aws-lambda@0.4.0` and `playwright-core@0.11.1`). I have a feeling this error was due to `browser._defaultContext`.
+
+## 6. Compiling a React to an IIFE with Rollup to execute and render in a headless browser
+
+Right now, we're just taking a screenshot of some text. What we want to take a screenshot of is our OpenGraph image that we coded in React.
+
+We create `functions/gen-opengrapj-image/src/image.js` and bring in our code from CodeSandbox. We need to compile our code into something that can run in the Chromium instance, since it uses language features that aren't native to the browser. For this, we'll use [Rollup](https://rollupjs.org/guide/en/) and [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel).
+
+```bash
+yarn add --dev rollup rollup-plugin-babel
+```
+
+We'll also create a `rollup.config.js` in which we will import `rollup-plugin-babel`, define our `input` to be `src/image.js`, and our output to be to be `image.js`.
+
+### rollup.config.js
+
+```js
+const config = {
+  input: 'src/image.js',
+  output: [
+    {
+      file: `image.js`,
+      format: 'iife',
+    },
+  ],
+  plugins: [],
+}
+```
+
+To run, we need to install the following:
+
+```bash
+yarn add --dev @babel/core @babel/preset-react @babel/preset-env
+```
+
+Babel doesn't understand JSX without any configuration, so we add the following to a `.babelrc`
+
+### .babelrc
+
+```
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+```
+
+Now we can run rollup:
+
+```bash
+yarn rollup -c rollup.config.js
+```
+
+We should now see a compiled `image.js` file. Now, how do we render our component on our page? We'll use `fs` to pull in `image.js` as a string.
+
+### gen-opengraph-image.js
+
+```js
+const playwright = require('playwright-aws-lambda')
+// New:
+const fs = require('fs')
+const script = fs.readFileSync('./image.js', 'utf-8')
+```
+
+We'll now add a script tag to the page after setting our HTML content. This script tag will run in the browser and will be the component that we compiled out.
+
+### gen-opengraph-image.js
+
+```js
+await page.setContent(`<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+
+  <body>
+    <div id="corgi"><div>CORGIIIS</div></div>
+  </body>
+</html>
+`)
+
+// New:
+await page.addScriptTag({content: script})
+```
+
+We'll also need to add a script to our `package.json` that will call rollup for us.
+
+### package.json
+
+```json
+"scripts": {
+  "build": "rollup -c rollup.config.js"
+}
+```
+
+Now that we have our script, we need to tell `Makefile` to run it after install.
+
+### Makefile
+
+```
+install:
+	cd functions/gen-opengraph-image && npm i && npm run build
+```
+
+We need to actually render our component now. Install `react` and `react-dom`...
+
+```bash
+npm install react react-dom
+```
+
+We start by adding `import { render } from "react-dom";` to our `src/image.json`, then we'll render `<App />` on the `"corgi"` ID.
+
+### src/image.js
+
+```js
+// ...
+
+render(<App />, document.getElementById('corgi'))
+```
+
+If we look at the compiled image.js file, we can see that it doesn't include any of the imports that we have. It relies on the variable globals. To solve this, we'll use a plugin called `@rollup/plugin-node-resolve`.
+
+```bash
+npm i @rollup/plugin-node-resolve --save-dev
+```
+
+Chris demonstrates a few more errors we run into now. To solve these, we add a couple more packages and make some additions to our `rollup.config.js`:
+
+```bash
+npm i @rollup/plugin-commonjs rollup-plugin-node-builtins rollup-plugin-node-globals react react-dom @rollup/plugin-replace --save-dev
+```
+
+### rollup.config.js
+
+```js
+import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import builtins from 'rollup-plugin-node-builtins'
+import globals from 'rollup-plugin-node-globals'
+import replace from '@rollup/plugin-replace'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+const config = {
+  input: 'src/image.js',
+  output: [
+    {
+      file: `image.js`,
+      format: 'iife',
+    },
+  ],
+  plugins: [
+    resolve({
+      preferBuiltins: true,
+    }),
+    babel({
+      exclude: 'node_modules/**',
+    }),
+    commonjs({
+      namedExports: {
+        'react-dom': Object.keys(ReactDOM),
+        react: Object.keys(React),
+      },
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+    globals(),
+    builtins(),
+  ],
+}
+```
+
+Our image that is returned now from the serverless function should resemble our component. Our sizing isn't quite right, but we can configure the viewport in the next lesson.
+
+Note: I was trying to use an `<img>` element in my React component and it would not load in the screenshot. Thankfully, it's an SVG, so I could define it with the `<svg>` tags.
+
+## 7. Setting the viewport on a Playwright headless browser
+
+Right before we set page content, we can set the page viewport size.
+
+### gen-opengraph-image.js
+
+```js
+const browser = await playwright.launchChromium()
+const context = await browser._defaultContext
+const page = await context.newPage()
+// New:
+page.setViewportSize({
+  width: 1200,
+  height: 630,
+})
+// ...
+```
+
+Now when we make a request to our Netlify function, we should see our React component with the correct dimensions.
+
+## 8. Testing an opengraph image with the Twitter Card Validator
+
+We change the content of our `index.html` to include some Twitter meta tags like as follows:
+
+### index.html
+
+```html
+<meta charset="utf-8" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@lordprkr" />
+<meta name="twitter:creator" content="@lordprkr" />
+<meta name="twitter:title" content="Some Blog Post" />
+<meta name="twitter:description" content="My new opengraph images" />
+<meta
+  name="twitter:image"
+  content="https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image"
+/>
+```
+
+Once this is deployed to Netlify, we can use the [Twitter Card Validator](https://cards-dev.twitter.com/validator) site to test how our OpenGraph image looks in a tweet.
+
+![Twitter Card](/images/posts/opengraph-image-generation-api/twitter-card.png)
+
+We can also just make a temporary tweet that includes the address of our Netlify function.
+
+## 9. Passing variables to serverless functions using query strings
+
+Right now, we can't change the text content of our image. To do this, we'll first make some changes to our React component.
+
+Instead of rendering 3 `<li>` tags with fixed content, we'll map through `window.tags` and create an `<li>` element for each. Similarly, we'll change our title to `window.title`. I don't plan to have any other authors for my use case, but we could also change our author to `window.author`.
+
+## src/image.js
+
+```jsx
+<h1
+css={{
+  fontWeight: "600",
+  fontSize: "60px",
+  textAlign: "center",
+  margin: "0"
+}}
+>
+{window.title}
+</h1>
+
+// ...
+
+<ul
+  css={{
+    display: "flex",
+    listStyleType: "none",
+    "& li": {
+      marginRight: ".5rem",
+      "&:not(:last-child):after": {
+        content: "'|'",
+        marginLeft: ".5rem"
+      }
+    },
+    justifyContent: "center",
+    marginTop: "10px"
+  }}
+>
+  {window.tags.map(tag => {
+    <li key={tag}>{tag}</li>
+  })}
+</ul>
+
+// ...
+```
+
+Now, in `gen-opengraph-image.js`, we'll add another script tag before our original one. In this script, we'll set each of our window variables.
+
+### gen-opengraph-image.js
+
+```js
+// ...
+
+// New:
+await page.addScriptTag({
+  content: `
+  window.title = "title from script";
+  window.tags = ["one", "two", "three"];
+  `,
+})
+// Original
+await page.addScriptTag({content: script})
+const boundingRect = await page.evaluate(() => {
+  const corgi = document.getElementById('corgi')
+  const {x, y, width, height} = corgi.children[0].getBoundingClientRect()
+  return {x, y, width, height}
+})
+
+// ...
+```
+
+Now we can push this to GitHub and see our new image.
+
+![Image with Variables](/images/posts/opengraph-image-generation-api/variable-card.png)
+
+Now we want to control our window variables. To do this, we'll get `queryStringParameters` from the `event` argument passed into our function. We'll split the comma-separated tags from the query string into elements of an array. The commas are URI encoded, so we'll use `decodeURIComponent(queryStringParameters.tags)`. We'll set `window.title` to the `queryStringParameters.title` if it exists, or `"No Title"` otherwise. The same will be done with `window.author` using `queryStringParameters.author` if you're customizing that.
+
+### gen-opengraph-image.js
+
+```js
+const {queryStringParameters} = event
+const tags = queryStringParameters.tags
+  ? decodeURIComponent(queryStringParameters.tags).split(',')
+  : []
+await page.addScriptTag({
+  content: `
+window.title = ${queryStringParameters.title || 'No Title'};
+window.tags = ${JSON.stringify(tags)};
+`,
+})
+```
+
+This new function will actually error because, when no title is provided, `window.title` evaluates to `No Title` instead of `"No Title"`. To fix, we add another set of quotation marks around `${queryStringParameters.title || "No Title"}`. The `JSON.stringify(tags)` already takes care of this error for `window.tags`.
+
+### gen-opengraph-image.js
+
+```js
+window.title = "${queryStringParameters.title || "No Title"}";
+```
+
+Now, our image will change depending on the values in the query string.
+
+![Query String](/images/posts/opengraph-image-generation-api/querystringparameters.png)
+![Image with Query String Parameters](/images/posts/opengraph-image-generation-api/image-with-querystringparameters.png)
+
+### 10. Using Cloudinary as a write-through cache for a Netlify Function that generates images
+
+We're going to use [Cloudinary](https://cloudinary.com/) as a write-through cache. This means that the URL we use is going to hit Cloudinary first, and, if the image is cached, it will return that image, and if it the image isn't cached, Cloudinary will generate our image with our function, cache the image, and return it to us. Thus, as long as we're not trying to update our images, we do not need to manage them.
+
+This is my first time using, so I had to sign up. In **Media Library**, I create a new folder called 'og-images', upload a 1 pixel png called 'img-1', and move the png to 'og-images' by right-clicking it, clicking **Manage**, clicking the three dots in the top right corner, selecting **Move**, then choosing the 'og-images' folder. This image will be passed to our function for processing, so we want it to be as small as possible.
+
+If we right-click 'img-1' and select **Manage**, we can see a version number in the URL. This will be important as a cache invalidation technique.
+
+Back in our project, we'll add a new folder called `process-url` in our `functions` directory. In `functions/process-url`, we'll initialize a new package.json and add the Cloudinary package.
+
+```bash
+yarn init -y
+yarn add cloudinary
+```
+
+We'll also create a `process-url.js` so that we can deploy the function on Netlify. Here, Chris brings in a bunch of code:
+
+### functions/process-url/process-url.js
+
+```js
+const cloudinary = require('cloudinary').v2
+const qs = require('querystring')
+cloudinary.config({
+  cloud_name: 'drk1jbz9n',
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+})
+
+exports.handler = async function (event, ctx) {
+  const {queryStringParameters} = event
+
+  try {
+    // https://res.cloudinary.com/sector/image/upload/v1583637123/og-images/img-1.png
+    const imageUrl = cloudinary.url(
+      `${process.env.PARKER_IMAGE_VERSION}/og-images/img-1.png`,
+      {
+        // resouce_type: "raw"
+        sign_url: true,
+        // secure: true,
+        custom_pre_function: {
+          function_type: 'remote',
+          source: `https://relaxed-payne-d1bfbe.netlify.com/.netlify/functions/gen-opengraph-image?${qs.stringify(
+            queryStringParameters,
+          )}`,
+        },
+      },
+    )
+    return {
+      statusCode: 302,
+      headers: {
+        Location: imageUrl,
+      },
+      body: '',
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+```
+
+In this code, we bring in the `cloudinary` v2 API and `querystring`. We then pass in options to `cloudinary.config()` so that we can connect with our API.
+
+Our function takes in `queryStringParameters` from the `event` argument. We then begin a `try/catch` statement, and, within, we pass in use `cloudinary.url` and our image version to get the URL of 'img-1'. We're also passing in some important options: `sign_url: true` is required, and `custom_pre_function` allows us to do processing before Cloudinary does anything. To `custom_pre_function`, we specify a `function_type` of `remote` and a `source` of our Netlify function. We also need to include a stringified version of our `queryStringParameters` at the end of our URL. Finally, we return back the Cloudinary image URL.
+
+Finally, in our `Makefile`, we need to specify that we want to install our `process-url` packages. We can see that our `Makefile` is useful here: we specify two different environments for installing two different sets of packages.
+
+### Makefile
+
+```
+install:
+	cd functions/gen-opengraph-image && npm i && npm run build
+	cd functions/process-url && npm i
+```
+
+Now, we need to set our environment variables on Netlify. Under 'Deploy Settings', we select 'Environment', then 'Edit variables' to add variables. We need to set '{name}\_IMAGE_VERSION', 'CLOUDINARY_KEY', and 'CLOUDINARY SECRET' environment variables here. These can be found on the Cloudinary dashboard. Once this is done, we can push our changes to GitHub.
+
+## Using \_redirects files on Netlify to make .netlify function URLs more user-friendly
+
+We can use redirects to trade out '.netlify/functions/gen-opengraph-image' with 'opengraph'.
+
+Create a `_redirects` file in the root of our function, and include the following.
+
+### \_redirects
+
+```
+/opengraph /.netlify/functions/process-url 200
+```
+
+Once we've deployed, we can use the new path.
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout

@@ -31,18 +31,18 @@ export default function PostList({
           </li>
         ))}
       </ul>
-      {/* {frontmatterList[2][0] && (
+      {frontmatterList[1][0] && (
         <h3 className="dark:text-white">Programming💻</h3>
       )}
-      {frontmatterList[2][0] && (
+      {frontmatterList[1][0] && (
         <ul id="programming-list">
-          {frontmatterList[2].map((frontmatter, index) => (
+          {frontmatterList[1].map((frontmatter, index) => (
             <li key={index}>
               <Post frontmatter={frontmatter} />
             </li>
           ))}
         </ul>
-      )} */}
+      )}
     </>
   )
 }

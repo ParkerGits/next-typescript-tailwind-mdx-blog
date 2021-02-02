@@ -35,7 +35,7 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({children, meta}) => {
         >
           {title && <h1 className="mx-14">{title}</h1>}
         </div>
-        <article className="prose lg:prose-lg xl:prose-2xl dark:prose-dark mx-auto px-5 sm:px-0 mt-6 ">
+        <article className="prose dark:prose-dark lg:prose-lg xl:prose-2xl mx-auto px-5 sm:px-0 mt-6 ">
           {children}
         </article>
         <Footer />

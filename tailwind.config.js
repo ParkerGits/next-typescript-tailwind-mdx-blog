@@ -25,11 +25,29 @@ module.exports = {
           css: {
             a: {
               textDecoration: 'none',
-              color: '#6200ed',
+              color: '#C8549C',
               '&:hover': {
-                color: '#3700b3',
+                color: '#ab4685',
               },
             },
+            pre: {
+              '&:hover': {
+                '& code': {
+                  color: '#DB2777',
+                },
+              },
+            },
+            code: {
+              backgroundColor: 'rgba(17,24,39,1)',
+              color: 'white',
+              paddingLeft: '5px',
+              paddingRight: '5px',
+              '&:hover': {
+                color: '#DB2777',
+              },
+            },
+            'code::before': false,
+            'code::after': false,
           },
         },
         dark: {
@@ -37,10 +55,24 @@ module.exports = {
             color: 'white',
             a: {
               textDecoration: 'none',
-              color: '#bb86fb',
-              '&:hover': {
-                color: '#985eff',
-              },
+            },
+            h1: {
+              color: 'white',
+            },
+            h2: {
+              color: 'white',
+            },
+            h3: {
+              color: 'white',
+            },
+            strong: {
+              color: 'white',
+            },
+            code: {
+              backgroundColor: 'black',
+            },
+            pre: {
+              backgroundColor: 'black',
             },
           },
         },
