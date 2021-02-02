@@ -1,5 +1,6 @@
 import React from 'react'
 import Post from './Post'
+import {jsx} from '@emotion/core'
 interface frontmatter {
   title: string
   topic: string
@@ -23,6 +24,16 @@ export default function PostList({
           ))}
         </ul>
       )} */}
+      {frontmatterList[1][0] && (
+        <h3 className="dark:text-white mb-0">Programming💻</h3>
+      )}
+      <ul id="programming-list">
+        {frontmatterList[1].map((frontmatter, index) => (
+          <li key={index}>
+            <Post frontmatter={frontmatter} />
+          </li>
+        ))}
+      </ul>
       <h3 className="dark:text-white">Personal Stories 📖</h3>
       <ul id="personal-list">
         {frontmatterList[0].map((frontmatter, index) => (
@@ -31,18 +42,6 @@ export default function PostList({
           </li>
         ))}
       </ul>
-      {frontmatterList[1][0] && (
-        <h3 className="dark:text-white">Programming💻</h3>
-      )}
-      {frontmatterList[1][0] && (
-        <ul id="programming-list">
-          {frontmatterList[1].map((frontmatter, index) => (
-            <li key={index}>
-              <Post frontmatter={frontmatter} />
-            </li>
-          ))}
-        </ul>
-      )}
     </>
   )
 }
