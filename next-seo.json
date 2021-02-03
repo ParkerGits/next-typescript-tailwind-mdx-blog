@@ -1,7 +1,8 @@
 {
   "title": "Parker's Digital Domain",
   "titleTemplate": "%s | Parker's Digital Domain",
-  "description": "Parker's corner of the internet.",
+  "description": "Parker's Corner of The Internet.",
+  "canonical": "https://parkerlandon.com",
   "favicon": "/favicon.ico",
   "additionalMetaTags": [
     {"property": "author", "content": "Parker Landon"},
@@ -16,8 +17,10 @@
     "site": "parkerlandon.com"
   },
   "openGraph": {
+    "title": "Parker's Digital Domain",
     "type": "website",
-    "site_name": "Lord Parker's Digital Domain",
+    "url:": "https://parkerlandon.com",
+    "site_name": "Parker's Digital Domain",
     "profile": {
       "firstName": "Parker"
     },
