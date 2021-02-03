@@ -4,6 +4,8 @@ topic: personal
 routename: the-origin-of-lord-parker
 ---
 
+import Image from 'next/image'
+
 export const meta = {
   title: 'The Origin of Lord Parker 👑',
   description: 'How Parker became a benevolent lord.',
@@ -18,7 +20,13 @@ export const meta = {
   },
 }
 
-![The Origin of Lord Parker](/images/posts/the-origin-of-lord-parker.png)
+<Image
+  src="/images/posts/the-origin-of-lord-parker.png"
+  alt="The Golden Days"
+  width={1280}
+  height={720}
+  layout="responsive"
+/>
 
 It may come as a surprise, but the endowment of the title _Lord Parker_ occurred during a high-school football practice.
 
