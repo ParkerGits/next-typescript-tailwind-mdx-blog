@@ -17,7 +17,14 @@ const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
       meta={{
         title: 'List of Posts',
         description: "Every post ever made under Parker's rule.",
+        url: 'https://parkerlandon.com/list',
         titleAppendSiteName: true,
+        ogImage: {
+          url:
+            'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=List%20of%20Posts&tags=parkerlandon.com',
+          width: 1200,
+          height: 630,
+        },
       }}
     >
       <PostList frontmatterList={frontmatterList} />
