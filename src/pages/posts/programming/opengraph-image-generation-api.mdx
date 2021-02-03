@@ -33,7 +33,7 @@ We start by using [Ryan Warner's community social branding templates](https://tw
 
 We're also using [Gradient Magic](https://www.gradientmagic.com/) to grab an interesting gradient background. We use Chrome DevTools to set the width and height of the element, and then we use the command palette to take a "node screenshot" of the element. Never knew you could do that!
 
-Figma helps us get a good idea of what we want our OpenGraph image to look like. Chris reminds us that our Figma creation is not the final product, and that we should therefore not spend too much time perfecting it. Our final product is the React component that we will create.
+Figma helps us get a good idea of what we want our OpenGraph image to look like. Chris reminds us that our Figma creation is not the final product and that we should therefore not spend too much time perfecting it. Our final product is the React component that we will create.
 
 ## 2. Building an OpenGraph image React component in CodeSandbox, based on a Figma design
 
@@ -59,7 +59,7 @@ We can use the `<Global />` component from Emotion to define global styles:
 />
 ```
 
-A lot of the formatting of this component is done with CSS flexboxes. One useful component to note is `<Textfit/>` from `react-textfit`. This component scales the text within it to the parent element automatically, and becomes customizable with the `max`, `min`, and `mode` props.
+A lot of the formatting of this component is done with CSS flexboxes. One useful component to note is `<Textfit/>` from `react-textfit`. This component scales the text within it to the parent element automatically and becomes customizable with the `max`, `min`, and `mode` props.
 
 After plenty of flexboxes, this is the React component I came up with:
 ![OpenGraph Image React Component](/images/posts/opengraph-image-generation-api/opengraph-design.png)
@@ -116,9 +116,9 @@ Now we can push our new changes to GitHub and view our function under the **Func
 
 [Playwright](https://github.com/microsoft/playwright) is a library that will run headless browsers for us.
 
-A [headless browser](https://en.wikipedia.org/wiki/Headless_browser), according to my quick Google search, is a web browser without a graphical user interface. I have not worked with headless browsers before, but I have used programs that employs them.
+A [headless browser](https://en.wikipedia.org/wiki/Headless_browser), according to my quick Google search, is a web browser without a graphical user interface. I have not worked with headless browsers before, but I have used programs that employ them.
 
-Running `npm i playwright` installs for Chromium, Firefox, and Webkit. Chris reminds us that this can be unnecessarily large, and that we can install Playwright for just one of these browsers instead.
+Running `npm i playwright` installs for Chromium, Firefox, and Webkit. Chris reminds us that this can be unnecessarily large and that we can install Playwright for just one of these browsers instead.
 
 We're going to use [Playwright AWS Lambda](https://github.com/JupiterOne/playwright-aws-lambda) which only supports Chromium and isn't officially supported by Playwright, but will work for our needs.
 
@@ -195,13 +195,13 @@ Now, we shouldn't have any issues deploying to Netlify. Note: I was getting an e
 
 Right now, we're just taking a screenshot of some text. What we want to take a screenshot of is our OpenGraph image that we coded in React.
 
-We create `functions/gen-opengrapj-image/src/image.js` and bring in our code from CodeSandbox. We need to compile our code into something that can run in the Chromium instance, since it uses language features that aren't native to the browser. For this, we'll use [Rollup](https://rollupjs.org/guide/en/) and [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel).
+We create `functions/gen-opengraph-image/src/image.js` and bring in our code from CodeSandbox. We need to compile our code into something that can run in the Chromium instance since it uses language features that aren't native to the browser. For this, we'll use [Rollup](https://rollupjs.org/guide/en/) and [rollup-plugin-babel](https://github.com/rollup/rollup-plugin-babel).
 
 ```bash
 yarn add --dev rollup rollup-plugin-babel
 ```
 
-We'll also create a `rollup.config.js` in which we will import `rollup-plugin-babel`, define our `input` to be `src/image.js`, and our output to be to be `image.js`.
+We'll also create a `rollup.config.js` in which we will import `rollup-plugin-babel`, define our `input` to be `src/image.js`, and our output to be `image.js`.
 
 ### rollup.config.js
 
@@ -501,7 +501,7 @@ window.tags = ${JSON.stringify(tags)};
 })
 ```
 
-This new function will actually error because, when no title is provided, `window.title` evaluates to `No Title` instead of `"No Title"`. To fix, we add another set of quotation marks around `${queryStringParameters.title || "No Title"}`. The `JSON.stringify(tags)` already takes care of this error for `window.tags`.
+This new function will actually error because when no title is provided, `window.title` evaluates to `No Title` instead of `"No Title"`. To fix, we add another set of quotation marks around `${queryStringParameters.title || "No Title"}`. The `JSON.stringify(tags)` already takes care of this error for `window.tags`.
 
 ### gen-opengraph-image.js
 
@@ -516,9 +516,9 @@ Now, our image will change depending on the values in the query string.
 
 ### 10. Using Cloudinary as a write-through cache for a Netlify Function that generates images
 
-We're going to use [Cloudinary](https://cloudinary.com/) as a write-through cache. This means that the URL we use is going to hit Cloudinary first, and, if the image is cached, it will return that image, and if it the image isn't cached, Cloudinary will generate our image with our function, cache the image, and return it to us. Thus, as long as we're not trying to update our images, we do not need to manage them.
+We're going to use [Cloudinary](https://cloudinary.com/) as a write-through cache. This means that the URL we use is going to hit Cloudinary first, and, if the image is cached, it will return that image, and if the image isn't cached, Cloudinary will generate our image with our function, cache the image, and return it to us. Thus, as long as we're not trying to update our images, we do not need to manage them.
 
-This is my first time using, so I had to sign up. In **Media Library**, I create a new folder called 'og-images', upload a 1 pixel png called 'img-1', and move the png to 'og-images' by right-clicking it, clicking **Manage**, clicking the three dots in the top right corner, selecting **Move**, then choosing the 'og-images' folder. This image will be passed to our function for processing, so we want it to be as small as possible.
+This is my first time using Cloudinary, so I had to sign up. In **Media Library**, I create a new folder called 'og-images', upload a 1-pixel png called 'img-1', and move the png to 'og-images' by right-clicking it, clicking **Manage**, clicking the three dots in the top right corner, selecting **Move**, then choosing the 'og-images' folder. This image will be passed to our function for processing, so we want it to be as small as possible.
 
 If we right-click 'img-1' and select **Manage**, we can see a version number in the URL. This will be important as a cache invalidation technique.
 
@@ -606,7 +606,7 @@ Once we've deployed, we can use the new path.
 
 ## Conclusion
 
-This course was super helpful, and I only ran into problems with including an image in my React component and with the last lesson about redirects. Thanks Chris for helping me create OpenGraph images for this blog!
+This course was super helpful, and I only ran into problems with including an image in my React component and with the last lesson about redirects. Thank you Chris for helping me create OpenGraph images for this blog!
 
 import DefaultLayout from '../../../layouts/index'
 
