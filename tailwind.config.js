@@ -9,7 +9,10 @@ module.exports = {
         lord: '#53d5f8',
       },
       pink: {
-        lord: '#DB2777',
+        lord: '#C8549C',
+      },
+      yellow: {
+        lord: '#fbb04d',
       },
       gray: {
         300: '#d1d5db',

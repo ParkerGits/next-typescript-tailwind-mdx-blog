@@ -9,9 +9,11 @@ interface frontmatter {
   title: string
   topic: string
   routename: string
+  description: string
+  postnum: number
 }
 
-const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
+const List = ({frontmatterList}: {frontmatterList: frontmatter[]}) => {
   return (
     <Layout
       meta={{
@@ -33,6 +35,7 @@ const List = ({frontmatterList}: {frontmatterList: frontmatter[][]}) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  let orderedPostFrontmatter: any[] = []
   const postCategoriesDir: string = path.join(
     process.cwd(),
     'src',
@@ -40,18 +43,26 @@ export const getStaticProps: GetStaticProps = async () => {
     'posts',
   )
   const categories: string[] = fs.readdirSync(postCategoriesDir)
-  const frontmatterList = categories.map((category) => {
-    const categoryDir = path.join(postCategoriesDir, category)
+  for (let i = 0; i < categories.length; i++) {
+    const categoryDir = path.join(postCategoriesDir, categories[i])
     const posts = fs.readdirSync(categoryDir)
-    const frontMatterPost = posts.map((post) => {
-      const postFile = path.join(categoryDir, post)
-      return matter(readFileSync(postFile, 'utf-8')).data
-    })
-    return [...frontMatterPost]
+    for (let j = 0; j < posts.length; j++) {
+      const postFile = path.join(categoryDir, posts[j])
+      orderedPostFrontmatter.push(matter(readFileSync(postFile, 'utf-8')).data)
+    }
+  }
+  orderedPostFrontmatter.sort((a, b) => {
+    if (a.postnum > b.postnum) {
+      return -1
+    }
+    if (a.postnum < b.postnum) {
+      return 1
+    }
+    return 0
   })
   return {
     props: {
-      frontmatterList: frontmatterList,
+      frontmatterList: orderedPostFrontmatter,
     },
   }
 }
