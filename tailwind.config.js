@@ -7,12 +7,15 @@ module.exports = {
     colors: {
       blue: {
         lord: '#53d5f8',
+        hover: '#389bb5',
       },
       pink: {
         lord: '#C8549C',
+        hover: '#ab4685',
       },
       yellow: {
         lord: '#fbb04d',
+        hover: '#c2873a',
       },
       gray: {
         300: '#d1d5db',

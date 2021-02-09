@@ -7,16 +7,23 @@ interface frontmatter {
   postnum: number
 }
 
-const Post = ({frontmatter}: {frontmatter: frontmatter}) => {
+const Post = ({
+  frontmatter,
+  onClick,
+}: {
+  frontmatter: frontmatter
+  onClick: (topic: string) => any
+}) => {
   return (
     <div className="my-0" css={{margin: '0 !important'}}>
       <span
-        className={`text-xs ml-1 mt-1 rounded-md p-1 md:text-sm md:p-1.3 text-white hover:text font-semibold ${
+        onClick={() => onClick(frontmatter.topic)}
+        className={`text-xs ml-1 mt-1 rounded-md p-1 md:text-sm md:p-1.3 text-white hover: cursor-pointer font-semibold ${
           frontmatter.topic == 'programming'
-            ? 'bg-pink-lord'
+            ? 'bg-pink-lord hover:bg-pink-hover'
             : frontmatter.topic == 'math'
-            ? 'bg-blue-lord'
-            : 'bg-yellow-lord'
+            ? 'bg-blue-lord hover:bg-blue-hover'
+            : 'bg-yellow-lord hover:bg-yellow-hover'
         } float-right`}
       >
         {frontmatter.topic}
