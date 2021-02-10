@@ -1,5 +1,14 @@
 const withPlugins = require('next-compose-plugins')
-const withMdxFm = require('next-mdx-frontmatter')()
+const withMDX = require('next-mdx-frontmatter')({
+  MDXOptions: {
+    rehypePlugins: [
+      require('mdx-prism'),
+      require('rehype-slug'),
+      [require('rehype-autolink-headings'), {behavior: 'append'}],
+    ],
+  },
+})
+
 const nextConfig = {
   reactStrictMode: true,
   async redirects() {
@@ -9,14 +18,8 @@ const nextConfig = {
 
 module.exports = withPlugins(
   [
-    withMdxFm({
+    withMDX({
       pageExtensions: ['ts', 'tsx', 'mdx'],
-      remarkPlugins: [
-        require('remark-slug'),
-        require('remark-footnotes'),
-        require('remark-code-titles'),
-      ],
-      rehypePlugins: [require('mdx-prism')],
     }),
   ],
   nextConfig,

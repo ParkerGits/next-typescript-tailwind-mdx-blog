@@ -7,3 +7,49 @@
 h1, h2, h3 {
     font-family: "Roboto Slab", serif;
 }
+
+.icon::after {
+    content: " #";
+    margin-left: '.5rem';
+    display: none;
+    font-weight:bolder;
+}
+
+h1:hover > a > .icon::after, h2:hover > a > .icon::after, h3:hover > a > .icon::after {
+    display: inline;
+}
+code > .table {
+    display: inline !important;
+}
+
+.keyword, .tag, .boolean{
+    color:steelblue;
+}
+
+.template-string, .string {
+    color:sandybrown;
+}
+
+.method {
+    color:khaki;
+}
+
+.operator, .punctuation  {
+    color: white;
+}
+
+.comment {
+    color:olivedrab;
+}
+
+.number {
+    color:rgb(137, 202, 137);
+}
+
+.attr-name, .script, .property {
+    color:skyblue;
+}
+
+.class-name {
+    color:rgb(43 195 170);
+}

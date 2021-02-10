@@ -36,21 +36,14 @@ module.exports = {
                 color: '#ab4685',
               },
             },
-            pre: {
-              '&:hover': {
-                '& code': {
-                  color: '#DB2777',
-                },
-              },
+            '.language-js > code, .language-jsx > code': {
+              color: 'skyblue',
             },
             code: {
               backgroundColor: 'rgba(17,24,39,1)',
               color: 'white',
               paddingLeft: '5px',
               paddingRight: '5px',
-              '&:hover': {
-                color: '#DB2777',
-              },
             },
             'code::before': false,
             'code::after': false,

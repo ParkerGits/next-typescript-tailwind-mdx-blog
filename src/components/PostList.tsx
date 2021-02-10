@@ -42,6 +42,7 @@ export default function PostList({
                     <Post
                       frontmatter={frontmatter}
                       onClick={(topic) => topicOnClick}
+                      key={index}
                     />
                   </li>
                 </div>
@@ -52,7 +53,11 @@ export default function PostList({
               <div>
                 {index == 0 ? null : <hr css={hrStyle} />}
                 <li key={index} css={liStyle}>
-                  <Post frontmatter={frontmatter} onClick={topicOnClick} />
+                  <Post
+                    frontmatter={frontmatter}
+                    onClick={topicOnClick}
+                    key={index}
+                  />
                 </li>
               </div>
             )
