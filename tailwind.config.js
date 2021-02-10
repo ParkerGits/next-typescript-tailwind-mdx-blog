@@ -36,17 +36,14 @@ module.exports = {
                 color: '#ab4685',
               },
             },
-            '.language-js > code': {
-              color: 'skyblue !important',
-            },
-            '.language-jsx > code': {
-              color: 'skyblue !important',
-            },
             code: {
               backgroundColor: 'rgba(17,24,39,1)',
               color: 'white',
               paddingLeft: '5px',
               paddingRight: '5px',
+            },
+            '.language-js > code, .language-jsx > code': {
+              color: 'skyblue',
             },
             'code::before': false,
             'code::after': false,
