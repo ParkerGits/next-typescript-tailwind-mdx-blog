@@ -39,7 +39,7 @@ module.exports = {
             '.language-js > code': {
               color: 'skyblue',
             },
-            '.language-jsx > code:': {
+            '.language-jsx > code': {
               color: 'skyblue',
             },
             code: {
