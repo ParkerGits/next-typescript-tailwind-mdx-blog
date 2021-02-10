@@ -46,8 +46,8 @@ code > .table {
     color:rgb(137, 202, 137);
 }
 
-.attr-name, .script, .property {
-    color:skyblue;
+.attr-name, .script, .property, pre.language-js > code, pre.language-jsx > code{
+    color:skyblue !important;
 }
 
 .class-name {
