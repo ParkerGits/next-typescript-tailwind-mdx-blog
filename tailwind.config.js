@@ -43,7 +43,7 @@ module.exports = {
               paddingRight: '5px',
             },
             '.language-js > code, .language-jsx > code': {
-              color: 'skyblue',
+              color: 'skyblue !important',
             },
             'code::before': false,
             'code::after': false,
