@@ -37,10 +37,10 @@ module.exports = {
               },
             },
             '.language-js > code': {
-              color: 'skyblue',
+              color: 'skyblue !important',
             },
             '.language-jsx > code': {
-              color: 'skyblue',
+              color: 'skyblue !important',
             },
             code: {
               backgroundColor: 'rgba(17,24,39,1)',
