@@ -36,7 +36,10 @@ module.exports = {
                 color: '#ab4685',
               },
             },
-            '.language-js > code, .language-jsx > code': {
+            '.language-js > code': {
+              color: 'skyblue',
+            },
+            '.language-jsx > code:': {
               color: 'skyblue',
             },
             code: {
