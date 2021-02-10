@@ -524,7 +524,7 @@ Now, our image will change depending on the values in the query string.
 ![Query String](/images/posts/opengraph-image-generation-api/querystringparameters.png)
 ![Image with Query String Parameters](/images/posts/opengraph-image-generation-api/image-with-querystringparameters.png)
 
-### 10. Using Cloudinary as a write-through cache for a Netlify Function that generates images
+## Using Cloudinary as a write-through cache for a Netlify Function that generates images
 
 We're going to use [Cloudinary](https://cloudinary.com/) as a write-through cache. This means that the URL we use is going to hit Cloudinary first, and, if the image is cached, it will return that image, and if the image isn't cached, Cloudinary will generate our image with our function, cache the image, and return it to us. Thus, as long as we're not trying to update our images, we do not need to manage them.
 
