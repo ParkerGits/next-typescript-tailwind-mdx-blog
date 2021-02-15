@@ -1,0 +1,1841 @@
+---
+title: Get Started with Angular 🅰
+topic: programming
+routename: get-started-with-angular
+description: Notes from John Lindquist's Get Started with Angular course on egghead.io.
+postnum: 4
+---
+
+import Link from 'next/link'
+import Image from 'next/image'
+
+export const meta = {
+  title: 'Get Started with Angular 🅰',
+  description:
+    "Notes from John Lindquist's Get Started with Angular course on egghead.io.",
+  url: 'https://parkerlandon.com/posts/programming/get-started-with-angular',
+  titleAppendSiteName: true,
+  ogImage: {
+    url:
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Get%20Started%20with%20Angular%20Course%20Notes&tags=angular%202',
+    width: 1200,
+    height: 630,
+  },
+}
+
+<Image
+  src="/images/posts/get-started-with-angular/angular.svg"
+  width="1024"
+  height="480"
+  layout="responsive"
+/>
+
+## 🌟 About
+
+These notes go along with the [Get Started with Angular](https://egghead.io/courses/get-started-with-angular) course from [John Lindquist](https://egghead.io/instructors/john-lindquist) on [egghead.io](http://egghead.io/).
+
+In this course, you can expect to
+
+- Create an application with the [Angular CLI](https://cli.angular.io/) 🅰
+- Build Angular Components 🔨
+- Learn how Components interact through Services, Inputs, and Outputs 💬
+- Handle events through Angular Components with Angular Event Handlers ✍
+- Style your Angular Application 🎨
+
+The original notes can be found [here on my GitHub](https://github.com/ParkerGits/add-internationalization-to-react-app-using-react-intl-notes).
+
+## 👩‍💻 Code
+
+**Updated code for each lesson of this course can be found [here](https://github.com/ParkerGits/getting-started-with-angular-course-code).**
+
+Lesson code resides on branch with corresponding name.
+
+## 📖 Table of Contents
+
+1. <Link href="/posts/programming/get-started-with-angular#-say-hello-world-to-angular-2">
+     Say "Hello World" to Angular 2
+   </Link>
+2. <Link href="/posts/programming/get-started-with-angular#-create-a-simple-angular-2-component">
+     Create a Simple Angular 2 Component
+   </Link>
+3. <Link href="/posts/programming/get-started-with-angular#-manage-angular-2-elements-with-events--refs">
+     Manage Angular 2 Elements with Events & Refs
+   </Link>
+4. <Link href="/posts/programming/get-started-with-angular#-control-angular-2-events-with-event-and-event-handlers">
+     Control Angular 2 Events with $event and Event Handlers
+   </Link>
+5. <Link href="/posts/programming/get-started-with-angular#-share-services-and-data-with-angular-2-dependency-injection">
+     Share Services and Data with Angular 2 Dependency Injection
+   </Link>
+6. <Link href="/posts/programming/get-started-with-angular#-provide-and-share-values-with-angular-2-dependency-injection">
+     Provide and Share Values with Angular 2 Dependency Injection
+   </Link>
+7. <Link href="/posts/programming/get-started-with-angular#-loop-through-angular-2-components-w-ngfor">
+     Loop Through Angular 2 Components with ngFor
+   </Link>
+8. <Link href="/posts/programming/get-started-with-angular#-pass-values-into-angular-2-components-with-input">
+     Pass Values into Angular 2 Components with @Input
+   </Link>
+9. <Link href="/posts/programming/get-started-with-angular#-sync-values-from-inputs-with-angular-2s-ngmodel-two-way-binding">
+     Sync Values from Inputs with Angular 2’s ngModel Two-Way Binding
+   </Link>
+10. <Link href="/posts/programming/get-started-with-angular#-pass-events-from-angular-2-components-with-output">
+      Pass Events from Angular 2 Components with @Output
+    </Link>
+11. <Link href="/posts/programming/get-started-with-angular#-write-css-inside-of-angular-2-components">
+      Write CSS Inside of Angular 2 Components
+    </Link>
+12. <Link href="/posts/programming/get-started-with-angular#-apply-css-classes-conditionally-with-angular-2s-ngclass">
+      Apply CSS Classes Conditionally with Angular 2’s ngClass
+    </Link>
+13. <Link href="/posts/programming/get-started-with-angular#-use-global-css-inside-angular-2-components">
+      Use Global CSS Inside Angular 2 Components
+    </Link>
+
+## 👋 Say "Hello World" to Angular 2
+
+### Setting up with the Angular CLI
+
+To get started with our Angular application, we'll install the [Angular CLI](https://cli.angular.io/).
+
+In the terminal:
+
+```bash
+npm install -g @angular/cli
+```
+
+Even if you've installed the Angular CLI in the past, running this command will update it to the latest version.
+
+Now, change directory to where you'd like your project folder to live. Then, in the terminal, we create our application's project folder:
+
+```bash
+ng new angular2-fundamentals
+```
+
+In the terminal, you will receive two prompts:
+
+```bash
+? Would you like to add Angular routing?
+? Which stylesheet format would you like to use?
+```
+
+For the first, enter "n" for no. For the second, select CSS.
+
+After a few moments we should now have a folder in the current directory with the name **angular2-fundamentals**
+
+Change directories into your new project folder:
+
+```bash
+cd angular2-fundamentals
+```
+
+And start your development server:
+
+```bash
+ng serve
+```
+
+Once loaded, we can navigate to **localhost:4200** in our browser.
+
+If you're following along with the lesson and using the latest version of Angular CLI, you may be surprised to see a much more elaborate page compared to the one in the lesson:
+
+<Image
+  src="/images/posts/get-started-with-angular/01-angular-say-hello-world-to-angular-2-cli-default-page.png"
+  width="1080"
+  height="600"
+  layout="intrinsic"
+/>
+
+We can easily modify this page to match the one in the lesson. In your project, navigate to **src/app/app.component.ts**
+
+Here, we should see:
+
+### app.component.ts
+
+```js
+import {Component} from '@angular/core'
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  title = 'angular2-fundamentals'
+}
+```
+
+Our component templateUrl property points to **app.component.html**. To match the webpage in the lesson, we can make the following changes:
+
+### app.component.ts
+
+```js
+import {Component} from '@angular/core'
+
+@Component({
+  selector: 'app-root',
+  template: `<h1>{{ title }}</h1>`,
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  title = `Let's get started`
+}
+```
+
+After saving these changes and returning to localhost:4200 in the browser, we should see a page that resembles the one in the lesson.
+
+<Image
+  src="/images/posts/get-started-with-angular/01-angular-say-hello-world-to-angular-2-lets-get-started-webpage.png"
+  width="245"
+  height="5"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Angular CLI](https://cli.angular.io/)
+
+## 🔨 Create a Simple Angular 2 Component
+
+### Generating our First Component
+
+With our terminal in the project folder directory (angular2-fundamentals), we can generate a component with the following commmand:
+
+```bash
+ng generate component simple-form --inline-template --inline-style
+```
+
+The --inline-template and --inline-style flags are added so that the instructor can demonstrate more clearly the styles of the component within one file.
+
+The above command can also be run in a much more abbreviated form:
+
+```bash
+ng g c simple-form -it -is
+```
+
+- `ng g c simple-form` tells the Angular CLI to generate (g) a component (c) with name "simple-form"
+- `-it` is synonymous with `--inline-template`
+- `-is` is synonumous with `--inline-style`
+
+After running either of the two above commands in the terminal, we should see two new files created at **src/app/simple-form**
+
+Navigate to **src/app/simple-form/simple-form.component.ts**. We should see that the component has a `selector` of `'app-simple-form'`
+
+### simple-form.component.ts
+
+```js
+import {Component, OnInit} from '@angular/core'
+
+@Component({
+  selector: 'app-simple-form',
+  template: ` <p>simple-form works!</p> `,
+  styles: [],
+})
+export class SimpleFormComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+We can now use this selector to display our new component. Return to **src/app/app.component.ts**, and change the `template` property to `<div><app-simple-form></app-simple-form></div>`
+
+### app.component.ts
+
+```js
+import {Component} from '@angular/core'
+
+@Component({
+  selector: 'app-root',
+  template: `<div><app-simple-form></app-simple-form></div>`,
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  title = `Let's get started`
+}
+```
+
+If you stopped your development server, start it up again in the terminal:
+
+```bash
+ng serve
+```
+
+Navigate to localhost:4200 in the browser and you should see "simple-form works!"
+
+<Image
+  src="/images/posts/get-started-with-angular/02-angular-create-a-simple-angular-2-component-our-first-component.png"
+  height="30"
+  width="225"
+  layout="intrinsic"
+/>
+
+The text "simple-form-works" is coming from the template property in **simple-form.component.ts**
+
+The "app-" prefix on our selector "app-simple-form" comes from the `prefix` property found in **angular.json**
+
+As we saw, the selector for our new component is "app-simple-form". The selector for our app component is "app-root" and is defined in the body of **src/index.html**
+
+### index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Angular2Fundamentals</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+We can see the hierarchy of our components in the Chrome devtools
+
+<Image
+  src="/images/posts/get-started-with-angular/02-angular-create-a-simple-angular-2-component-component-hierarchy.png"
+  width="386"
+  height="50"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Angular CLI](https://cli.angular.io/)
+- [Angular - Loading Component Styles](https://angular.io/guide/component-styles#loading-component-styles)
+
+## 📃 Manage Angular 2 Elements with Events & Refs
+
+### Creating a User Input
+
+In our simple form component (**src/app/simple-form/simple-form.component.ts**), we're going to change our component template to be an input field and a button.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input type="text" />
+  <button>Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+Saving our changes and starting our development server:
+
+```bash
+ng serve
+```
+
+We should be able to see our input and button in the browser at localhost:4200.
+
+### Angular Events
+
+To handle a click event on our button, we wrap the event, in this case click, with parenthesis and assign it to the desired class method, in this case `onClick()`.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input type="text" />
+  <button (click)="onClick()>Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+We now create our `onClick()` class method:
+
+### simple-form.component.ts
+
+```js
+...
+
+export class SimpleFormComponent implements OnInit {
+  // new class method onClick()
+  onClick() {
+    console.log('clicked')
+  }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+After saving our changes and navigating to localhost:4200, we should be able to see "clicked!" appear in the console after the "Click me!" button is pressed.
+
+### Angular References
+
+We can create a "myInput" reference on our input element with `#myInput`.
+
+This reference allows us to access the values from the input element and pass them into, say, our `onClick` function, as is done in the following code:
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" />
+  <button (click)="onClick(myInput.value)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+We can now add a value parameter to our `onClick()` method and log the value of the input field to our console.
+
+### simple-form.component.ts
+
+```js
+...
+export class SimpleFormComponent implements OnInit {
+  onClick(value) {
+    console.log(value)
+  }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+Saving our changes and returning to localhost:4200, we should be able to enter text into our input field and log it to the console by clicking our button.
+
+If we remove `.value` from `myInput.value`, save the change, and click the button in the browser, we can see in the console that the input element itself is returned.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" />
+  <button (click)="onClick(myInput)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+<Image
+  src="/images/posts/get-started-with-angular/03-angular-manage-angular-2-elements-with-events-and-refs-reference-equals-element-itself.png"
+  width="783"
+  height="0"
+  layout="intrinsic"
+/>
+The return value of the reference to an element is no different than the element
+itself.
+
+### Resources 📖
+
+- [Angular - Template Reference Variables](https://angular.io/guide/template-syntax#template-reference-variables-var)
+- [Angular - Event Binding](https://angular.io/guide/template-syntax#event-binding-event)
+
+## 🎉 Control Angular 2 Events with $event and Event Handlers
+
+### Angular Event Object References
+
+To reference the actual mouse event on our button, we can use the `$event` syntax.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" />
+  <button (click)="onClick($event)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+Above, we pass in `$event` to `onClick()`. After saving our changes and starting our development server,
+
+```bash
+ng serve
+```
+
+We should be able to see the `MouseEvent` object being printed to our console when clicking the button.
+
+We can also pass `myInput.value` into our `onClick` method, then refactor our `onClick` method to accept that value so that we can log it to our console.
+
+### simple-form.component.ts
+
+```js
+...
+
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" />
+  <button (click)="onClick($event, myInput.value)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+export class SimpleFormComponent implements OnInit {
+  onClick(event, value) {
+    console.log(event)
+    console.log(value)
+  }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+The `$event` reference works on any DOM event. For example, changing `(click)` to `(mouseover)` should cause both the `MouseEvent` object and input value to be logged to the console when we mouse over the button.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" />
+  <button (mouseover)="onClick($event, myInput.value)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+### Resources 📖
+
+- [Angular - $event](https://angular.io/guide/user-input#get-user-input-from-the-event-object)
+
+## 🙌 Share Services and Data with Angular 2 Dependency Injection
+
+### Angular Services
+
+Within your project folder directory, generate a new service called "mail" with Angular CLI in the terminal
+
+```bash
+ng g s mail
+```
+
+This will create two files within **src/app**: **mail.service.ts** and **mail.service.spec.ts**.
+
+Now, navigate to **src/app/app.module.ts**, import `MailService`, and add it as a provider:
+
+### app.module.ts
+
+```js
+import {BrowserModule} from '@angular/platform-browser'
+import {NgModule} from '@angular/core'
+
+import {AppComponent} from './app.component'
+import {SimpleFormComponent} from './simple-form/simple-form.component'
+// Import:
+import {MailService} from './mail.service'
+
+@NgModule({
+  declarations: [AppComponent, SimpleFormComponent],
+  imports: [BrowserModule],
+  // Provider:
+  providers: [MailService],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Now navigate to **src/app/app.component.ts**, import `MailService`, create a constructor for the `AppComponent` class, and inject `MailService` in:
+
+### app.component.ts
+
+```js
+import { Component } from '@angular/core';
+// Import
+import { MailService } from './mail.service';
+
+@Component({
+  selector: 'app-root',
+  template: `<div><app-simple-form></app-simple-form></div>`,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = `Let's get started`;
+
+  // Constructor
+  constructor(private mail:MailService){
+
+  }
+}
+
+```
+
+Now, whatever you put on `MailService` can be used in `AppComponent`.
+
+For example, if we create a `message` variable in `MailService`, we can access it within `AppComponent`.
+
+### mail.service.ts
+
+```js
+import {Injectable} from '@angular/core'
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MailService {
+  // Message:
+  message = "You've got mail!"
+  constructor() {}
+}
+```
+
+### app.component.ts
+
+```js
+import { Component } from '@angular/core';
+import { MailService } from './mail.service';
+
+@Component({
+  selector: 'app-root',
+  // Display mail.message to screen:
+  template: `<div><app-simple-form></app-simple-form>{{mail.message}}</div>`,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = `Let's get started`;
+
+  constructor(private mail:MailService){
+
+  }
+}
+```
+
+The above code displays `mail.message` in our `AppComponent`. Now we can start the development server
+
+```bash
+ng serve
+```
+
+And see that our `MailService` message is being displayed on localhost:4200.
+
+<Image
+  src="/images/posts/get-started-with-angular/05-angular-share-services-and-data-with-angular-2-dependency-injection-mailservice-message-display.png"
+  width="299"
+  height="20"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Angular - Introduction to Services and Dependency Injection](https://angular.io/guide/architecture-services#introduction-to-services-and-dependency-injection)
+
+## 🌳 Provide and Share Values with Angular 2 Dependency Injection
+
+### Object Providers
+
+In our **app.module.ts** we provided the `MailService`, and we injected the `Mailservice` into our **app.component.ts** constructor by the _type_ (the `MailService` in `providers` matches `mail:MailService` in the `AppComponent` constructor).
+
+We can accomplish the same thing by navigating to **src/app/app.module.ts** and passing in an object to our `providers` with properties `provide` and `useClass`.
+
+### app.module.ts
+
+```js
+...
+@NgModule({
+  declarations: [
+    AppComponent,
+    SimpleFormComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  // Object provider:
+  providers: [{provide: "mail", useClass: MailService}],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+We can then navigate to **src/app/app.component.ts** and, instead of injecting `MailService` by type into the constructor, use the `@Inject` decorator. Be sure to import `Inject` first.
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `<div><app-simple-form></app-simple-form>{{mail.message}}</div>`,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = `Let's get started`;
+
+  constructor(@Inject('mail') public mail){
+
+  }
+}
+```
+
+By passing in the string `'mail'` to our `@Inject` decorator, Angular knows to use the `MailService` class because `'mail'` corresponds to the `provide` property defined in our `providers`.
+
+For the above reason, and because we no longer reference `MailService` in **app.component.ts**, we were able to delete the import of `MailService`.
+
+**Note:** My application would not compile with `mail` as a private variable, so it has been changed to public in the above code.
+
+Providing with these objects is also useful when providing APIs. For example, in **src/app/app.module.ts**, we add an object with `provide` and `useValue` properties.
+
+### app.module.ts
+
+```js
+...
+@NgModule({
+  declarations: [
+    AppComponent,
+    SimpleFormComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [
+    {provide: "mail", useClass: MailService},
+    {provide: "api", useValue: 'http://localhost:3000'}
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+We can now inject `'api'` into our **app.component.ts** constructor and access the value on `useValue`.
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <app-simple-form></app-simple-form>
+    {{mail.message}}
+    <hr>
+    {{api}}
+  </div>`,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = `Let's get started`;
+
+  constructor(
+    @Inject('mail') public mail,
+    @Inject('api') public api,
+  ){
+
+  }
+}
+```
+
+Starting our development server,
+
+```bash
+ng serve
+```
+
+And navigating to localhost:4200 should allow us to see displayed the value associated with `'api'`.
+
+<Image
+  src="/images/posts/get-started-with-angular/06-angular-provide-and-share-values-with-angular-2-dependency-injection-api-injection-display.png"
+  width="271"
+  height="30"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Angular - Dependency Injection](https://angular.io/guide/dependency-injection)
+
+## ➰ Loop Through Angular 2 Components w/ ngFor
+
+### Angular Looping Through Data
+
+In **src/app/mail.service.ts**, we create a new `messages` array:
+
+### mail.service.ts:
+
+```js
+...
+export class MailService {
+  messages = [
+    `You're now friends with John`,
+    'John liked your tweet',
+    `You'll never believe what John said...`
+  ]
+  constructor() { }
+}
+```
+
+We then can navigate to **src/app/app.component.ts** and clean up everything including our template.
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+  </div>`,
+})
+export class AppComponent {
+  constructor(
+    @Inject('mail') public mail,
+  ){}
+}
+```
+
+We'll now create a `<ul>` element within our component template. Within our `<ul>` element, we want to create a `<li>` element for each message in our `MailService` `messages` array. To do this, we add `*ngFor="let message of mail.messages"` to our `<li>` element:
+
+### app.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages"></li>
+    </ul>
+  </div>`,
+})
+
+...
+```
+
+`mail.messages` refers to our `MailService` `messages` array, and this new `message` variable references the value of each message in the `messages` array.
+
+We can use the `message` variable to display each item in our `messages` array in an `<li>` element.
+
+```js
+...
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages">
+        {{message}}
+      </li>
+    </ul>
+  </div>`,
+})
+
+...
+```
+
+We can now save our changes and start our development server
+
+```bash
+ng serve
+```
+
+Navigating to localhost:4200 should allow us to see a list containing each `message` in `messages`.
+
+<Image
+  src="/images/posts/get-started-with-angular/07-angular-loop-through-angular-2-components-with-ngfor-list-of-messages-displayed.png"
+  width="272"
+  height="10"
+  layout="intrinsic"
+/>
+
+The asterisk in `*ngFor` tells Angular that the element is a template that can be regenerated or reused by whatever _structural directive_ is passed in. In this case, the structural directive is "ngFor", and it's using the `<li>` element as a template to be reproduced for each `message` in `messages`.
+
+### Resources 📖
+
+- [Angular - Looping through Data](https://angular.io/guide/displaying-data#add-logic-to-loop-through-data)
+
+## 📝 Pass Values into Angular 2 Components with @Input
+
+### Using Angular's @Input Decorator
+
+We can replace the `<li>` elements in **src/app/app.component.ts** from last lesson with `<app-simple-form>` elements from the components we created earlier.
+
+### app.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <app-simple-form *ngFor="let message of mail.messages">
+
+      </app-simple-form>
+    </ul>
+  </div>`,
+})
+
+...
+```
+
+After starting up our development server
+
+```
+ng serve
+```
+
+We can navigate to localhost:4200 in our browser and see our simple form displayed for each `message` in `messages`
+
+<Image
+  src="/images/posts/get-started-with-angular/08-angular-pass-values-into-angular-2-components-with-input-simple-form-loop.png"
+  width="291"
+  height="20"
+  layout="intrinsic"
+/>
+
+We'll now head over to **src/app/simple-form/simple-form.component.ts**, import `Input`, and add an `@Input()` called `message`
+
+### simple-form.component.ts
+
+```js
+import { Component, OnInit, Input} from '@angular/core';
+
+...
+
+export class SimpleFormComponent implements OnInit {
+
+  @Input() message
+
+  onClick(event, value) {
+    console.log(event)
+    console.log(value)
+  }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+```
+
+We can now return to **app.component.ts** and use our `Input` with a `[message]` attribute within our `<app-simple-form>` element.
+
+### app.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <app-simple-form
+      *ngFor="let message of mail.messages"
+      [message]="message"
+      >
+
+      </app-simple-form>
+    </ul>
+  </div>`,
+})
+
+...
+```
+
+By assigning `message` to `[message]`, we are inserting the value of each `message` in `mail.messages` into our `simple-form` component so that it can be displayed.
+
+To display each message, navigate to **simple-form.componennt.ts** and add the `message` to the template.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  {{ message }}
+  <input #myInput type="text" />
+  <button (mouseover)="onClick($event, myInput.value)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+After running our development server,
+
+```bash
+ng serve
+```
+
+We can see that each message is printed by a corresponding input field.
+
+<Image
+  src="/images/posts/get-started-with-angular/08-angular-pass-values-into-angular-2-components-with-input-message-display.png"
+  width="514"
+  height="20"
+  layout="intrinsic"
+/>
+
+The square brackets on `[message]` in **app.component.ts** tells Angular to evaluate `"message"` as the value of the `message` variable and not the `"message"` string. Both the input attribute `[message]` and the variable `message` do **not** need to be the same name as they are in this case.
+
+### Resources 📖
+
+- [Angular - Input Decorator](https://angular.io/api/core/Input)
+
+## 🔄 Sync Values from Inputs with Angular 2’s ngModel Two-Way Binding
+
+### Updating Our Message with ngModel and Inputs
+
+In this lesson, we'll use `[(ngModel)]` on our `<input>` element in **src/app/simple-form/simple-form.component.ts**.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  {{ message }}
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (mouseover)="onClick($event, myInput.value)">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+
+...
+```
+
+**Note:** In newer versions of angular, we must also import `FormModule` in our **src/app/app.module.ts**:
+
+### app.module.ts
+
+```js
+import {BrowserModule} from '@angular/platform-browser'
+import {NgModule} from '@angular/core'
+// Here:
+import {FormsModule} from '@angular/forms'
+
+import {AppComponent} from './app.component'
+import {SimpleFormComponent} from './simple-form/simple-form.component'
+
+import {MailService} from './mail.service'
+
+@NgModule({
+  declarations: [AppComponent, SimpleFormComponent],
+  imports: [
+    BrowserModule,
+    // And here:
+    FormsModule,
+  ],
+  providers: [
+    {provide: 'mail', useClass: MailService},
+    {provide: 'api', useValue: 'http://localhost:3000'},
+  ],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Returning to `[(ngServe)]`...
+
+**"You can think of the square brackets and parentheses in a combination as two-way binding"**
+
+"This is combining two things we've talked about already where the parentheses represent an Event, and the square brackets represents pushing values in on Inputs."
+
+To see this in action, start up the development server,
+
+```bash
+ng serve
+```
+
+And navigate to localhost:4200. We should see that our message is now contained in our input field.
+
+Furthermore, when we make changes within our input field, the message next to it changes as well.
+
+<Image
+  src="/images/posts/get-started-with-angular/09-angular-sync-values-from-inputs-with-angular-2-s-ngmodel-two-way-binding-input-changes-message.png"
+  width="417"
+  height="16"
+  layout="intrinsic"
+/>
+
+The Two-Way Binding can be demonstrated by changing our message via means external of the input.
+
+For example, we can change the message every one second:
+
+### simple-form.component.ts
+
+```js
+...
+export class SimpleFormComponent implements OnInit {
+
+  @Input() message
+
+  onClick(event, value) {
+    console.log(event)
+    console.log(value)
+  }
+  constructor() {
+    setInterval(()=> this.message = Math.random().toString(), 1000);
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+And we can see at localhost:4200 that both our message and the message within the input are changing every second, and changing the message within the input briefly changes it outside of the input.
+
+<Image
+  src="/images/posts/get-started-with-angular/09-angular-sync-values-from-inputs-with-angular-2-s-ngmodel-two-way-binding-externally-change-message-within-input-box.gif"
+  width="428"
+  height="20"
+  layout="intrinsic"
+/>
+
+**'Changing this message from outside of the `<input>` updates it in , changing the message from inside of the `<input>` updates it out. That's what the square brackets and parentheses represent around the ngModel.'**
+
+### Resources 📖
+
+- [Angular - ngModel Directive](https://angular.io/api/forms/NgModel)
+
+## 📤 Pass Events from Angular 2 Components with @Output
+
+### Outputting Events From Input to Message
+
+In **src/app/simple-forms/simple-forms.component.ts**, we add an `@Output` decorator to our component called `update`. This `@Output` will be an `EventEmitter`, so we'll need to import both `Output` and `EventEmitter`.
+
+### simple-forms.component.ts
+
+```js
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
+
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+    {{ message }}
+    <input #myInput type="text" [(ngModel)]="message" />
+    <button (click)="onClick($event, myInput.value)">Click me!</button>
+  </div>`,
+  styles: [],
+})
+export class SimpleFormComponent implements OnInit {
+  @Input() message
+
+  @Output() update = new EventEmitter()
+
+  onClick(event, value) {
+    console.log(event)
+    console.log(value)
+  }
+  constructor() {
+    setInterval(() => (this.message = Math.random().toString()), 1000)
+  }
+
+  ngOnInit(): void {}
+}
+```
+
+Above, we also change `(mouseover)` to `(click)` if that hasn't already been done.
+
+We can now change the `onClick()` call on our `(click)` event to `update.emit({text:message})`, and delete our `onClick` method entirely. Furthermore, now is a good time to remove the random message creator in the `constructor` from last lesson, as well as the `{{ message }}` in our template.
+
+### simple-forms.component.ts
+
+```js
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
+
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+    <input #myInput type="text" [(ngModel)]="message" />
+    <button (click)="update.emit({text: message})">Click me!</button>
+  </div>`,
+  styles: [],
+})
+export class SimpleFormComponent implements OnInit {
+  @Input() message
+
+  @Output() update = new EventEmitter()
+
+  constructor() {}
+
+  ngOnInit(): void {}
+}
+```
+
+Now head back over to **src/app/app.component.ts** and make the following changes to the template there:
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages">{{ message }}</li>
+    </ul>
+      <app-simple-form
+      *ngFor="let message of mail.messages"
+      [message]="message"
+      >
+
+      </app-simple-form>
+  </div>`,
+})
+export class AppComponent {
+  constructor(
+    @Inject('mail') public mail,
+  ){}
+}
+```
+
+What we want is for the value in the input field to dictate the message printed in the corresponding `<li>` above.
+
+What we did in **simple-form.component.ts** was describe a new event called `update`, and we can now use that event within our `<app-simple-form>` element to call a new `onUpdate()` method.
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages">{{ message }}</li>
+    </ul>
+      <app-simple-form
+      *ngFor="let message of mail.messages"
+      [message]="message"
+      (update)="onUpdate($event)"
+      >
+
+      </app-simple-form>
+  </div>`,
+})
+export class AppComponent {
+
+  onUpdate(event){
+    console.log(event)
+  }
+
+  constructor(
+    @Inject('mail') public mail,
+  ){}
+}
+```
+
+When we start our development server
+
+```bash
+ng serve
+```
+
+And navigate to localhost:4200 in the browser, we should see that the text within the input field is logged as an object in the console when the corresponding button is pressed.
+
+<Image
+  src="/images/posts/get-started-with-angular/10-angular-pass-events-from-angular-2-components-with-output-update-event-console.png"
+  width="764"
+  height="5"
+  layout="intrinsic"
+/>
+
+Now we navigate to **src/app/mail.service.ts**. To give us a way of looking up each message in our `MailService`, we're going to make each message an object with an `id` property.
+
+### mail.service.ts
+
+```js
+import {Injectable} from '@angular/core'
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MailService {
+  messages = [
+    {id: 0, text: `You're now friends with John`},
+    {id: 1, text: `John liked your tweet`},
+    {id: 2, text: `You'll never believe what John said...`},
+  ]
+  constructor() {}
+}
+```
+
+To display each `message` properly now, we need to make sure they're called in as `message.text`. Furthermore, we can pass `message.id` and `$event.text` into `onUpdate()`, and refactor `onUpdate()` to tell the `MailService` to update the corresponding messages.
+
+### app.component.ts
+
+```js
+import { Component, Inject } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages">{{ message.text }}</li>
+    </ul>
+      <app-simple-form
+      *ngFor="let message of mail.messages"
+      [message]="message.text"
+      (update)="onUpdate(message.id, $event.text)"
+      >
+
+      </app-simple-form>
+  </div>`,
+})
+export class AppComponent {
+
+  onUpdate(id, text){
+    this.mail.update(id, text)
+  }
+
+  constructor(
+    @Inject('mail') public mail,
+  ){}
+}
+```
+
+We called `update()` on our `MailService`, so now we need to define that method within `MailService`.
+
+**Note:** The `update()` method below is different than the `update()` method in the lesson due to changes in `map`.
+
+### mail.service.ts
+
+```js
+import {Injectable} from '@angular/core'
+
+@Injectable({
+  providedIn: 'root',
+})
+export class MailService {
+  messages = [
+    {id: 0, text: `You're now friends with John`},
+    {id: 1, text: `John liked your tweet`},
+    {id: 2, text: `You'll never believe what John said...`},
+  ]
+
+  update(id, text) {
+    this.messages.map((m) => {
+      m.id === id ? (m.text = text) : m
+    })
+  }
+
+  constructor() {}
+}
+```
+
+Now at localhost:4200, we should see that our messages update when our inputs change and corresponding buttons are pressed.
+
+### Resources 📖
+
+- [Angular - Output Decorator](https://angular.io/api/core/Output)
+
+## 🎨 Write CSS Inside of Angular 2 Components
+
+### Understanding Angular Styling
+
+Let's take a look at our `Simple-Form Component` at **src/app/simple-form/simple-form.component.ts**
+
+### simple-form.component.ts
+
+```js
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+
+@Component({
+  selector: 'app-simple-form',
+  template: `<div>
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (click)="update.emit({text:message})">Click me!</button>
+  </div>`,
+  styles: [
+  ]
+})
+export class SimpleFormComponent implements OnInit {
+
+  @Input() message
+
+  @Output() update = new EventEmitter();
+
+  constructor() {}
+
+  ngOnInit(): void {
+  }
+```
+
+Our template contains an `input` element and a `button` element nested within a `div` element. In the DOM, the `div` element is wrapped by our `app-simple-form` element, so the `app-simple-form` element is the outer element of the `Simple-Form Component` itself.
+
+Therefore, we can remove the `div` element from our template entirely since the contents of our component are already wrapped by `app-simple-form`
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [
+  ]
+})
+
+...
+```
+
+Let's return to **src/app/app.component.ts**. Here, we're going to create a `styles` array and define some styles for our `app-simple-form` element.
+
+### app.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-root',
+  template:
+  `<div>
+    <ul>
+      <li *ngFor="let message of mail.messages">{{ message.text }}</li>
+    </ul>
+      <app-simple-form
+      *ngFor="let message of mail.messages"
+      [message]="message.text"
+      (update)="onUpdate(message.id, $event.text)"
+      >
+
+      </app-simple-form>
+  </div>`,
+  styles: [`
+    app-simple-form{
+      margin-bottom: 10px;
+    }
+  `]
+})
+
+...
+```
+
+If we save our changes and start our development server,
+
+```bash
+ng serve
+```
+
+We can navigate to localhost:4200 in the browser and see that... nothing changed.
+
+Before we can see our changes in effect, we need to define a `display` for our `Simple-Form Component` within the component itself. Here we'll add `display: flex` and `flex-direction: column` styles to our component.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+  :host {
+    display: flex;
+    flex-direction: column;
+  }
+  `]
+})
+...
+```
+
+Above, we use `:host` to reference the component itself, which in the DOM is represented by the `app-simple-form` element.
+
+Returning to localhost:4200, we should now see our `margin-bottom`,`display:flex`, and `flex-direction:column` styles in effect.
+
+<Image
+  src="/images/posts/get-started-with-angular/11-angular-write-css-inside-of-angular-2-components-margin-bottom-simple-form-component.png"
+  width="494"
+  height="180"
+  layout="intrinsic"
+/>
+
+If we try to define styles for everything with `*`, we'll see that **the styles we define within our component will be isolated to that component**:
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+  :host{
+    display: flex;
+    flex-direction: column;
+  }
+
+  *{
+    font-family: monospace;
+  }
+  `]
+})
+
+...
+```
+
+<Image
+  src="/images/posts/get-started-with-angular/11-angular-write-css-inside-of-angular-2-components-styles-isolated-within-component.png"
+  width="494"
+  height="180"
+  layout="intrinsic"
+/>
+
+We can see above that only our `Simple-Form Component` elements have a `font-family` of `monospace`.
+
+If we define styles for `input:focus` and `button` within our `Simple-Form Component`, we can now be confident that the styles will only affect those elements within that component.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input #myInput type="text" [(ngModel)]="message"/>
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+  :host{
+    display: flex;
+    flex-direction: column;
+  }
+
+  input:focus{
+    font-weight: bold;
+    outline: none;
+  }
+
+  button{
+    border:none;
+  }
+  `]
+})
+
+...
+```
+
+<Image
+  src="/images/posts/get-started-with-angular/11-angular-write-css-inside-of-angular-2-components-input-text-bold-on-focus-and-button-border.png"
+  width="494"
+  height="160"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Angular - Component Styles](https://angular.io/guide/component-styles)
+
+## 🎓 Apply CSS Classes Conditionally with Angular 2’s ngClass
+
+### Handling Complex Styling with ngClass
+
+With `[ngClass]`, we can conditionally apply CSS classes to our component elements. We'll explore this in **src/app/simple-form/simple-form.component.ts**.
+
+We can add `[ngClass]` to our input element here. Remember that the square brackets tell Angular to evaluate whatever is passed in on the righthand side of the equals sign instead of treat it like a string.
+
+Into `[ngClass]`, we're going to pass the object `{mousedown:}`. `mousedown` refers to the name of the CSS class, so we can now reference that in our `styles` as `.mousedown`, and the value of `mousedown` in the object is a boolean value that determines whether or not we want the styles to apply.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input
+    #myInput
+    type="text"
+    [(ngModel)]="message"
+    [ngClass]="{mousedown: }"
+  >
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+  :host{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mousedown{
+    border: 2px solid greeen;
+  }
+
+  input:focus{
+    font-weight: bold;
+    outline: none;
+  }
+
+  button{
+    border:none;
+  }
+  `]
+})
+
+...
+```
+
+We need to now define the condition under which the styles apply. We'll add a `isMousedown` property to our component class, and pass it in to the `mousedown` property on our `[ngClass]` object.
+
+To allow our `isMousedown` property to be effective, we can add a `(mousedown)` event to our `input` that sets `isMouseDown` to `true`, as well as `(mouseup)` and `(mouseleave)` events that set `isMousedown` to `false`.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input
+    #myInput
+    type="text"
+    [(ngModel)]="message"
+    [ngClass]="{mousedown:isMousedown}"
+    (mousedown)="isMousedown = true"
+    (mouseup)="isMousedown = false"
+    (mouseleave)="isMousedown  = false"
+  >
+  <button (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+    :host{
+      display: flex;
+      flex-direction: column;
+    }
+    .mousedown{
+      border: 2px solid green;
+    }
+    input:focus{
+      font-weight: bold;
+      outline: none;
+    }
+    button{
+      border: none;
+    }
+    `]
+})
+export class SimpleFormComponent implements OnInit {
+
+  isMousedown;
+
+  @Input() message
+
+  @Output() update = new EventEmitter();
+
+  constructor() {}
+
+  ngOnInit(): void {
+  }
+
+}
+```
+
+Once we save our changes and open up our development server,
+
+```bash
+ng serve
+```
+
+We can navigate to localhost:4200 and see that our `input` element `border` style changes on `mousedown`.
+
+<Image
+  src="/images/posts/get-started-with-angular/12-angular-apply-css-classes-conditionally-with-angular-2-s-ngclass-green-border-on-mousedown.gif"
+  width="494"
+  height="170"
+  layout="intrinsic"
+/>
+
+We can use `ngClass` to conditionally apply styles to elements by passing in some boolean value.
+
+### Resources 📖
+
+- [Angular - ngClass Directive](https://angular.io/api/common/NgClass)
+
+## 🌎 Use Global CSS Inside Angular 2 Components
+
+### Using and Ignoring Global Styles
+
+Here we'll bring in a stylesheet to our **src/index.html**:
+
+### index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Angular2Fundamentals</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- New Stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tachyons@4.5.3/css/tachyons.min.css"
+    />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+```
+
+We can see that it applies to everything in our project after starting our development server and navigating to localhost:4200.
+
+```bash
+ng serve
+```
+
+<Image
+  src="/images/posts/get-started-with-angular/13-angular-use-global-css-inside-angular-2-components-universally-applied-css.png"
+  width="494"
+  height="190"
+  layout="intrinsic"
+/>
+
+Furthermore, we can grab classes from this stylesheet in our components. In **src/app/simple-form/simple-form.component.ts**, we can add `class="white bg-black code` from the stylesheet.
+
+### simple-form.component.ts
+
+```js
+...
+@Component({
+  selector: 'app-simple-form',
+  template: `
+  <input
+    #myInput
+    type="text"
+    [(ngModel)]="message"
+    [ngClass]="{mousedown:isMousedown}"
+    (mousedown)="isMousedown = true"
+    (mouseup)="isMousedown = false"
+    (mouseleave)="isMousedown  = false"
+  >
+  <button
+  class="white bg-black code"
+  (click)="update.emit({text:message})">Click me!</button>
+  `,
+  styles: [`
+    :host{
+      display: flex;
+      flex-direction: column;
+    }
+    .mousedown{
+      border: 2px solid green;
+    }
+    input:focus{
+      font-weight: bold;
+      outline: none;
+    }
+    button{
+      border: none;
+    }
+    `]
+})
+
+...
+```
+
+<Image
+  src="/images/posts/get-started-with-angular/13-angular-use-global-css-inside-angular-2-components-grab-classes-from-global-stylesheet.png"
+  width="494"
+  height="190"
+  layout="intrinsic"
+/>
+
+The button text-color, font, and background color are all coming in from that style library passed in to **index.html**.
+
+We can ignore global styles in our component with the `encapsulation` property.
+
+**Note:** At the time of these notes, the `Native` setting used in the video is deprecated and has been replaced by `ShadowDom`.
+
+### simple-forms.component.ts
+
+```js
+...
+@Component({
+  encapsulation: ViewEncapsulation.ShadowDom,
+  selector: 'app-simple-form',
+  ...
+})
+...
+```
+
+The `ShadowDom` setting means "no styles in, no styles out".
+
+If we save our changes and view our webpage at localhost:4200, we can see that the styles from the global stylesheet have been ignored.
+
+<Image
+  src="/images/posts/get-started-with-angular/13-angular-use-global-css-inside-angular-2-components-ignoring-global-styles.png"
+  width="494"
+  height="190"
+  layout="intrinsic"
+/>
+
+The default `encapsulation` property setting is `Emulated`, which allows global styles in but no styles out.
+
+There also exists the `None` setting, where styles defined within the component are also defined globally.
+
+"I don't really see many use cases for [the None setting], so I almost always leave it on the default, define some styles inline when I need them, and otherwise use the global styles from whatever library I'm using.
+
+### Resources 📖
+
+- [Angular - View Encapsulation](https://angular.io/guide/component-styles#view-encapsulation)
+- [Native is now deprecated in favor of ShadowDOM](https://stackoverflow.com/a/53806584)
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout
