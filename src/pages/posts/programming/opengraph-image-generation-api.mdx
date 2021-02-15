@@ -7,11 +7,13 @@ postnum: 2
 ---
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 export const meta = {
   title: 'Building an OpenGraph Image Generation API 📷',
   description: "Notes from Chris Biscardi's course on egghead.io",
-  url: 'https://parkerlandon.com/posts/personal/the-origin-of-lord-parker',
+  url:
+    'https://parkerlandon.com/posts/programming/opengraph-image-generation-api',
   titleAppendSiteName: true,
   ogImage: {
     url:
@@ -28,13 +30,67 @@ export const meta = {
   layout="responsive"
 />
 
+## 🌟 About
+
 This post follows along with [Chris Biscardi's Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React course](https://egghead.io/playlists/building-an-opengraph-image-generation-api-with-cloudinary-netlify-functions-and-react-914e) on [egghead.io](https://egghead.io/).
 
 After deploying this site, I pasted a link in my Discord server to share with my friends. I was pleased to see that my link was followed with a card displaying the article title, description, and favicon, but I noticed that the image box was filled with a loading circle. This was no surprise to me, as I had not yet set up images for each of my articles. Thankfully, I stumbled upon this egghead lesson with which I plan to develop an API to automatically generate an OpenGraph image for each of the articles on this site.
 
 Here, I'll be sharing some takeaways from each lesson.
 
-## Designing OpenGraph unfurls in Figma
+## 📖 Table of Contents
+
+1. <Link href="/posts/programming/opengraph-image-generation-api#-designing-opengraph-unfurls-in-figma">
+     Designing OpenGraph unfurls in Figma
+   </Link>
+
+2. <Link href="/posts/programming/opengraph-image-generation-api#-building-an-opengraph-image-react-component-in-codesandbox-based-on-a-figma-design">
+     Building an OpenGraph image React component in CodeSandbox, based on a
+     Figma design
+   </Link>
+
+3. <Link href="/posts/programming/opengraph-image-generation-api#-setting-up-a-new-github-repo-to-deploy-functions-on-netlify-with-make-and-netlifytoml">
+     Setting up a new GitHub repo to deploy functions on Netlify with Make and
+     netlify.toml
+   </Link>
+
+4. <Link href="/posts/programming/opengraph-image-generation-api#-scaffolding-and-deploying-a-netlify-function-in-javascript">
+     Scaffolding and deploying a Netlify function in Javascript
+   </Link>
+
+5. <Link href="/posts/programming/opengraph-image-generation-api#-using-playwright-to-screenshot-the-dom-and-return-an-image-from-a-netlify-function">
+     Using Playwright to screenshot the DOM and return an image from a Netlify
+     Function
+   </Link>
+
+6. <Link href="/posts/programming/opengraph-image-generation-api#-compiling-a-react-to-an-iife-with-rollup-to-execute-and-render-in-a-headless-browser">
+     Compiling a React to an IIFE with Rollup to execute and render in a
+     headless browser
+   </Link>
+
+7. <Link href="/posts/programming/opengraph-image-generation-api#-setting-the-viewport-on-a-playwright-headless-browser">
+     Setting the viewport on a Playwright headless browser
+   </Link>
+
+8. <Link href="/posts/programming/opengraph-image-generation-api#-testing-an-opengraph-image-with-the-twitter-card-validator">
+     Testing an opengraph image with the Twitter Card Validator
+   </Link>
+
+9. <Link href="/posts/programming/opengraph-image-generation-api#🦾-passing-variables-to-serverless-functions-using-query-strings">
+     Passing variables to serverless functions using query strings
+   </Link>
+
+10. <Link href="/posts/programming/opengraph-image-generation-api#-using-cloudinary-as-a-write-through-cache-for-a-netlify-function-that-generates-images">
+      Using Cloudinary as a write-through cache for a Netlify Function that
+      generates images
+    </Link>
+
+11. <Link href="/posts/programming/opengraph-image-generation-api#-using-_redirects-files-on-netlify-to-make-netlify-function-urls-more-user-friendly">
+      Using _redirects files on Netlify to make .netlify function URLs more
+      user-friendly
+    </Link>
+
+## 🎨 Designing OpenGraph unfurls in Figma
 
 I'm excited to see Figma in the title of this lesson, as I have been meaning to begin using it.
 
@@ -44,7 +100,7 @@ We're also using [Gradient Magic](https://www.gradientmagic.com/) to grab an int
 
 Figma helps us get a good idea of what we want our OpenGraph image to look like. Chris reminds us that our Figma creation is not the final product and that we should therefore not spend too much time perfecting it. Our final product is the React component that we will create.
 
-## Building an OpenGraph image React component in CodeSandbox, based on a Figma design
+## 🔨 Building an OpenGraph image React component in CodeSandbox, based on a Figma design
 
 Now we'll use [CodeSandbox](https://codesandbox.io/) to quickly begin working on our React component.
 
@@ -73,7 +129,7 @@ A lot of the formatting of this component is done with CSS flexboxes. One useful
 After plenty of flexboxes, this is the React component I came up with:
 ![OpenGraph Image React Component](/images/posts/opengraph-image-generation-api/opengraph-design.png)
 
-## Setting up a new GitHub repo to deploy functions on Netlify with Make and netlify.toml
+## 🚀 Setting up a new GitHub repo to deploy functions on Netlify with Make and netlify.toml
 
 We can now set up a Git repo and deploy to Netlify.
 
@@ -100,7 +156,7 @@ install:
 
 Now we can just push our repository to GitHub and connect with Netlify to deploy our repository. On Netlify, we want to set the build command to `make install` (if it doesn't already do this automatically).
 
-## Scaffolding and deploying a Netlify function in Javascript
+## 🚧 Scaffolding and deploying a Netlify function in Javascript
 
 In our new repository, we'll create our first function. This function will generate our OpenGraph image using [Playwright](https://github.com/microsoft/playwright).
 
@@ -121,7 +177,7 @@ exports.handler = async function (event, context) {
 
 Now we can push our new changes to GitHub and view our function under the **Functions** tab on Netlify.
 
-## Using Playwright to screenshot the DOM and return an image from a Netlify Function
+## 🎭 Using Playwright to screenshot the DOM and return an image from a Netlify Function
 
 [Playwright](https://github.com/microsoft/playwright) is a library that will run headless browsers for us.
 
@@ -200,7 +256,7 @@ install:
 
 Now, we shouldn't have any issues deploying to Netlify. Note: I was getting an error `context`, and fixed it by changing the versions of the `playwright` packages to the ones that Chris uses (`playwright-aws-lambda@0.4.0` and `playwright-core@0.11.1`). I have a feeling this error was due to `browser._defaultContext`.
 
-## Compiling a React to an IIFE with Rollup to execute and render in a headless browser
+## 📝 Compiling a React to an IIFE with Rollup to execute and render in a headless browser
 
 Right now, we're just taking a screenshot of some text. What we want to take a screenshot of is our OpenGraph image that we coded in React.
 
@@ -374,7 +430,7 @@ Our image that is returned now from the serverless function should resemble our 
 
 Note: I was trying to use an `<img>` element in my React component and it would not load in the screenshot. Thankfully, it's an SVG, so I could define it with the `<svg>` tags.
 
-## Setting the viewport on a Playwright headless browser
+## 🔭 Setting the viewport on a Playwright headless browser
 
 Right before we set page content, we can set the page viewport size.
 
@@ -394,7 +450,7 @@ page.setViewportSize({
 
 Now when we make a request to our Netlify function, we should see our React component with the correct dimensions.
 
-## Testing an opengraph image with the Twitter Card Validator
+## 🔬 Testing an opengraph image with the Twitter Card Validator
 
 We change the content of our `index.html` to include some Twitter meta tags like as follows:
 
@@ -419,7 +475,7 @@ Once this is deployed to Netlify, we can use the [Twitter Card Validator](https:
 
 We can also just make a temporary tweet that includes the address of our Netlify function.
 
-## Passing variables to serverless functions using query strings
+## 🦾 Passing variables to serverless functions using query strings
 
 Right now, we can't change the text content of our image. To do this, we'll first make some changes to our React component.
 
@@ -524,7 +580,7 @@ Now, our image will change depending on the values in the query string.
 ![Query String](/images/posts/opengraph-image-generation-api/querystringparameters.png)
 ![Image with Query String Parameters](/images/posts/opengraph-image-generation-api/image-with-querystringparameters.png)
 
-## Using Cloudinary as a write-through cache for a Netlify Function that generates images
+## ⛅ Using Cloudinary as a write-through cache for a Netlify Function that generates images
 
 We're going to use [Cloudinary](https://cloudinary.com/) as a write-through cache. This means that the URL we use is going to hit Cloudinary first, and, if the image is cached, it will return that image, and if the image isn't cached, Cloudinary will generate our image with our function, cache the image, and return it to us. Thus, as long as we're not trying to update our images, we do not need to manage them.
 
@@ -600,7 +656,7 @@ install:
 
 Now, we need to set our environment variables on Netlify. Under 'Deploy Settings', we select 'Environment', then 'Edit variables' to add variables. We need to set '{name}\_IMAGE_VERSION', 'CLOUDINARY_KEY', and 'CLOUDINARY SECRET' environment variables here. These can be found on the Cloudinary dashboard. Once this is done, we can push our changes to GitHub.
 
-## Using \_redirects files on Netlify to make .netlify function URLs more user-friendly
+## 🎯 Using \_redirects files on Netlify to make .netlify function URLs more user-friendly
 
 We can use redirects to trade out '.netlify/functions/gen-opengraph-image' with 'opengraph'.
 

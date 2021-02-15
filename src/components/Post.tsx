@@ -35,7 +35,7 @@ const Post = ({
       </Link>
       <br />
       <span
-        className="text-xs sm:text-sm md:text-base rounded-lg text-gray-500 hover:text font-medium dark:text-white"
+        className="text-xs sm:text-sm md:text-base rounded-lg text-gray-500 hover:text dark:text-white"
         css={{padding: '0 !important', marginLeft: '0 !important'}}
       >
         {frontmatter.description}
