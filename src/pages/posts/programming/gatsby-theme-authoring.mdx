@@ -1,0 +1,1769 @@
+---
+title: Gatsby Theme Authoring 🎨
+topic: programming
+routename: gatsby-theme-authoring
+description: Notes from Jason Lengstorf's Gatsby Theme Authoring course on egghead.io.
+postnum: 5
+---
+
+import Link from 'next/link'
+import Image from 'next/image'
+
+export const meta = {
+  title: 'Gatsby Theme Authoring 🎨',
+  description:
+    "Notes from Jason Lengstorf's Gatsby Theme Authoring course on egghead.io.",
+  url: 'https://parkerlandon.com/posts/programming/gatsby-theme-authoring',
+  titleAppendSiteName: true,
+  ogImage: {
+    url:
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Gatsby%20Theme%20Authoring&tags=gatsby,react',
+    width: 1200,
+    height: 630,
+  },
+}
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/image.png"
+  width="1024"
+  height="480"
+  layout="responsive"
+/>
+
+## 🌟 About
+
+These notes go along with the [Gatsby Theme Authoring](https://egghead.io/courses/gatsby-theme-authoring) course from [Jason Lengstorf](https://egghead.io/instructors/jason-lengstorf)
+
+In this course, we create a [Gatsby](https://www.gatsbyjs.org/) Theme. Gatsby Themes allow us to create and use composable chunks of fully functional websites. You can expect to learn
+
+- How to set up Yarn Workspaces 🧶
+- How to develop a Gatsby Theme 🎨
+- How to override a Gatsby Theme with Component Shadowing 💪
+- How to publish a Gatsby Theme to npm 📤
+- How to consume a published theme in a Gatsby Application 📩
+
+Each page of notes contains resources relating to the respective lesson. This course follows a written course which can be found both [here](https://www.gatsbyjs.org/tutorial/building-a-theme/) and in the Resources section of each page.
+
+My original set of notes for this course can be found [here](https://github.com/ParkerGits/gatsby-theme-authoring-notes).
+
+## 👩‍💻 Code
+
+The code given on the course page does not have respective branches for each lesson, so I went ahead and developed my own repository with branches containing code for each respective lesson. **You can find that repository [here](https://github.com/ParkerGits/authoring-gatsby-themes)**. Each page of notes also has a Resources section that contains a link to the branch containing the code for the respective lesson.
+
+## 📖 Table of Contents
+
+1. <Link href="/posts/programming/gatsby-theme-authoring#-set-up-yarn-workspaces-for-gatsby-theme-development">
+     Set up Yarn Workspaces for Gatsby Theme Development
+   </Link>
+
+2. <Link href="/posts/programming/gatsby-theme-authoring#-add-static-data-to-a-gatsby-theme">
+     Add Static Data to a Gatsby Theme
+   </Link>
+
+3. <Link href="/posts/programming/gatsby-theme-authoring#-create-a-data-directory-in-gatsby-using-the-onprebootstrap-lifecycle">
+     Create a Data Directory in Gatsby using the onPreBootstrap lifecycle
+   </Link>
+
+4. <Link href="/posts/programming/gatsby-theme-authoring#-set-up-to-create-data-driven-pages-in-gatsby">
+     Set up to Create Data Driven Pages in Gatsby
+   </Link>
+
+5. <Link href="/posts/programming/gatsby-theme-authoring#-create-data-driven-pages-in-gatsby-with-graphql-and-createpages">
+     Create Data Driven Pages in Gatsby with GraphQL and createPages
+   </Link>
+
+6. <Link href="/posts/programming/gatsby-theme-authoring#-display-sorted-data-with-usestaticquery-in-gatsby">
+     Display Sorted Data with useStaticQuery in Gatsby
+   </Link>
+
+7. <Link href="/posts/programming/gatsby-theme-authoring#-display-and-query-data-by-id-with-gatsby-context-and-usestaticquery">
+     Display and Query Data by id with Gatsby context and useStaticQuery
+   </Link>
+
+8. <Link href="/posts/programming/gatsby-theme-authoring#-style-and-format-dates-in-react">
+     Style and Format Dates in React
+   </Link>
+
+9. <Link href="/posts/programming/gatsby-theme-authoring#-configure-a-gatsby-theme-to-take-options">
+     Configure a Gatsby Theme to Take Options
+   </Link>
+
+10. <Link href="/posts/programming/gatsby-theme-authoring#-make-gatsby-themes-extendable-with-gatsby-theme-ui">
+      Make Gatsby Themes extendable with gatsby-theme-ui
+    </Link>
+
+11. <Link href="/posts/programming/gatsby-theme-authoring#-use-and-override-a-theme-in-gatsby-with-component-shadowing">
+      Use and Override a Theme in Gatsby with Component Shadowing
+    </Link>
+
+12. <Link href="/posts/programming/gatsby-theme-authoring#-publish-a-gatsby-theme-to-npm">
+      Publish a Gatsby Theme to npm
+    </Link>
+
+13. <Link href="/posts/programming/gatsby-theme-authoring#-consume-a-theme-in-a-gatsby-application">
+      Consume a Theme in a Gatsby Application
+    </Link>{' '}
+
+14. <Link href="/posts/programming/gatsby-theme-authoring#-use-component-shadowing-to-override-gatsby-theme-components">
+      Use Component Shadowing to Override Gatsby Theme Components
+    </Link>
+
+## 🏢 Set up Yarn Workspaces for Gatsby Theme Development
+
+In this lesson, we learn how to structure folders and configure Yarn workspaces to make the development of Gatsby themes easier.
+
+### Yarn Workspaces
+
+In this first lesson, the instructor walks us through the setup of Yarn Workspaces for our project.
+
+- More information and documentation on Yarn Workspaces can be found in the [resources](#resources) below.
+- In short, Yarn workspaces allow us to setup our package architecture such that installing all of our packages requires only a _single pass_ of **yarn install**
+
+Before opening up the terminal, here's what each package.json file should look like:
+
+### gatsby-theme-events/package.json
+
+```javascript
+{
+  "name": "gatsby-theme-events",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "develop": "gatsby develop"
+  }
+}
+```
+
+### site/package.json
+
+```javascript
+{
+  "private": true,
+  "name": "site",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "clean": "gatsby clean"
+  }
+}
+```
+
+### package.json (main project folder)
+
+```javascript
+{
+  "private": true,
+  "workspaces": [
+    "gatsby-theme-events",
+    "site"
+  ]
+}
+```
+
+Next we'll create `gatsby-theme-events/index.js` and leave it empty except for a comment.
+
+### gatsby-theme-events/index.js
+
+```js
+// this file is empty!
+```
+
+Now, in the terminal, we add **React, React-DOM, Gatsby,** and **our Gatsby Theme** to Site:
+
+```
+yarn workspace site add gatsby react react-dom gatsby-theme-events@*
+```
+
+- "The reason we use '@\*' is because we want the workspace to pick up an unpublished theme"
+  Your site/package.json should now include:
+
+```javascript
+"dependencies": {
+  "gatsby": "^2.22.11",
+  "gatsby-theme-events": "*",
+  "react": "^16.13.1",
+  "react-dom": "^16.13.1"
+}
+```
+
+After running the following,
+
+```
+yarn workspaces info
+```
+
+We can see that the site uses the gatsby-theme-events from the workspace:
+
+```javascript
+"workspaceDependencies": [
+  "gatsby-theme-events"
+]
+```
+
+Now, to our gatsby-theme-events, we add React, React-DOM, and Gatsby firstly as a Peer Dependency
+
+```bash
+yarn workspace gatsby-theme-events add -P react react-dom gatsby
+```
+
+Then as a Dev Dependency
+
+```bash
+yarn workspace gatsby-theme-events add -D react react-dom gatsby
+```
+
+Now, gatsby-theme-events/package.json should include the following
+
+```javascript
+  "peerDependencies": {
+    "gatsby": "^2.22.11",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "gatsby": "^2.22.11",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+```
+
+An article outlining _the difference between Peer Dependencies and Dev Dependencies_ can be found in the [resources](#resources) below.
+
+Now, **to start up Gatsby in development mode for our site**, we run
+
+```
+yarn workspace site develop
+```
+
+and for our gatsby-theme-events
+
+```
+yarn workspace gatsby-theme-events develop
+```
+
+The console provides you with the localhost address for your project, which should give you a 404 page.
+
+### Issues I Faced
+
+My page appeared not with a 404, as it did with the instructor, but instead with an error. If this is the case, you may need to switch NODE_ENV from production to development.
+
+In the terminal, for windows:
+
+```
+set NODE_ENV=development
+```
+
+Linux or other Unix based system:
+
+```
+export NODE_ENV=development
+```
+
+Note that this only changes NODE_ENV for the current terminal, and will be reset upon closing out of the terminal.
+
+If there is a better solution to this problem, please contribute!
+
+### Resources 📖
+
+- [Lesson 1 Code](/tree/01-gatsby-set-up-yarn-workspaces-for-gatsby-theme-development)
+- [Yarn Workspaces, Why and How?](https://classic.yarnpkg.com/en/docs/workspaces/)
+- [What are Yarn Workspaces? - Daniel Bischoff](https://www.danielbischoff.com/blog/2018-03-04--share-code-workspaces/)
+- [What are Peer Dependencies?](https://flaviocopes.com/npm-peer-dependencies/)
+- [npm docs: private](https://docs.npmjs.com/files/package.json#private)
+- [npm docs: main](https://docs.npmjs.com/files/package.json#main)
+
+## ⚡ Add Static Data to a Gatsby Theme
+
+In this lesson we learn how to load data from MDX (or any data source) and ensure the necessary folders exist.
+
+### Getting the Data
+
+In our gatsby-theme-events folder, add a new folder named "data" and within that create an events.yml file. Then, within that:
+
+### gatsby-theme-events/data/events.yml
+
+```
+- name: React Rally
+  location: Salt Lake City, UT
+  start_date: 2019-08-22
+  end_date: 2019-08-23
+  url: https://www.reactrally.com/
+
+- name: DinosaurJS
+  location: Denver, CO
+  start_date: 2019-06-20
+  end_date: 2019-06-21
+  url: https://dinosaurjs.org/
+
+- name: JSHeroes
+  location: Cluj-Napoca, Romania
+  start_date: 2020-04-23
+  end_date: 2020-04-24
+  url: https://jsheroes.io/
+
+- name: The Lead Developer
+  location: Austin, TX
+  start_date: 2019-11-08
+  end_date: 2019-11-08
+  url: https://austin2019.theleaddeveloper.com/
+```
+
+### Reading the Data
+
+In order to read the .yaml file above, we must install new dependencies as follows:
+
+```
+yarn workspace gatsby-theme-events add gatsby-source-filesystem gatsby-transformer-yaml
+```
+
+### gatsby-config.js
+
+Next, within the gatsby-theme-events folder, create a gatsby-config.js
+
+Following the lesson, our gatsby-config.js should look like:
+
+```javascript
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: 'data',
+      },
+    },
+    {
+      resolve: 'gatsby-transformer-yaml',
+      options: {
+        typeName: 'Event',
+      },
+    },
+  ],
+}
+```
+
+### Starting the GraphQL server
+
+After running
+
+```
+yarn workspace gatsby-theme-events develop
+```
+
+We can access GraphQL at localhost:8000/\_\_\_graphql
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/02-add-static-data-to-a-gatsby-theme-graphql-playground.png"
+  height="470"
+  width="1012"
+  layout="intrinsic"
+/>
+
+Opening up _allEvent_ then _nodes_ on the side bar **allows us to query properties of our events.**
+
+### Resources 📖
+
+- [Lesson 2 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/02-gatsby-add-static-data-to-a-gatsby-theme)
+- [Gatsby Plugin Configuration](https://www.gatsbyjs.org/docs/gatsby-config/#plugins)
+- [YAML Syntax](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html)
+- [GraphQL](https://graphql.org/)
+
+## 🔢 Create a Data Directory in Gatsby using the onPreBootstrap lifecycle
+
+In this lesson we learn how to make sure the data directory exists so gatsby-source-filesystem doesn't throw an error.
+
+### gatsby-node.js
+
+Within the gatsby-theme-events folder, create a file named gatsby-node.js
+
+In our gatsby-node.js, we need to
+
+1. Make sure the data directory exists
+
+We need to do this so `gatsby-source-filesystem` doesn't throw an error.
+
+2. Define the event type
+
+If we don't have any events defined, we should get back an empty array, not an error.
+
+3. Define resolvers for any custom fields (slug)
+
+We are going to have a custom `slug` field. We want to be able to query this along with all of the other event data.
+
+4. Query for events and create pages
+
+### Making sure the data directory exists
+
+**gatsby-source-filesystem will throw an error** if you fire up your theme and the “data” directory doesn’t exist. To guard against this, you’ll use the onPreBootstrap API hook to check if the data directory exists, and, if not, create it:
+
+### gatsby-theme-events/gatsby-node.js
+
+```javascript
+const fs = require('fs')
+
+exports.onPreBootstrap = ({reporter}) => {
+  const contentPath = 'data'
+
+  if (!fs.existsSync(contentPath)) {
+    reporter.info(`creating the ${contentPath} directory`)
+    fs.mkdirSync(contentPath)
+  }
+}
+```
+
+With this code, **if the data directory doesn't exist, it will create it.** Now we have ensured that the data directory exists.
+
+### Resources 📖
+
+- [Lesson 3 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/03-gatsby-create-a-data-directory-in-gatsby-using-the-onprebootstrap-lifecycle)
+- [Gatsby - Create a data directory using the onPreBootstrap lifecycle](https://www.gatsbyjs.org/tutorial/building-a-theme/#create-a-data-directory-using-the-onprebootstrap-lifecycle)
+- [The gatsby-node.js API file](https://www.gatsbyjs.org/docs/api-files-gatsby-node/)
+- [Gatsby theme conventions](https://www.gatsbyjs.org/docs/themes/conventions/)
+- [Node file system module](https://nodejs.org/api/fs.html)
+
+## 📄 Set up to Create Data Driven Pages in Gatsby
+
+In this lesson we learn how to load data from MDX (or any data source) and ensure the necessary folders exist.
+
+### Defining types
+
+To satisfy the second condition in our list, we'll add an `id` which is of type `ID!`, and `name` and `location`, which are of type `String!`.
+
+For the date, we going to use Gatsby's built in `@dateformat` directive.
+
+We can do the same thing for the end date by copying the previous line and swapping out the names.
+
+Lastly we want to get the URL which is a string.
+
+### gatsby-theme-events/gatsby-node.js
+
+```javascript
+exports.sourceNodes = ({actions}) => {
+  actions.createTypes(`
+    type Event implements Node @dontInfer {
+      id: ID!
+      name: String!
+      location: String!
+      startDate: Date! @dateformat @proxy(from: "start_date")
+      endDate: Date! @dateformat @proxy(from: "end_date")
+      url: String!
+      slug: String!
+    }
+  `)
+}
+```
+
+Note: for **startDate** and **endDate**, because the camel case does not line up with start_date and end_date, we include the following on the ends of each respectively:
+
+```
+@proxy(from: "start_date")
+```
+
+```
+@proxy(from: "end_date")
+```
+
+We now need to define a custom resolver for our slug field, as we don't have a slug field in our events.
+
+### Setting up the slug
+
+To gatsby-node.js, add the following:
+
+### gatsby-theme-events/gatsby-node.js
+
+```javascript
+exports.createResolvers = ({createResolvers}) => {
+  const basePath = '/'
+
+  const slugify = (str) => {
+    const slug = str
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '')
+    return `/${basePath}/${slug}`.replace(/\/\/+/g, '/')
+  }
+
+  createResolvers({
+    Event: {
+      slug: {
+        resolve: (source) => slugify(source.name),
+      },
+    },
+  })
+}
+```
+
+The resolver above returns the "slugified" version of the event name.
+
+Documentation on Javascript Regular Expressions can be found in the [resources](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions). Otherwise, the instructor does a good job of explaining what the function does, so if you aren't familiar with Regular Expressions, just take the instructor's word for it.
+
+### Testing it all out
+
+Running the following allows us to open our project in development mode:
+
+```bash
+yarn workspace gatsby-theme-events develop
+```
+
+Open up localhost:8000/\_\_\_graphql to view our newly formatted event nodes
+
+The event type Date allows us to view _relative time_ or _formatted time_ for our **startDate** and **endDate**.
+
+### Resources 📖
+
+- [Lesson 4 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/04-gatsby-set-up-to-create-data-driven-pages-in-gatsby)
+- [Regular Expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions)
+- [Gatsby - Define the Event type](https://www.gatsbyjs.org/tutorial/building-a-theme/#define-the-event-type)
+- [Gatsby - Define resolvers for any custom fields (slug)](https://www.gatsbyjs.org/tutorial/building-a-theme/#define-resolvers-for-any-custom-fields-slug)
+- [Gatsby - Create Resolvers](https://www.gatsbyjs.org/docs/node-apis/#createResolvers)
+
+## 📊 Create Data Driven Pages in Gatsby with GraphQL and createPages
+
+In this lesson we learn how to use the createPages API hook.
+
+### Creating our first page
+
+In this lesson we learn how to use the createPages API hook.
+
+To begin our final step in gatsby-node.js, we set up the call to create the root page:
+
+### gatsby-theme-events/gatsby-node.js
+
+```javascript
+exports.createPages = async ({ actions, graphql, reporter }) => {
+  const basePath = '/';
+  actions.createPage({
+    path: basePath,
+    component: require.resolve('.src/templates/events.js')
+  });
+```
+
+The basePath defaults to the root path, and the createPage method creates a page at the basePath.
+
+### Querying the events
+
+Next, we'll set it up so we can query for events.
+
+The following will allow us to **retrieve all events, sorted by start date, in ascending order,** and will **allow us to handle the error in case the GraphQL query failed.**
+
+```js
+exports.createPages = ({ actions, graphql, reporter }) => {
+  ...
+
+  const result = await graphql(`
+    query {
+      allEvent(sort: { fields: startDate, order: ASC }) {
+        nodes {
+          id
+          slug
+        }
+      }
+    }
+  `)
+}
+```
+
+### Creating individual event pages
+
+Next, we'll create a page for each event by grabbing the event nodes queried from GraphQL, looping through the events, and using createPage.
+
+```javascript
+  const events = result.data.allEvent.nodes;
+
+  events.forEach(event => {
+    const slug = event.slug;
+
+    actions.createPage({
+      path: slug,
+      component: require.resolve('./src/templates/event.js'),
+      context: {
+        eventID: event.id
+      }
+    });
+  });
+}
+```
+
+### Creating the components
+
+Now, we need to actually create the event.js and events.js components.
+
+First, create src/templates/events.js within gatsby-theme-events.
+
+### events.js
+
+```javascript
+import React from 'react'
+
+const EventsTemplate = () => <p>TODO build the events page</p>
+
+export default EventsTemplate
+```
+
+Then, create an event.js within src/templates, and within that:
+
+### event.js
+
+```javascript
+import React from 'react'
+
+const EventTemplate = () => <p>TODO build the events page</p>
+
+export default EventTemplate
+```
+
+### Testing it all out
+
+We can now run Gatsby in development mode:
+
+```bash
+yarn workspace gatsby-theme-events develop
+```
+
+And navigate to localhost:8000 to see our events page.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/05-create-data-driven-pages-in-gatsby-with-graph-ql-and-create-pages.png"
+  width="1012"
+  height="450"
+  layout="intrinsic"
+/>
+
+If we trigger the 404 page, we'll see that our event pages have also been created! 🎉
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/05-create-data-driven-pages-in-gatsby-with-graph-ql-and-create-pages.png"
+  width="1012"
+  height="450"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Lesson 5 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/05-gatsby-create-data-driven-pages-in-gatsby-with-graphql-and-createpages)
+- [Create data-driven pages using GraphQL and createPages](https://www.gatsbyjs.org/tutorial/building-a-theme/#create-data-driven-pages-using-graphql-and-createpages)
+- [createPages API](https://www.gatsbyjs.org/docs/node-apis/#createPages)
+
+## 💻 Display Sorted Data with useStaticQuery in Gatsby
+
+In this lesson we learn how to display event data on the events page.
+
+### Querying the event data
+
+Our goal now is to **display event data on our page**.
+
+### src/templates/events.js
+
+```javascript
+import {graphql, useStaticQuery} from 'gatsby'
+```
+
+And refactor EventsTemplate():
+
+```javascript
+const EventsTemplate = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      allEvent(sort: {fields: startDate, order: ASC}) {
+        nodes {
+          id
+          name
+          startDate
+          endDate
+          location
+          url
+          slug
+        }
+      }
+    }
+  `)
+  const events = data.allEvent.nodes
+
+  return (
+    <Layout>
+      <EventList events={events} />
+    </Layout>
+  )
+}
+```
+
+Above, we've defined two new components, `Layout` and `EventList`, and we've refactored the render method to use these components and pass in the events data to the `EventList` component.
+
+- `Layout` will **define our general layout across our pages**
+- `EventList` will **list our events**
+
+### Creating reusable components
+
+We need to now create these two new components. Within gatsby-theme-events/src, create a components folder containing `layout.js`
+
+### layout.js
+
+```javascript
+import React from 'react'
+
+const Layout = ({children}) => (
+  <div>
+    <h1>Gatsby Events Theme</h1>
+    {children}
+  </div>
+)
+
+export default Layout
+```
+
+Within our components folder we'll now create another file for our `EventList` called `event-list.js`.
+
+Within that we'll define our `EventList` component:
+
+### event-list.js
+
+```javascript
+import React from 'react'
+
+const EventList = ({events}) => <pre>{JSON.stringify(events, null, 2)}</pre>
+
+export default EventList
+```
+
+### Using our components
+
+Now we must go back to `events.js` and make sure to _import these components_:
+
+### events.js
+
+```javascript
+import Layout from '../components/layout'
+import EventList from '../components/event-list'
+```
+
+Now we start up our server:
+
+```bash
+yarn workspace gatsby-theme-events develop
+```
+
+At localhost:8000, our layout shows up containing a dump of each event and its data.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/06-display-sorted-data-with-use-static-query-in-gatsby-layouts-with-event-data.png"
+  height="470"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Organizing and displaying the data
+
+Instead of raw data, **we want to display the event data in markup**.
+
+In event-list.js, we refactor our EventList component:
+
+```javascript
+import {Link} from 'gatsby'
+
+const EventList = ({events}) => (
+  <>
+    <h1>Upcoming Events</h1>
+    <ul>
+      {events.map((event) => (
+        <li key={event.id}>
+          <strong>
+            <Link to={event.slug}>{event.name}</Link>
+          </strong>
+          <br />
+          {new Date(event.startDate).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          })}{' '}
+          in {event.location}
+        </li>
+      ))}
+    </ul>
+  </>
+)
+```
+
+Saving and returning to our localhost:8000 allows us to see the title and formatted date of each event, and clicking on each title allows us to see their respective page.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/06-display-sorted-data-with-use-static-query-in-gatsby-formatted.png"
+  height="450"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Lesson 6 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/06-display-sorted-data-with-use-static-query-in-gatsby)
+- [Gatsby - Display sorted data with useStaticQuery](https://www.gatsbyjs.org/tutorial/building-a-theme/#display-sorted-data-with-usestaticquery)
+- [Date.prototype.toLocaleString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString)
+
+## 🆔 Display and Query Data by id with Gatsby context and useStaticQuery
+
+In this lesson we set up the individual event page.
+
+### Querying the individual event data
+
+Our goal now is to **create a template React component for each individual `Event` page**.
+
+### src/templates/event.js
+
+```javascript
+import {graphql} from 'gatsby'
+
+export const query = graphql`
+  query($eventID: String!) {
+    event(id: {eq: $eventID}) {
+      name
+      url
+      startDate(formatString: "MMMM D, YYYY")
+      endDate(formatString: "MMMM D, YYYY")
+      location
+      slug
+    }
+  }
+`
+```
+
+### Displaying the individual event data
+
+Now in our `EventTemplate` component, we _pass in anything that goes into a page query as a data prop_, and we _refactor the component to use the Layout component_
+
+### event.js
+
+```js
+
+...
+
+// We can destructure the data prop like this
+const EventTemplate = ({ data: { event } }) => {
+  <Layout>
+    <Event {...event} />
+  </Layout>
+}
+```
+
+We've defined a new `Event` component above which will take in each event data node as a prop.
+
+We must now create this `Event` component. In our components folder, create an event.js, and within:
+
+```javascript
+import React from 'react'
+
+const Event = (props) => <pre>{JSON.stringify(props, null, 2)}</pre>
+
+export default Event
+```
+
+Moving back to templates/event.js, we import our new **Event** component and our **Layout** component to use:
+
+```javascript
+import Layout from '../components/layout'
+import Event from '../components/event'
+```
+
+Back at our localhost:8000, we can click on one of our events to view the data associated with that event.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/07-display-and-query-data-by-id-with-gatsby-context-and-use-static-query-event-data.png"
+  height="450"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Cleaning everything up
+
+Again, our page displays raw data, so **our goal now is to display the data as markup**. In `components/event.js`, we refactor our `Event` component:
+
+```javascript
+const Event = ({name, location, url, startDate, endDate}) => (
+  <div>
+    <h1>
+      {name} ({location})
+    </h1>
+    <p>
+      {startDate}-{endDate}
+    </p>
+    <p>
+      Website: <a href={url}>{url}</a>
+    </p>
+  </div>
+)
+```
+
+Our event data for individual event pages is now formatted. We can save this file and have a look at the browser, and we should see our updated event page.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/07-display-and-query-data-by-id-with-gatsby-context-and-use-static-query-formatted-event.png"
+  height="450"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Resources 📖
+
+- [Lesson 7 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/07-display-and-query-data-by-id-with-gatsby-context-and-use-static-query)
+- [Gatsby - Display and query data by id with context and static queries](https://www.gatsbyjs.org/tutorial/building-a-theme/#display-and-query-data-by-id-with-context-and-static-queries)
+
+## 📆 Style and Format Dates in React
+
+In this lesson we learn how to make the event dates more human readable.
+
+### Setting up the date component
+
+We're now going to take a look at **styling and formatting dates in React**.
+
+At the moment, we are currently displaying the date by separating the startDate and the endDate with a hyphen, **but this isn't ideal**.
+
+We're going to _refactor the Event component_ to improve the way that the date is displayed.
+
+- If the event is one day, we want it to display like June 21 2019
+- For events spanning multiple days, we want the date to look like June 21-23 2019
+- If the event spans across months, we want it to look like June 30-July 2 2019
+
+To get started, we'll create a helper function `getDate`. That will take in our date, and we're going to pass in an object saying whether or not we want to show the day, month and year. All of those will default to `true`.
+
+### src/components/event.js
+
+```javascript
+const getDate = (date, {day = true, month = true, year = true} = {}) =>
+  date.toLocaleDateString('en-US', {
+    day: day ? 'numeric' : undefined,
+    month: month ? 'long' : undefined,
+    year: year ? 'numeric' : undefined,
+  })
+```
+
+Now we can use this helper function back inside of our `EventDate` component.
+
+Inside of the `time` tag, we'll call the function with the start date and tell it we only want to show the year if it's a one day event. We can also pass the start date to the time `dateTime` attribute.
+
+```js
+const EventDate = ({startDate, endDate}) => {
+  const start = new Date(startDate)
+  const end = new Date(endDate)
+  const isOneDay = start.toDateString() === end.toDateString()
+  return (
+    <>
+      <time dateTime={start.toISOString()}>
+        {getDate(start, {year: isOneDay})}
+      </time>
+      {!isOneDay && (
+        <>
+          –
+          <time dateTime={end.toISOString()}>
+            {getDate(end, {month: start.getMonth() !== end.getMonth()})}
+          </time>
+        </>
+      )}
+    </>
+  )
+}
+```
+
+We can now refactor our `Event` component to include `EventDate`:
+
+```javascript
+const Event = ({name, location, url, startDate, endDate}) => (
+  <div>
+    <h1>
+      {name} ({location})
+    </h1>
+    <p>
+      <EventDate startDate={startDate} endDate={endDate} />
+    </p>
+    <p>
+      Website: <a href={url}>{url}</a>
+    </p>
+  </div>
+)
+```
+
+We can now view our pages on localhost:8000 and see that our one day, multiple day, and multiple month event dates are being displayed correctly.
+
+### One Day
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/08-style-and-format-dates-in-react-one-day.png"
+  height="450"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Multiple Day
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/08-style-and-format-dates-in-react-multiple-day-before.png"
+  height="450"
+  width="1012"
+  layout="intrinsic"
+/>
+
+### Issues I Faced
+
+For me personally, the dates for multiple day events were not displaying as they did in the video. For example, on the DinosaurJS page, the date was displayed as
+
+June 20-2019 (day:21)
+
+instead of
+
+June 20-21 2019
+
+This may be due to a change in toLocaleDateString() or due to my own personal settings. If you also encounter this issue and have an easy fix, please feel free to contribute!
+
+### Resources 📖
+
+- [Lesson 8 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/08-style-and-format-dates-in-react)
+- [Gatsby - Style and format dates in React](https://www.gatsbyjs.org/tutorial/building-a-theme/#style-and-format-dates-in-react)
+- [JavaScript Date Object Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+
+## 🍴 Configure a Gatsby Theme to Take Options
+
+### Passing options to gatsby-config
+
+In a Gatsby theme, **one can pass options into the gatsby-config and gatsby-node**.
+
+We'll start by turning the gatsby-config into a function, and _passing in options as arguments to that function_.
+
+### gatsby-theme-events/gatsby-config.js
+
+```javascript
+module.exports = ({contentPath = 'data', basePath = '/'}) => ({
+  plugins: [
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: contentPath,
+      },
+    },
+    {
+      resolve: 'gatsby-transformer-yaml',
+      options: {
+        typeName: 'Event',
+      },
+    },
+  ],
+})
+```
+
+The options that were added as arguments to the function above _are now provided as a second argument to Gatsby's API hooks_.
+
+### Passing options to gatsby-node
+
+In the `gatsby-node` file, options are passed as the second argument to the API hooks.
+
+Here we can set `contentPath` to `options.contentPath`, and set the fallback to 'data'.
+
+### gatsby-theme-events/gatsby-node.js
+
+```javascript
+exports.onPreBootstrap = ({reporter}, options) => {
+  const contentPath = options.contentPath || 'data'
+  // ...
+}
+```
+
+We can do the same thing for `createResolvers` and `createPages`.
+
+```javascript
+exports.createResolvers = ({createResolvers}, options) => {
+  const basePath = options.basePath || '/'
+  // ...
+}
+```
+
+```javascript
+exports.createPages = async ({actions, graphql, reporter}, options) => {
+  const basePath = options.basePath || '/'
+  // ...
+}
+```
+
+### Setting up our site
+
+Because we've converted gatsby-theme-events to use a function export in gatsby-config, we can no longer run the theme on its own.
+
+**The function export in gatsby-config.js is only supported for themes.**
+
+We need to now setup site to consume gatsby-theme-events and run.
+
+Within site, create a gatsby-config.js file, and within that:
+
+### site/gatsby-config.js
+
+```javascript
+module.exports = {
+  plugins: [
+    {
+      resolve: 'gatsby-theme-events',
+      options: {
+        contentPath: 'events',
+        basePath: '/events',
+      },
+    },
+  ],
+}
+```
+
+When we run this theme through site, we should see an events folder get created, and we should have a page called events containing our event listings.
+
+### Testing everything out
+
+To test, run the following in the terminal:
+
+```
+yarn workspace site develop
+```
+
+We should be able to navigate to an events page, but **we don't have any events displayed yet**.
+
+Within the events directory that has just been created, copy over the events.yml file from the other events directory.
+
+After restarting Gatsby development with
+
+```bash
+yarn workspace site develop
+```
+
+We should see our events displayed on localhost:8000/events.
+
+The URL shows that our config options are being taken into account.
+
+### Resources 📖
+
+- [Lesson 9 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/09-configure-a-gatsby-theme-to-take-options)
+- [Gatsby - Configure a theme to take options](https://www.gatsbyjs.org/tutorial/building-a-theme/#configure-a-theme-to-take-options)
+
+## 👏 Make Gatsby Themes extendable with gatsby-theme-ui
+
+In this lesson we learn how to create a theme.js file and allow people using your theme to apply their own design by defining design tokens with theme-ui.
+
+### Installing `gatsby-theme-ui`
+
+We can make our Gatsby theme styles "extendable" using the **gatsby-plugin-theme-ui** package.
+
+- How is it extendable? gatsby-plugin-theme-ui takes a _global theme context object_ and makes it _available to all themes that use gatsby-plugin-theme-ui_.
+
+Install the package via terminal:
+
+```
+yarn workspace gatsby-theme-events add gatsby-plugin-theme-ui theme-ui @emotion/core @emotion/styled @mdx-js/react
+```
+
+### Adding `gatsby-theme-ui` to our project
+
+Now that the package is installed, we add the gatsby-plugin-theme-ui plugin to gatsby-theme-events/gatsby-config.js:
+
+### gatsby-theme-events/src/theme.js
+
+```javascript
+module.exports = ({ contentPath = "data", basePath = "/" }) => ({
+  plugins: [
+    "gatsby-plugin-theme-ui",
+    {
+      // ...
+```
+
+To use this plugin, we create a theme.js file within gatsby-theme-events/src.
+
+_gatsby-plugin-theme-ui uses Theme UI, which is part of a System UI network of tools_
+
+- In other words, gatsby-plugin-theme-ui will give us an object that follows the System UI theme specification.
+
+Within theme.js:
+
+### gatsby-theme-events/src/theme.js
+
+```javascript
+export const theme = {}
+```
+
+We will first define a space array, which will _contain data associated with styling widths such as margin, padding, etc._ These values are set in pixels.
+
+```javascript
+export const theme = {
+  space: [0, 4, 8, 16, 32],
+}
+```
+
+Next, we set the _fonts and font-sizes_:
+
+```javascript
+export const theme = {
+  space: [0, 4, 8, 16, 32],
+  fonts: {
+    body: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+  },
+  fontSizes: [16, 18, 20, 22, 27, 36],
+}
+```
+
+For _line heights_, 1.45 is good for legibility in our body text, and heading text with larger fonts will have smaller line heights.
+
+```javascript
+export const theme = {
+  // ...
+  lineHeights: {
+    body: 1.45,
+    heading: 1.1,
+  },
+}
+```
+
+Now we _set up colors_, with an array of shades of gray, a background color of white, and a primary color of "rebecca purple"
+
+```javascript
+export const theme = {
+  // ...
+  colors: {
+    gray: ['#efefef', '#ddd', '#333', '#111'],
+    background: '#fff',
+    primary: 'rebeccapurple',
+  },
+}
+```
+
+Now we _define sizes of containers and documents_. For more information regarding Viewport concepts, check out the [resources](#resources):
+
+```javascript
+export const theme = {
+  // ...
+  sizes: {
+    default: '90vw',
+    max: '540px',
+  },
+}
+```
+
+We can finally start _setting some styles_. Theme UI provides some ** special components**.
+
+**DEPRECATION WARNING: The components Header, Main, and Layout are now deprecated as of version 0.3.** In order to continue with the lesson, we will use the theme.js from the Gatsby docs found in [resources](#resources).
+
+To our theme, we define heading and container styles, like so:
+
+```javascript
+export const theme = {
+  // ...
+  text: {
+    heading: {
+      backgroundColor: 'primary',
+      color: 'background',
+      fontWeight: 'bold',
+      margin: '0 auto',
+      maxWidth: 'max',
+      padding: 3,
+      width: 'default',
+      a: {
+        color: 'inherit',
+      },
+    },
+  },
+  layout: {
+    container: {
+      margin: '0 auto',
+      maxWidth: 'max',
+      width: 'default',
+      padding: 3,
+      color: 'gray.2',
+      fontFamily: 'body',
+      fontSize: 1,
+      lineHeight: 'body',
+    },
+  },
+}
+```
+
+Finally, we can design basic HTML markup:
+
+```javascript
+export const theme = {
+  // ...
+  styles: {
+    // ...
+    h1: {
+      color: 'gray.3',
+      fontSize: 5,
+      fontWeight: 'bold',
+      lineHeight: 'heading',
+      margin: '1rem 0 0',
+    },
+    ul: {
+      borderTop: '1px solid',
+      borderColor: 'gray.0',
+      listStyle: 'none',
+      padding: 0,
+    },
+    li: {
+      borderBottom: '1px solid',
+      borderColor: 'gray.1',
+      padding: 2,
+      '&:focus-within, &:hover': {
+        backgroundColor: 'gray.0',
+      },
+    },
+  },
+}
+```
+
+### Important!
+
+For me, this important piece of information is cut off in the video:
+At the bottom of your theme.js, remember to export the theme!
+
+```javascript
+export const theme = {
+  // ...
+}
+export default theme
+```
+
+All in all, your `theme.js` should look like the following:
+
+```js
+export const theme = {
+  space: [0, 4, 8, 16, 32],
+  fonts: {
+    body: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+  },
+  fontSizes: [16, 18, 20, 22, 27, 36],
+  lineHeights: {
+    body: 1.45,
+    heading: 1.1,
+  },
+  colors: {
+    gray: ['#efefef', '#ddd', '#333', '#111'],
+    background: '#fff',
+    primary: 'rebeccapurple',
+  },
+  sizes: {
+    default: '90vw',
+    max: '540px',
+  },
+  text: {
+    heading: {
+      backgroundColor: 'primary',
+      color: 'background',
+      fontWeight: 'bold',
+      margin: '0 auto',
+      maxWidth: 'max',
+      padding: 3,
+      width: 'default',
+      a: {
+        color: 'inherit',
+      },
+    },
+  },
+  layout: {
+    container: {
+      margin: '0 auto',
+      maxWidth: 'max',
+      width: 'default',
+      padding: 3,
+      color: 'gray.2',
+      fontFamily: 'body',
+      fontSize: 1,
+      lineHeight: 'body',
+    },
+  },
+  styles: {
+    h1: {
+      color: 'gray.3',
+      fontSize: 5,
+      fontWeight: 'bold',
+      lineHeight: 'heading',
+      margin: '1rem 0 0',
+    },
+    ul: {
+      borderTop: '1px solid',
+      borderColor: 'gray.0',
+      listStyle: 'none',
+      padding: 0,
+    },
+    li: {
+      borderBottom: '1px solid',
+      borderColor: 'gray.1',
+      padding: 2,
+      '&:focus-within,&:hover': {
+        backgroundColor: 'gray.0',
+      },
+    },
+  },
+}
+
+export default theme
+```
+
+### Resources 📖
+
+- [Lesson 10 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/10-make-gatsby-themes-extendable-with-gatsby-theme-ui)
+- [Viewport concepts](https://developer.mozilla.org/en-US/docs/Web/CSS/Viewport_concepts)
+- [Gatsby - Make themes extendable with gatsby-plugin-theme-ui](https://developer.mozilla.org/en-US/docs/Web/CSS/Viewport_concepts)
+- [Gatsby - Theme UI](https://www.gatsbyjs.org/docs/theme-ui/)
+
+## 💪 Use and Override a Theme in Gatsby with Component Shadowing
+
+In this lesson we learn how to apply the styles we set to our theme.
+
+### Using the theme
+
+To use the theme we defined in the previous lesson, we need to use _component shadowing_ in order to override the default theme in `gatsby-plugin-theme-ui`
+
+- “Component shadowing” is a mechanism to _override the default rendering_ provided by a Gatsby theme
+- Check out [resources](#resources) for a blog post on component shadowing.
+
+In gatsby-theme-events/src, we create a folder **with the same name as the theme in the source field**, and we _"shadow"_ the index.js where the theme is defined.
+
+### Issues I Faced
+
+**In the video, the instructor creates gatsby-theme-ui/index.js within gatsby-theme-events/src. However, my Gatsby site wouldn't compile unless I named the folder containing index.js "gatsby-plugin-theme-ui"**
+
+### Back to using the theme
+
+Within gatsby-plugin-theme-ui/index.js:
+
+### gatsby-theme-events/src/gatsby-theme-ui/index.js
+
+```javascript
+import {theme} from '../theme'
+
+export default theme
+```
+
+Now we'll refactor our `Layout` component to use Theme UI.
+
+Because `Layout`, `Header`, and `Main` are **deprecated**, we will import our theme components like so:
+
+### gatsby-theme-events/src/components/layout.js
+
+```javascript
+import React from 'react'
+import {Heading, Container} from 'theme-ui'
+
+const Layout = ({children}) => {
+  return (
+    <div>
+      <Heading>Gatsby Events Theme</Heading>
+      <Container>{children}</Container>
+    </div>
+  )
+}
+
+export default Layout
+```
+
+We can now check if this works:
+
+```bash
+yarn workspace site develop
+```
+
+Once the site loads, you should see that our styles have been applied.
+
+<Image
+  src="/images/posts/gatsby-theme-authoring/11-use-and-override-a-theme-in-gatsby-with-component-shadowing-styled.png"
+  width="1012"
+  height="450"
+  layout="intrinsic"
+/>
+
+### Using `Styled`
+
+We can also use the `Styled` import from `theme-ui` to apply the styles we set for HTML elements.
+
+In `event-list.js`:
+
+### gatsby-theme-events/src/components/event-list.js
+
+```javascript
+import React from 'react'
+import {Link} from 'gatsby'
+import {Styled} from 'theme-ui'
+
+const EventList = ({events}) => {
+  const meta = useSiteMetadata()
+
+  return (
+    <>
+      <Styled.h1>{meta.headline}</Styled.h1>
+      <Styled.ul>
+        {events.map((event) => (
+          <Styled.li key={event.id}>
+            <strong>
+              <Link to={event.slug}>{event.name}</Link>
+            </strong>
+            <br />
+            {new Date(event.startDate).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            })}{' '}
+            in {event.location}
+          </Styled.li>
+        ))}
+      </Styled.ul>
+    </>
+  )
+}
+
+export default EventList
+```
+
+### Resources 📖
+
+- [Lesson 11 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/11-use-and-override-a-theme-in-gatsby-with-component-shadowing)
+- [Gatsby - Use and override a theme with component shadowing](https://www.gatsbyjs.org/tutorial/building-a-theme/#use-and-override-a-theme-with-component-shadowing) -[Gatsby - What is Component Shadowing?](https://www.gatsbyjs.org/blog/2019-04-29-component-shadowing/)
+- [Theme UI Docs](https://theme-ui.com/getting-started)
+
+## 📤 Publish a Gatsby Theme to npm
+
+In this lesson we'll learn how to _make your Gatsby theme available for use by anyone in the community_.
+
+### Publishing our Theme
+
+We first need to **update our package.json** before publishing our theme to npm.
+
+### Namespacing
+
+In gatsby-theme-events/package.json, we want to _namespace our theme_ in order to keep track of who published the theme and to avoid naming collisions:
+
+### gatsby-theme-events/package.json
+
+```javascript
+{
+  "name": "@yournpmusername/gatsby-theme-events",
+  "version": "1.0.0",
+  // ...
+}
+```
+
+### Logging into npm
+
+We need to now _make sure we're logged in to npm_.
+
+In the terminal:
+
+```bash
+npm whoami
+```
+
+If you haven't already authorized your user for your machine, it will ask you to run
+
+```bash
+npm adduser
+```
+
+The terminal will now prompt you for a username, password, and email.
+
+**For the sake of following along with the lesson, the namespace in your package.json will need to be your own.**
+
+### Publishing the theme
+
+Change directories into the gatsby-theme-events directory:
+
+```
+cd gatsby-theme-events/
+```
+
+and publish:
+
+```
+npm publish --access public
+```
+
+Now it’s published! After publishing, you’ll be able to find your theme on npm at npmjs.com/{yourpackagename}
+
+### Resources 📖
+
+- [Lesson 12 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/12-publish-a-gatsby-theme-to-npm)
+- [Gatsby - Publish a theme to npm](https://www.gatsbyjs.org/tutorial/building-a-theme/#publish-a-theme-to-npm)
+- [npm: Contributing packages to the registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry)
+- [npm publish (cli command)](https://docs.npmjs.com/cli/publish)
+
+## 📩 Consume a Theme in a Gatsby Application
+
+In this lesson we learn how to install our theme in a new project and add data to it.
+
+### Installing the theme in a new project
+
+Open up your terminal, move into a new folder, and create a new directory called theme-test:
+
+```bash
+mkdir theme-test
+```
+
+Change directories to this new directory:
+
+```bash
+cd theme-test/
+```
+
+Set up the project:
+
+```bash
+yarn init -y
+```
+
+Now add your packages, including the theme you just made:
+
+```bash
+yarn add react react-dom gatsby @<npm_username>/<theme_name>
+```
+
+**Note:** If you didn't publish a theme, use @jlengstorf/gatsby-theme-events instead.
+Open up your theme-test folder and make a gatsby-config.js.
+
+Inside, create a module.exports, and add your theme in the plugins array:
+
+### gatsby-config.js
+
+```javascript
+module.exports = {
+  plugins: ['@jlengstorf/gatsby-theme-events'],
+}
+```
+
+### Installing the Gatsby CLI
+
+Run the following in termianl:
+
+```
+yarn global add gatsby-cli
+```
+
+### Run the site
+
+To start the site, run the following in the terminal at the `/theme-test` directory:
+
+```
+gatsby develop
+```
+
+At localhost:8000, we can see our theme installed.
+
+To add some data, create a `data/events.yml` in the root project folder.
+
+In the `events.yml`:
+
+### /data/events.yml
+
+```
+- name: Party
+  location: My House
+  start_date: 2019-06-26
+  end_date: 2019-06-26
+  url: https://jason.af/party
+```
+
+Back at localhost:8000 we can see our event displayed with just a few lines of code.
+
+### Resources 📖
+
+- [Lesson 13 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/13-consume-a-theme-in-a-gatsby-application)
+- [Consume a theme in a Gatsby application](https://www.gatsbyjs.org/tutorial/building-a-theme/#consume-a-theme-in-a-gatsby-application)
+
+## 🌑 Use Component Shadowing to Override Gatsby Theme Components
+
+In this lesson we learn how to modify theme styles.
+
+### Component Shadowing
+
+We return once more to component shadowing to modify components.
+
+This time, we plan to **change theme colors in our theme-test project**.
+
+### Issues I Faced
+
+Following the lesson, I ran into issues importing the theme. **These issues were fixed after following the written lesson found in the [resources](#resources) below.** The following notes pertain to the written lesson, and employ lodash.merge
+
+### Back to the Blue Banner
+
+In the root folder of theme-test, add src/gatsby-plugin-theme-ui/index.js
+
+Inside `index.js`:
+
+```javascript
+import merge from 'lodash.merge'
+import {theme} from '@jlengstorf/gatsby-theme-events'
+export default merge({}, theme, {
+  colors: {
+    primary: 'blue',
+  },
+})
+```
+
+Above, we import from lodash.merge. We will need to install this now:
+
+```bash
+yarn add lodash.merge
+```
+
+Restarting the dev server with
+
+```bash
+gatsby develop
+```
+
+Allows us to see a page with a blue header instead of a purple one.
+
+- _"The new object exported from index.js uses `lodash.merge` to deeply merge the base UI theme with the theme overrides of your choice. In this case, changing the primary color to blue."_
+
+### Overriding components
+
+Now, to get back on track with the video again, we will first create a folder with the same title as your theme inside src
+
+- **With a namespaced theme, this will be two directories deep."**
+
+For this example, we will create @jlengstorf/gatsby-theme-events
+
+- "Anything inside `theme-test/src/@jlengstorf/gatsby-theme-events` will “shadow” the components in @jlengstorf/gatsby-theme-events.
+
+We now create a new file to override the layout component: `theme-test/src/@jlengstorf/gatsby-theme-events/components/layout.js`
+
+In `layout.js`, we add the following. I've provided what is added in both the video and in the Gatsby docs found in [resources](#resouces), as both options worked for me:
+
+### src/<npm_username>/<theme_name>/components/layout.js
+
+(following the video):
+
+```javascript
+import React from 'react'
+
+export default ({children}) => (
+  <>
+    {children}
+    <p>Added via component shadowing</p>
+  </>
+)
+```
+
+(following the Gatsby docs):
+
+```javascript
+import React from 'react'
+
+export default function Layout({children}) {
+  return <>{children}</>
+}
+```
+
+Restarting the dev server:
+
+```bash
+gatsby develop
+```
+
+Allows us to see the effect of our component shadowing.
+
+### Resources 📖
+
+- [Lesson 14 Code](https://github.com/ParkerGits/authoring-gatsby-themes/tree/14-use-component-shadowing-to-override-gatsby-theme-components)
+- [Gatsby - Use component shadowing to override theme components](https://www.gatsbyjs.org/tutorial/building-a-theme/#use-component-shadowing-to-override-theme-components)
+- [Spread Syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout
