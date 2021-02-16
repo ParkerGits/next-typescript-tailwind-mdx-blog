@@ -1,0 +1,435 @@
+---
+title: Build an Angular Search Component 🔎
+topic: programming
+routename: build-an-angular-search-component
+description: Notes from Christoph Burgdorf's Build an Angular Search Component course on egghead.io.
+postnum: 6
+---
+
+import Link from 'next/link'
+import Image from 'next/image'
+
+export const meta = {
+  title: 'Build an Angular Search Component 🔎',
+  description:
+    "Notes from Christoph Burgdorf's Build an Angular Search Component course on egghead.io.",
+  url:
+    'https://parkerlandon.com/posts/programming/build-an-angular-search-component',
+  titleAppendSiteName: true,
+  ogImage: {
+    url:
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Build%20an%20Angular%20Search%20Component&tags=angular,rxjs',
+    width: 1200,
+    height: 630,
+  },
+}
+
+<Image
+  src="/images/posts/build-an-angular-search-component/image.png"
+  width="1024"
+  height="480"
+  layout="responsive"
+/>
+
+## 🌟 About
+
+These notes go along with the [Build an Angular Instant Search Component](https://egghead.io/courses/build-an-angular-instant-search-component) collection from [Christoph Burgdorf](https://egghead.io/instructors/christoph-burgdorf)
+
+In this course, we use [Angular](https://angular.io/) and the [Wikipedia API](https://en.wikipedia.org/w/api.php) to create a search component that displays Wikipedia articles related to a search input. Through these lessons, the viewer can expect to learn and apply
+
+- RxJS ♾
+- Observables in Angular 👀
+- Operators ➗
+
+My original notes can be found [here on my GitHub](https://github.com/ParkerGits/build-an-angular-instant-search-component-course-notes).
+
+## 👩‍💻 Code
+
+The code used in the course is of Angular ^2.0.0, and the code given in the [transcript](https://codesandbox.io/s/54xv161qq4?from-embed) is of Angular 7.0.3. **An updated version of the code can be found [here](https://github.com/ParkerGits/build-an-angular-instant-search-component)** _(updated 5/8/2020)_. The code for each lesson resides in the respective branch on the repository.
+
+## 📚 Table of Contents
+
+1. <Link href="/posts/programming/build-an-angular-search-component#-consuming-events-as-observables-in-angular-2">
+     Consuming Events as Observables in Angular 2
+   </Link>
+
+2. <Link href="/posts/programming/build-an-angular-search-component#-debounce-the-user-input-in-angular-2-using-debouncetime">
+     Debounce the user input in Angular 2 using debounceTime
+   </Link>
+
+3. <Link href="/posts/programming/build-an-angular-search-component#-prevent-unnecessary-requests-in-angular-2-with-distinctuntilchanged">
+     Prevent unnecessary requests in Angular 2 with distinctUntilChanged
+   </Link>
+
+4. <Link href="/posts/programming/build-an-angular-search-component#-combine-observables-in-angular-2-with-flatmap">
+     Combine Observables in Angular 2 with flatMap
+   </Link>
+
+5. <Link href="/posts/programming/build-an-angular-search-component#-deal-with-out-of-order-responses-in-angular-2-using-switchmap">
+     Deal with out of order responses in Angular 2 using switchMap
+   </Link>
+
+6. <Link href="/posts/programming/build-an-angular-search-component#-build-fully-reactive-apis-in-angular-2-with-observables">
+     Build fully reactive APIs in Angular 2 with Observables
+   </Link>
+
+## 🍴 Consuming Events as Observables in Angular 2
+
+### Creating a new Angular project
+
+In order to create a new Angular project, first install [Angular CLI](https://cli.angular.io/) through npm in the terminal.
+
+```
+npm install -g @angular/cli
+```
+
+Then navigate to a folder of choice in the terminal and run
+
+```
+ng new build-an-angular-instant-search-component
+```
+
+Routing is not needed for this project. Next, navigate to this project folder via
+
+```
+cd build-an-angular-instant-search-component
+```
+
+and run
+
+```
+ng serve
+```
+
+You can also clone [Parker's Angular Version 9 Respository](https://github.com/ParkerGits/build-an-angular-instant-search-component) for a project that works using the latest version of Angular (as of 5/8/2020). The code for each lesson resides in its respective branch. The following section details the changes made between the [transcript code](https://codesandbox.io/s/54xv161qq4?from-embed) and Parker's code.
+
+### Dealing with Deprecation ⚠
+
+Between Angular version 7 in the [transcript code](https://codesandbox.io/s/54xv161qq4?from-embed) and Angular version 9, a lot has deprecated.
+
+The following are the changes that were made to the code above in order to get our search component working. The [resources](#resources) section contains resources detailing changes and updates to dependencies. And yes, the number of changes you need to make before your code compiles is reduced drastically after this lesson.
+
+### app.component.ts
+
+In the imports on line 3, we change
+
+```js
+import {Subject} from 'rxjs/Subject'
+```
+
+to
+
+```js
+import {Subject} from 'rxjs'
+```
+
+and on line 6:
+
+```js
+import 'rxjs/add/operator/map'
+```
+
+to
+
+```js
+import {map} from 'rxjs/operators'
+```
+
+On line 9, remove
+
+```js
+moduleId: module.id,
+```
+
+### app.module.ts
+
+Replace line 4
+
+```js
+import {JsonpModule} from '@angular/http'
+```
+
+with
+
+```js
+import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http'
+```
+
+and line 10
+
+```js
+imports: [BrowserModule, JsonpModule],
+```
+
+with
+
+```js
+imports: [BrowserModule, HttpClientModule, HttpClientJsonpModule],
+```
+
+### wikipedia-search.service.ts
+
+Change line 2 from
+
+```js
+import {URLSearchParams, Jsonp} from '@angular/http'
+```
+
+to
+
+```js
+import {HttpClient} from '@angular/common/http'
+```
+
+and line 3 replace
+
+```js
+import 'rxjs/add/operator/delay'
+```
+
+with
+
+```js
+import {map} from 'rxjs/operators'
+```
+
+Finally, our injectable, instead of looking like
+
+```js
+@Injectable()
+export class WikipediaSearchService {
+  constructor(private jsonp: Jsonp) {}
+
+  search(term: string) {
+    let search = new URLSearchParams();
+    search.set("action", "opensearch");
+    search.set("search", term);
+    search.set("format", "json");
+
+    return this.jsonp
+      .get("https://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK", {
+        search
+      })
+      .map(response => response.json()[1]);
+  }
+}
+```
+
+should look like
+
+```js
+@Injectable()
+export class WikipediaSearchService {
+  constructor(private http: HttpClient) {}
+  search(term: string) {
+    let url = "https://en.wikipedia.org/w/api.php?action=opensearch&search=" + term + "&format=json"
+    return this.http
+      .jsonp(url, 'callback')
+      .pipe(map(response => response[1]));
+  }
+}
+```
+
+With these changes, your code will be caught up with the instructor's code at the end of lesson one!
+
+### Notes About This Lesson
+
+- "Some people use a dollar suffix to indicate that a variable is an observable."
+- The next lessons will teach us how to improve our application's efficiency and performance!
+- When I used [Stackblitz](https://stackblitz.com/) to edit my code, I would get [this error](https://stackoverflow.com/questions/44321326/property-value-does-not-exist-on-type-eventtarget-in-typescript/44321394). Try using a local Angular CLI project if you're having trouble with online code editors, too.
+
+### Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 1)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/01-angular-consuming-events-as-observables-in-angular-2)
+- [Deprecation of JsonpModule in Angular](https://stackoverflow.com/a/47643846)
+- [TypeScript error in Angular2 code: Cannot find name 'module'](https://stackoverflow.com/questions/36700693/typescript-error-in-angular2-code-cannot-find-name-module)
+- [RxJS 6 - What Changed?](https://academind.com/learn/javascript/rxjs-6-what-changed/)
+- [Angular HttpClient](https://angular.io/api/common/http/HttpClient)
+
+## ⏳ Debounce the user input in Angular 2 using debounceTime
+
+### Dealing with Deprecation ⚠
+
+debounceTime() is an RxJS operator, and RxJS operators are handled differently in RxJS 6.
+
+We can import debounceTime in the same line as we imported map:
+
+```js
+import {map, debounceTime} from 'rxjs/operators'
+```
+
+Another change to RxJS operators is that they are applied through the .pipe() method. To learn more about .pipe(), take a look at [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6). The code we write to apply .debounceTime() to our program is as follows:
+
+```js
+this.term$.pipe(debounceTime(400)).subscribe((term) => this.search(term))
+```
+
+### Notes About This Lesson
+
+- Through debounceTime(), we can create gaps of time when our program will not update and effectively decreasing network usage.
+- RxJS operators are very effective. It's all about finding the right one for the job. The official list and documentation of RxJS operators can be found [here](https://rxjs-dev.firebaseapp.com/guide/operators).
+
+## Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 2)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/02-angular-debounce-the-user-input-in-angular-2-using-debouncetime)
+- [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6)
+- [RxJS Operators Documentation](https://rxjs-dev.firebaseapp.com/guide/operators)
+
+## ❌ Prevent unnecessary requests in Angular 2 with distinctUntilChanged
+
+### Dealing with Deprecation ⚠
+
+Like with debounceTime(), distinctUntilChanged() is an operator and will need to be handled differently in RxJS 6.
+
+First, add distinctUntilChanged to your operator imports:
+
+```js
+import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators'
+```
+
+Now, in the pipe method, add distinctUntilChanged() after debounceTime():
+
+```js
+this.term$
+  .pipe(debounceTime(400), distinctUntilChanged())
+  .subscribe((term) => this.search(term))
+```
+
+## Notes From This Lesson
+
+- The RxJS distinctUntilChanged() operator filters out duplicate inputs and further decreases network usage.
+- The RxJS .pipe() method allows us to list the operators that we will be "piping" to the Observable.
+
+### Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 3)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/03-angular-prevent-unnecessary-requests-in-angular-2-with-distinctuntilchanged)
+- [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6)
+
+## 🌍 Combine Observables in Angular 2 with flatMap
+
+### Dealing with Deprecation ⚠
+
+Another operator has been introduced, and so it can be imported accordingly:
+
+```js
+import {map, debounceTime, distinctUntilChanged, mergeMap} from 'rxjs/operators'
+```
+
+In the lesson, he calls the method flatMap(). The operator is now only called mergeMap(), just like it is called on import. mergeMap is added to our .pipe() method like so:
+
+```js
+this.term$
+  .pipe(
+    debounceTime(400),
+    distinctUntilChanged(),
+    mergeMap((term) => this.service.search(term)),
+  )
+  .subscribe((results) => (this.items = results))
+```
+
+You can now remove the original search() function!
+
+### Notes From This Lesson
+
+- Using mergeMap() allows us to clean up our code by removing the needs for two .subscribe() methods. Read more on mergeMap [here](https://rxjs-dev.firebaseapp.com/api/operators/mergeMap).
+
+### Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 4)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/04-angular-combine-observables-in-angular-2-with-flatmap)
+- [RxJS mergeMap operator](https://rxjs-dev.firebaseapp.com/api/operators/mergeMap)
+- [Using Operators in RxJS 6](https://academind.com/learn/js/rxjs-6-what-changed/#using-operators-in-rxjs-6)
+
+## 🔄 Deal with out of order responses in Angular 2 using switchMap
+
+### Dealing with Deprecation ⚠
+
+Surprise, surprise! Another operator! To import, simply replace mergeMap with switchMap in your import:
+
+```js
+import {
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators'
+```
+
+and in the .pipe method():
+
+```js
+constructor(private service: WikipediaSearchService) {
+this.term$.pipe(
+  debounceTime(400),
+  distinctUntilChanged(),
+  switchMap(term => this.service.search(term)),
+).subscribe(results => this.items = results);
+```
+
+Simple!
+
+### Notes From This Lesson
+
+- The instructor demonstrates the bug that a response for one search can potentially override the response for another.
+- switchMap() allows us to get rid of this bug by automatically unsubscribing from the Observable that was previously mapped to.
+
+### Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 5)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/05-angular-deal-with-out-of-order-responses-in-angular-2-using-switchmap)
+- [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6)
+
+## 👀 Build fully reactive APIs in Angular 2 with Observables
+
+### Dealing with Deprecations (and other problems) ⚠
+
+Last lesson! The operators copied from **app.component.js** need to be inserted in a .pipe method in the search function, like so:
+
+```js
+search(terms: Observable<string>, debounceMs = 400) {
+    return terms.pipe(
+    debounceTime(debounceMs),
+    distinctUntilChanged(),
+    switchMap(term => this.rawSearch(term))
+  )
+}
+```
+
+If you noticed, I passed debounceMs into debounceTime() instead of 400. I think this is what the instructor meant to do, anyway. Also, I wrote the function rawsearch() as rawSearch() - it just felt more natural!
+
+Next, your Observable import should look like:
+
+```js
+import {Observable} from 'rxjs'
+```
+
+Instead of:
+
+```js
+import {Observable} from 'rxjs/Observable'
+```
+
+Finally, my imports in **app.component.ts** were not being shared application-wide, so I simply moved
+
+```js
+import {
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators'
+```
+
+to **wikipedia-search.service.ts**. If you know why this is the case, please contribute!
+
+### Notes From This Lesson
+
+- The ability to pass in Observables as arguments allows us to hide a lot of code behind a service!
+
+### Resources 📖
+
+- [Parker's Updated Angular 9 Code (Lesson 6)](https://github.com/ParkerGits/build-an-angular-instant-search-component/tree/06-angular-build-fully-reactive-apis-in-angular-2-with-observables)
+- [Importing Observable RxJS](https://stackoverflow.com/a/56431681)
+- [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6)
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout

@@ -1,0 +1,2226 @@
+---
+title: Test React Components with Enzyme and Jest 🧪
+topic: programming
+routename: test-react-components-with-enzyme-and-jest
+description: Notes from Tyler Clark's Test React Components with Enzyme and Jest course on egghead.io.
+postnum: 7
+---
+
+import Link from 'next/link'
+import Image from 'next/image'
+
+export const meta = {
+  title: 'Test React Components with Enzyme and Jest 🧪',
+  description:
+    "Notes from Tyler Clark's Test React Components with Enzyme and Jest course on egghead.io.",
+  url:
+    'https://parkerlandon.com/posts/programming/test-react-components-with-enzyme-and-jest',
+  titleAppendSiteName: true,
+  ogImage: {
+    url:
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Test%20React%20Components%20with%20Enzyme%20and%20Jest&tags=react,enzyme,jest',
+    width: 1200,
+    height: 630,
+  },
+}
+
+<Image
+  src="/images/posts/test-react-components-with-enzyme-and-jest/image.png"
+  width="1024"
+  height="480"
+  layout="responsive"
+/>
+
+## 🌟 About
+
+These notes go along with the [Test React Components with Enzyme and Jest](https://egghead.io/courses/test-react-components-with-enzyme-and-jest) course from [Tyler Clark](https://egghead.io/instructors/tyler-clark).
+
+In this course, we will construct tests for our React components with Enzyme and Jest.
+
+Throughout this course, you will learn about
+
+- Create React App setup 🔨
+- Enzyme initial setup 🦠
+- Enzyme configuration for specific versions of React 💬
+- Accepted selectors 🙋‍♀️
+- Rendering methods 🎨
+- Working with React lifecycles 🔁
+- Component State 🍀
+- Component Props 📩
+- Working with Redux-connected components ⚛
+- Using Jest snapshots to
+  - Guarantee the layout of component elements ✅
+  - Replicate user interaction 🤝
+  - Test class methods 🏃‍♂️
+
+In the final lesson, we will recap these concepts through the testing of a basic React form that sends an AJAX request on submit.
+
+## 👩‍💻 Code
+
+The code for each lesson in this course can be found [here](https://github.com/ParkerGits/react-enzyme-jest). Each branch contains code for its respective lesson.
+
+## 📚 Table of Contents
+
+1. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-course-overview-testing-react-components-with-enzyme-and-jest">
+     Course Overview: Testing React Components with Enzyme and Jest
+   </Link>
+
+2. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-install-enzyme-and-configure-jest">
+     Install Enzyme and Configure Jest
+   </Link>
+
+3. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-against-different-react-releases-with-enzyme">
+     Test Against Different React Releases with Enzyme
+   </Link>
+
+4. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-shallow-render-a-react-component-w-enzyme">
+     Shallow Render a React Component with Enzyme
+   </Link>
+
+5. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-find-nodes-from-shallow-rendered-components">
+     Find Nodes from a Shallow Rendered Component
+   </Link>
+
+6. <Link href="#-understand-the-different-accepted-selectors-in-enzyme">
+     Understand the Different Accepted Selectors in Enzyme
+   </Link>
+
+7. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-enzyme-rendered-components-with-jest-snapshots">
+     Test Enzyme Rendered Components with Jest Snapshots
+   </Link>
+8. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-react-component-props-w-enzyme--jest">
+     Test React Component Props with Enzyme and Jest
+   </Link>
+
+9. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-fully-render-react-components-with-enzyme">
+     Fully Render React Components with Enzyme
+   </Link>
+10. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-simulated-event-handlers-with-enzyme">
+      Test Simulated Event Handlers with Enzyme
+    </Link>
+
+11. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-new-component-state-with-setstate-in-enzyme">
+      Test New Component State with setState in Enzyme
+    </Link>{' '}
+12. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-react-component-lifecycle-methods-with-enzyme">
+      Test React Component Lifecycle Methods with Enzyme
+    </Link>
+13. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-react-component-methods-with-enzyme">
+      Test React Component Methods with Enzyme
+    </Link>
+14. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-test-redux-connect-components-with-enzyme">
+      Test Redux Connect Components with Enzyme
+    </Link>
+15. <Link href="/posts/programming/test-react-components-with-enzyme-and-jest#-testing-react-forms-with-enzyme">
+      Testing React Forms with Enzyme
+    </Link>
+
+## 🙌 Course Overview: Testing React Components with Enzyme and Jest
+
+### The Goal
+
+In React, we want our components to be
+
+- Composable
+- Reusable
+- Accessible
+- Intuitive
+- Predictable
+
+In this course, we will learn how to make components with these characteristics
+
+### Enzyme
+
+Throughout the course, we'll be using Enzyme.
+
+**Enzyme allows us to test both how our components work and how users will interact with them.**
+
+### What you can expect
+
+Throughout this course, you will learn about
+
+- Enzyme initial setup
+- Enzyme configuration for specific versions of React
+- Accepted selectors
+- Rendering methods
+- Working with React lifecycles
+- Component state
+- Component props
+- Working with Redux-connected components
+- Using Jest snapshots to
+  - Guarantee the layout of component elements
+  - Replicate user interaction
+  - Test class methods
+
+In the final lesson, we will recap these concepts through the testing of both a basic React form that sends an AJAX request on submit.
+
+### Resources 📖
+
+- [Enzyme Cheatsheet](https://devhints.io/enzyme)
+- [Component Composition](https://dev.to/bouhm/thinking-in-react-component-composition-fp5)
+- [Jest](https://jestjs.io/)
+- [Enzyme](https://airbnb.io/projects/enzyme/)
+
+## 💬 Install Enzyme and Configure Jest
+
+### Create React App
+
+Create React App is the best way to start building a new single-page React application. More information on Create React App in the [resources below](#resources).
+
+### Important Note about Create React App
+
+With Create React App, the changes that the instructor makes to the project files are now unneeded. Simply run the following in the terminal to get started:
+
+```
+npx create-react-app react-enzyme-jest
+```
+
+```
+cd react-enzyme-jest
+```
+
+With our project created, we can install Enzyme as a Dev Dependency:
+
+```
+npm install --save-dev enzyme
+```
+
+That's it! We don't need to make a **.babelrc** file, nor do we need to edit our test script in **package.json**.
+
+### Resources 📖
+
+- [Lesson 2 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/01-install-enzyme-and-configure-jest)
+- [Using Jest with Create React App Issue](https://github.com/facebook/create-react-app/issues/2564)
+- [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
+- [Using Jest with Webpack](https://jestjs.io/docs/en/webpack)
+
+## 🔢 Test Against Different React Releases with Enzyme
+
+### Setting up Enzyme with different releases of React
+
+At the time of writing these notes, Create React App uses React 16. In order to use Enzyme with React 16, we need to install the enzyme-adapter-react-16 package:
+
+```
+npm install --save-dev enzyme-adapter-react-16
+```
+
+With this package, we can now configure our application to use this adapter. In src/App.test.js:
+
+```js
+// ...
+import {configure} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({adapter: new Adapter()})
+// ...
+```
+
+More information about the enzyme-adapter-react-16 package and what package to use with specific versions of React can be found in the Resources below.
+
+### Resources 📖
+
+- [Lesson 3 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/02-test-against-different-react-releases-with-enzyme)
+- [enzyme-adapter-react-16 documentation](https://www.npmjs.com/package/enzyme-adapter-react-16)
+
+## 🌊 Shallow Render a React Component w/ Enzyme
+
+### Setting up a Shallow Render
+
+Shallow Rendering is useful to test components as individual units.
+
+- **"Shallow rendering is useful to constrain yourself to testing a component as a unit, and to ensure that your tests aren't indirectly asserting on behavior of child components."**
+
+Start by importing shallow from 'enzyme'. In App.test.js:
+
+```js
+import {configure, shallow} from 'enzyme'
+```
+
+Now we describe our shallow render in App.test.js. Make sure to remove the default Create React App code:
+
+```js
+// ...
+configure({adapter: new Adapter()})
+
+describe('<App />', () => {
+  it('should render App', () => {
+    const wrapper = shallow(<App />, {
+      context: {},
+      disableLifecycleMethods: bool,
+    })
+  })
+})
+```
+
+**"Shallow rendering is easy to use when working with the component itself. It's not going to chase rendering child components."**
+
+We can see what our shallow rendered component looks like by calling the debug method on the wrapper:
+
+```js
+configure({adapter: new Adapter()})
+
+describe('<App />', () => {
+  it('should render App', () => {
+    const wrapper = shallow(<App />, {
+      context: {},
+      disableLifecycleMethods: bool,
+    })
+    console.log(wrapper.debug())
+  })
+})
+```
+
+Now head over to src/App.js to view our App component. This is the default Create React App component. You may notice that your App.js looks different from the instructor's, but do not fret. Whatever we see here is what we expect to see in our terminal when we run our test script.
+
+We can now run our test script in the terminal:
+
+```
+npm test
+```
+
+And our terminal should soon display the console.log of the shallow rendered component.
+
+To test the rendering of children, we create a React functional component called Test, and place it inside of our App component. Again, your App.js may look different than that of the video or that which is shown below, but just make sure the Test component makes it into your App component. In App.js:
+
+```js
+// ...
+const Test = () => <div>Testing</div>
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+      <Test />
+    </div>
+  )
+}
+
+export default App
+// ...
+```
+
+We can also pass configurations to our shallow rendered component.
+
+**Note: In the video, the instructor uses bool as pseudocode representing either true or false. To run your test without error, change bool to true/false**.
+
+In App.test.js:
+
+```js
+const wrapper = shallow(<App />, {context: {}, disableLifecycleMethods: bool})
+```
+
+The context property allows us to provide context to our rendered component, if that is important in our test.
+
+The disableLifecycleMethods allows us to tell Enzyme whether to ignore calling componentDidMount on our component, and ignore calling componentDidUpdate on our component after setProps and setContexts is used. This is set to false by default, but can be set to true through these configurations.
+
+### Resources 📖
+
+- [Lesson 4 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/03-shallow-render-a-react-component-with-enzyme)
+- [Shallow Rendering in Enzyme](https://enzymejs.github.io/enzyme/docs/api/shallow.html)
+
+## 🔎 Find Nodes from Shallow Rendered Components
+
+### Searching for Nodes
+
+We can use built-in methods to search for certain nodes in our Shallow Rendered Component, and combine these methods with Jest assertions to make sure everything renders correctly.
+
+In App.test.js, we **define a search for a node on our Shallow Rendered Component with the .find() method**, and **wrap that in a Jest assertion, expect().toBe()**. In this case, we **search for a p element** and **expect it to be a length of 1**:
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain 1 p element', () => {
+    expect(wrapper.find('p').length).toBe(1)
+  })
+})
+```
+
+Running our test script:
+
+```
+npm test
+```
+
+We can see that the test passes, and that our component contains just one p element.
+
+In this next part, we use the class selector to make sure that an element with a specific class exists. **If your App.js component is different than the instructor's, like mine is, you have to give your p element a class:**
+
+```js
+<p className="App-intro">
+  Edit <code>src/App.js</code> and save to reload.
+</p>
+```
+
+Now we define a **search for an element with class "App-intro"** and **expect it to exist**:
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain 1 p element', () => {
+    expect(wrapper.find('.App-intro').exists()).toBe(true)
+  })
+})
+```
+
+Looking back at our terminal, we should see that the test passes. _To see this test fail, we can change '.App-intro' selector within the .find() method to something else_.
+
+Now we define a **search for a ul element** and **expect 3 child elements**. _We can also change 'should contain 1 p element' to something more fitting, like 'should contain a ul element with 3 children li elements'_.
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain a ul element with 3 children li elements', () => {
+    expect(wrapper.find('ul').children().length).toBe(3)
+  })
+})
+```
+
+Now we must **create a ul element with 3 children li elements** in our App.js component:
+
+```js
+<img src={logo} className="App-logo" alt="logo" />
+<ul>
+  <li>Test 1</li>
+  <li>Test 2</li>
+  <li>Test 3</li>
+</ul>
+<p className="App-intro">
+  Edit <code>src/App.js</code> and save to reload.
+</p>
+```
+
+We should see that our test passes with our terminal in watch mode.
+
+Adding an outlying li element to App.js:
+
+```js
+<img src={logo} className="App-logo" alt="logo" />
+<ul>
+  <li>Test 1</li>
+  <li>Test 2</li>
+  <li>Test 3</li>
+</ul>
+<li>Test 3</li>
+<p className="App-intro">
+  Edit <code>src/App.js</code> and save to reload.
+</p>
+```
+
+Doesn't change the pass from our test, as **the test is only looking for children of the ul element**.
+
+We can also **give a class to the ul element** in App.js:
+
+```js
+<ul className="tyler">
+  <li>Test 1</li>
+  <li>Test 2</li>
+  <li>Test 3</li>
+</ul>
+<li>Test 3</li>
+<p className="App-intro">
+  Edit <code>src/App.js</code> and save to reload.
+</p>
+```
+
+And define a test in App.test.js that **searches for a ul element** and **expects it to have that class**:
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain ul with class tyler', () => {
+    expect(wrapper.find('ul').hasClass('tyler')).toBe(true)
+  })
+})
+```
+
+Our terminal in watch mode should show this test passes.
+
+For this next test, we need to **add an h1 element with the text 'Welcome to React'** to our App.js component:
+
+```js
+<img src={logo} className="App-logo" alt="logo" />
+<h1>Welcome to React</h1>
+<ul className="tyler">
+  <li>Test 1</li>
+  <li>Test 2</li>
+  <li>Test 3</li>
+</ul>
+<li>Test 3</li>
+<p className="App-intro">
+  Edit <code>src/App.js</code> and save to reload.
+</p>
+```
+
+In our App.test.js, we **search for the h1 element** and **expect the text to be 'Welcome to React'**
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain an h1 with text Welcome to React', () => {
+    expect(wrapper.find('h1').text()).toBe('Welcome to React')
+  })
+})
+```
+
+Returning to our terminal in watch mode, we should see that the test passes.
+
+### Resources 📖
+
+- [Lesson 5 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/04-find-nodes-from-a-shallow-rendered-component)
+- [Enzyme .find(selector)](https://enzymejs.github.io/enzyme/docs/api/ReactWrapper/find.html)
+- [Jest Assertions - Expect](https://jestjs.io/docs/en/expect)
+- [Shallow Rendering in Enzyme](https://enzymejs.github.io/enzyme/docs/api/shallow.html)
+
+## 🔖 Understand the Different Accepted Selectors in Enzyme
+
+### Enzyme Selectors
+
+Many methods in Enzyme accept selectors as arguments. There are 5 categories of selectors that are accepted in Enzyme.
+
+### 1. Valid CSS selectors include:
+
+Element Syntax:
+
+```js
+expect(wrapper.find('h1').text()).toBe('Welcome to React')
+```
+
+Class Syntax:
+
+```js
+expect(wrapper.find('.tyler').text()).toBe('Welcome to React')
+```
+
+ID Syntax:
+
+```js
+expect(wrapper.find('#tyler').text()).toBe('Welcome to React')
+```
+
+Attribute Syntax:
+
+```js
+expect(wrapper.find('[href="tyler"]').text()).toBe('Welcome to React')
+```
+
+Combination of above:
+
+```js
+expect(wrapper.find('a[href="tyler"]').text()).toBe('Welcome to React')
+```
+
+Contextual Selectors (>, +, ~):
+
+```js
+expect(wrapper.find('[href="tyler ~ .clark"]').text()).toBe('Welcome to React')
+```
+
+### 2. Prop Selectors
+
+Now we're gonna take a look at prop selectors.
+
+In app.js, we create a Title component that returns a div with a text prop, then we add it to our App component:
+
+```js
+const Test = () => <div>Testing</div>
+
+// Title Component:
+const Title = ({text}) => <div>{text}</div>
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <h1>Welcome to React</h1>
+        <ul className="tyler">
+          <li>Test 1</li>
+          <li>Test 2</li>
+          <li>Test 3</li>
+        </ul>
+        <li>Test 3</li>
+        <p className="App-intro">
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        // Add title component to App component:
+        <Title text="Some title" />
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+      <Test />
+    </div>
+  )
+}
+```
+
+In App.test.js, we can select our Title component by its text prop using an attribute selector:
+
+```js
+expect(wrapper.find('[text="Some title"]').text()).toBe('Welcome to React')
+```
+
+### 3. Referencing Component Constructor
+
+We can pass in a function that replicates the component we're trying to find as a selector:
+
+```js
+expect(wrapper.find(function App() { return ... }).text()).toBe('Welcome to React')
+```
+
+### 4. Referencing Component displayName
+
+To select a component with a displayName, simply pass in a string of that displayName as a selector:
+
+```js
+expect(wrapper.find('App').text()).toBe('Welcome to React')
+```
+
+### 5. Object Property Selector
+
+We can use the object property selector to find nodes by passing in an object that matches the property of a node as a selector. As demonstrated in the video, the following could select an img element with an alt tag of 'logo':
+
+```js
+expect(wrapper.find({alt: 'logo'}).text()).toBe('Welcome to React')
+```
+
+**Undefined properties are not allowed in the object property selector, and will cause error.**
+
+### Resources 📖
+
+- [Lesson 6 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/05-understand-the-different-accepted-selectors-in-enzyme)
+- [Enzyme Selectors](https://enzymejs.github.io/enzyme/docs/api/selector.html)
+
+## 📸 Test Enzyme Rendered Components with Jest Snapshots
+
+### Test UI of a component
+
+**With unit tests, "we could test that the logo and title are rendered correctly inside of this component, but how could we make sure that the logo is above the h1 in hierarchy?"**
+
+In this lesson, we will create Jest snapshots in order to make sure that our rendered output remains consistent.
+
+Navigate to App.test.js and write a new test:
+
+```js
+describe('<App />', () => {
+  const wrapper = shallow(<App />)
+  it('should contain an element with logo as alt tag', () => {
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  // New Test:
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(tree).toMatchSnapshot()
+  })
+})
+```
+
+Now, we run our test in the terminal:
+
+```
+npm test
+```
+
+And we should see that our test passes, and that a snapshot has been written.
+
+Our new snapshot can be found at src/\_\_snapshots\_\_/App.test.js.snap. If we navigate there, you'll either see what the instructor sees in the video, or you'll see this:
+
+```js
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> matches the snapshot 1`] = `ShallowWrapper {}`
+```
+
+The example shown above is what is generated in newer versions of Jest. In either case, it's easy to understand that our snapshot is hard to read.
+
+To solve this problem, we need to add a serializer.
+
+In the terminal, we install enzyme-to-json as a Dev Dependency:
+
+```
+npm install --save-dev enzyme-to-json
+```
+
+Inside of our App.test.js, we import from our new package:
+
+```js
+// imports
+import toJson from 'enzyme-to-json'
+
+//...
+```
+
+And we pass our 'tree' into toJson():
+
+```js
+it('matches the snapshot', () => {
+  const tree = shallow(<App />)
+  expect(toJson(tree)).toMatchSnapshot()
+})
+```
+
+Now, on returning to our terminal, we can see that our snapshots are working. **Our latest test has failed because the JSON rendered component does not match our original component.**
+
+**In order to update our snapshot with a change we want to keep, we can press 'u' in the terminal.**
+
+Now, if we make a change in our App.js component, such as adding <p>Hello World!</p>, **our test will fail because the component no longer matches that which is defined in the snapshot.**
+
+Again, to update our snapshot with a change we want to keep, we press 'u' in the terminal.
+
+### Resources 📖
+
+- [Lesson 7 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/06-test-enzyme-rendered-components-with-jest-snapshots)
+- [Enzyme Shallow Rendered Component Snapshot Empty Issue](https://github.com/facebook/jest/issues/7802)
+- [Snapshot Testing - Jest](https://jestjs.io/docs/en/snapshot-testing)
+
+## 📩 Test React Component Props w/ Enzyme & Jest
+
+### Testing React Component Props
+
+To begin this lesson, let's create a new component.
+
+In App.js:
+
+```js
+// ...
+export class Link extends Component {
+  render() {
+    return <a href={this.props.address}>Click</a>
+  }
+}
+//...
+```
+
+**Make sure to import Component from React**:
+
+```js
+import React, {Component} from 'react'
+```
+
+Now we have a simple Link component that returns an 'a' element with an href tag that receives an address via props.
+
+In App.test.js, we create a new describe block for our new Link component:
+
+```js
+// ...
+
+describe('<Link />', () => {
+  it('link component accepts address prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.instance().props.address).toBe('www.google.com')
+  })
+})
+```
+
+"When it comes to testing component props with Enzyme, it's important to understand which prop of the component we're trying to test, and what I mean by this is, are we trying to test the actual instance of the component? (`<Link address='www.google.com' />`), or are we trying to test the href value on the returned a tag node? (`<a href={this.props.address}>Click</a>`)"
+
+For the test defined above, "we're testing the actual instance of the address prop"
+
+Running our test in the terminal:
+
+```
+npm test
+```
+
+We should see that our test passes.
+
+We define a new test in App.test.js:
+
+```js
+describe('<Link />', () => {
+  it('link component accepts address prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.instance().props.address).toBe('www.google.com')
+  })
+  // New test:
+  it('a tag node renders href correctly', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.props().href).toBe('www.google.com')
+  })
+})
+```
+
+In this test, we're making sure that our href is using the correct prop value, as opposed to the first test where we use the .instance() method.
+
+"Now we're just using the props method on the wrapper itself. This will return all the props of the component's returned node. In our case, we're looking at the a tag, and it's treating the href like a prop. **Our two tests are testing the same prop essentially, but in different ways."**
+
+What if our component's return method was conditional and depended on the prop that's been passed?
+
+In App.js:
+
+```js
+// ...
+
+export class Link extends Component {
+  render() {
+    return this.props.hide ? null : <a href={this.props.address}>Click</a>
+  }
+}
+```
+
+Now we define a new test for our component:
+
+```js
+// ...
+
+describe('<Link />', () => {
+  it('link component accepts address prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.instance().props.address).toBe('www.google.com')
+  })
+  it('a tag node renders href correctly', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.props().href).toBe('www.google.com')
+  })
+  it('returns null with a true hide props', () => {
+    const wrapper = shallow(<Link hide={false} />)
+    expect(wrapper.find('a').length).toBe(1)
+  })
+})
+```
+
+In the terminal, we see that the test passes. This means that our hide={false} prop is returning our a tag.
+
+Now let's test that our null is being returned correctly:
+
+```js
+describe('<Link />', () => {
+  it('link component accepts address prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.instance().props.address).toBe('www.google.com')
+  })
+  it('a tag node renders href correctly', () => {
+    const wrapper = shallow(<Link address="www.google.com" />)
+    expect(wrapper.props().href).toBe('www.google.com')
+  })
+  it('returns null with a true hide props', () => {
+    const wrapper = shallow(<Link hide={false} />)
+    expect(wrapper.find('a').length).toBe(1)
+    wrapper.setProps({hide: true})
+    expect(wrapper.get(0)).toBeNull()
+  })
+})
+```
+
+In the terminal, we should see our tests pass.
+
+setProps takes an object and passes it through as new props to a component.
+
+**The setProps() method is useful for testing how components behave with changing props.**
+
+### Resources 📖
+
+- [Lesson 8 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/07-test-react-component-props-with-enzyme-and-jest)
+- [Enzyme .get() method](https://enzymejs.github.io/enzyme/docs/api/ReactWrapper/get.html)
+- [Enzyme .setProps() method](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/setProps.html)
+
+## 🎥 Fully Render React Components with Enzyme
+
+### Full DOM Rendering
+
+"Full DOM rendering is ideal for use cases where you have components that interact with DOM APIs, or require React lifecycles."
+
+In App.test.js:
+
+```js
+// ...
+import {configure, shallow, mount} from 'enzyme'
+// ...
+```
+
+Now, duplicate our first describe block, and specify the first as using shallow rendering and the second as using mount rendering. Then, change the "shallows" in the second describe block to "mounts":
+
+```js
+describe('<App /> shallow rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+  })
+})
+
+describe('<App /> mount rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = mount(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  it('matches the snapshot', () => {
+    const tree = mount(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+  })
+})
+```
+
+"Full DOM rendering requires that a full DOM API be available at the global scope. This means that we must run our test in an environment that at least looks like a browser environment."
+
+To satisfy this, we need to import jsdom. If you're not using Create React App (the notes so far HAVE used Create React App), run the following in the terminal:
+
+```
+npm install jsdom
+```
+
+We can input a second argument in our wrapper mount render:
+
+```js
+const wrapper = mount(<App />, {context: {}, attachTo: DOMElement})
+```
+
+The context object allows us to pass context into our component, and the attachTo object allows us to attach our component to a specific DOM element. Check out the [resources](#resources) for more information on mount rendering and its arguments.
+
+If you added the argument above, remove it now:
+
+```js
+const wrapper = mount(<App />)
+```
+
+Moving on:
+**"Unlike shallow or static rendering, full rendering actually mounts the component in a DOM, which means that tests can affect each other if they're using the same DOM."**
+
+Adding the unmount() method at the end of each mount render test unmounts the component from the DOM. It can also be used to simulate a component going through an unmount mount lifecycle in React:
+
+```js
+describe('<App /> mount rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = mount(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    wrapper.unmount()
+  })
+  it('matches the snapshot', () => {
+    const tree = mount(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+    tree.unmount()
+  })
+})
+```
+
+Running our test in the terminal:
+
+```
+npm test
+```
+
+And updating the snapshot by pressing 'u' in the terminal allows all of our tests to pass.
+
+The mount toJson rendering is slightly different than the shallow rendering, so changing the mount rendering to shallow rendering will cause our snapshot test to fail.
+
+```js
+describe('<App /> mount rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    // wrapper.unmount()
+  })
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+    // tree.unmount()
+  })
+})
+```
+
+We can see the result of this with our terminal in watch mode.
+
+### Resources 📖
+
+- [Lesson 9 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/08-fully-render-react-components-with-enzyme)
+- [Mount Options - Enzyme](https://github.com/enzymejs/enzyme/blob/master/docs/api/mount.md#mountnode-options--reactwrapper)
+
+## 🌠 Test Simulated Event Handlers with Enzyme
+
+### Testing Event Handlers
+
+With Enzyme we can both test components that use event handlers by simulating those events, and test that conditionally rendered attributes work as intended.
+
+In App.test.js, we define a new test:
+
+```js
+describe('<App /> shallow rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+  })
+  // New Test:
+  it('on button click changes p text', () => {
+    const wrapper = shallow(<App />)
+    const button = wrapper.find('button')
+    expect(wrapper.find('.button-state').text()).toBe('No!')
+  })
+})
+```
+
+If we check our terminal now:
+
+```
+npm test
+```
+
+We should see that our newly defined test fails because the elements we're searching for do not yet exist.
+
+In App.js, we introduce the new p tag with class 'button-state' and the button with the onClick. **Important: These notes have used App as a functional component until now. We must change App to a class component, as we are now using setState(). More information on class vs functional components in the [resources](#resources)**
+
+```js
+class App extends Component {
+  state = {on: false}
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Welcome to React</h1>
+          <ul className="tyler">
+            <li>Test 1</li>
+            <li>Test 2</li>
+            <li>Test 3</li>
+          </ul>
+          <li>Test 3</li>
+          // Begin new elements
+          <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
+          <button onClick={() => this.setState({on: true})}>Click</button>
+          // End new elements
+          <p className="App-intro">
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <Title text="Some title" />
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <p>Hello World</p>
+        </header>
+        <Test />
+      </div>
+    )
+  }
+}
+```
+
+Returning to our terminal, we should see that the only tests that fail are our snapshots tests. Pressing 'u' to update our snapshots should allow all of our tests to pass.
+
+Now, back in App.test.js, we'll simulate a click event and expect our .button-state to change from 'No!' to 'Yes!':
+
+```js
+it('on button click changes p text', () => {
+  const wrapper = shallow(<App />)
+  const button = wrapper.find('button')
+  expect(wrapper.find('.button-state').text()).toBe('No!')
+  button.simulate('click')
+  expect(wrapper.find('.button-state').text()).toBe('Yes!')
+})
+```
+
+Now let's see how this could be used in the case of an input element that, whenever a user inputs text, updates state.
+
+We define a new test in App.test.js:
+
+```js
+describe('<App /> shallow rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+  })
+  it('on button click changes p text', () => {
+    const wrapper = shallow(<App />)
+    const button = wrapper.find('button')
+    expect(wrapper.find('.button-state').text()).toBe('No!')
+    button.simulate('click')
+    expect(wrapper.find('.button-state').text()).toBe('Yes!')
+  })
+  it('on input change, title changes text', () => {
+    const wrapper = shallow(<App />)
+    const input = wrapper.find('input')
+    expect(wrapper.find('h2').text()).toBe('')
+    input.simulate('change')
+    expect(wrapper.find('h2').text()).toBe('Tyler')
+  })
+})
+```
+
+Now, inside our App.js, we add our h2 and input elements, and add our input state:
+
+```js
+// Add input state
+class App extends Component {
+  state = {
+    on: false,
+    input: '',
+  }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Welcome to React</h1>
+          <ul className="tyler">
+            <li>Test 1</li>
+            <li>Test 2</li>
+            <li>Test 3</li>
+          </ul>
+          <li>Test 3</li>
+          <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
+          <button onClick={() => this.setState({on: true})}>Click</button>
+          // Begin new elements
+          <h2>{this.state.input}</h2>
+          <input
+            onChange={(e) => this.setState({input: e.currentTarget.value})}
+            type="text"
+          />
+          // End new elements
+          <p className="App-intro">
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <Title text="Some title" />
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <p>Hello World</p>
+        </header>
+        <Test />
+      </div>
+    )
+  }
+}
+```
+
+After running our tests and updating our snapshots, we should see that our on input change test is failing.
+
+**"This is because our simulated event is looking for this currentTarget property from the event. Our test does not have that being passed through to the method."**
+
+We can fix this by passing an optional object argument to the simulate() method. In App.test.js:
+
+```js
+it('on input change, title changes text', () => {
+  const wrapper = shallow(<App />)
+  const input = wrapper.find('input')
+  expect(wrapper.find('h2').text()).toBe('')
+  input.simulate('change', {currentTarget: {value: 'Tyler'}})
+  expect(wrapper.find('h2').text()).toBe('Tyler')
+})
+```
+
+We should now see our test passes properly in the terminal.
+
+**"We can see that our on input change test is now passing because it's looking at our mocked-out event object grabbing Tyler from the value and updating our h2"**
+
+### Resources 📖
+
+- [Lesson 10 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/09-test-simulated-event-handlers-with-enzyme)
+- [Class vs Functional Components in React](https://medium.com/@Zwenza/functional-vs-class-components-in-react-231e3fbd7108)
+- [simulate() - Enzyme](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/simulate.html)
+
+## 🍀 Test New Component State with setState in Enzyme
+
+### Simulating Component State in Enzyme
+
+With Enzyme, we can simulate and test different component contexts. We can use the setState() method to change the state of our component, and then we can test that it renders correctly under the new state.
+
+In App.test.js, we define a new test:
+
+```js
+describe('<App /> shallow rendering', () => {
+  it('should contain an element with logo as alt tag', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+  })
+  it('matches the snapshot', () => {
+    const tree = shallow(<App />)
+    expect(toJson(tree)).toMatchSnapshot()
+  })
+  // Begin new test
+  it('updates className with new State', () => {
+    const wrapper = shallow(<App />)
+    expect(wrapper.find('.blue').length).toBe(1)
+    expect(wrapper.find('.red').length).toBe(0)
+    wrapper.setState({mainColor: 'red'})
+    expect(wrapper.find('.blue').length).toBe(0)
+    expect(wrapper.find('.red').length).toBe(1)
+  })
+  // End new test
+  it('on button click changes p text', () => {
+    const wrapper = shallow(<App />)
+    const button = wrapper.find('button')
+    expect(wrapper.find('.button-state').text()).toBe('No!')
+    button.simulate('click')
+    expect(wrapper.find('.button-state').text()).toBe('Yes!')
+  })
+  it('on input change, title changes text', () => {
+    const wrapper = shallow(<App />)
+    const input = wrapper.find('input')
+    expect(wrapper.find('h2').text()).toBe('')
+    input.simulate('change', {currentTarget: {value: 'Tyler'}})
+    expect(wrapper.find('h2').text()).toBe('Tyler')
+  })
+})
+```
+
+Now we navigate to our App.js component and define both our mainColor state and an h3 element with className as the mainColor state:
+
+```js
+class App extends Component {
+  // Add new mainColor state
+  state = {
+    on: false,
+    input: '',
+    mainColor: 'blue',
+  }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Welcome to React</h1>
+          // Begin new element
+          <h3 className={this.state.mainColor}>Everyone is Welcome!</h3>
+          // End new element
+          <ul className="tyler">
+            <li>Test 1</li>
+            <li>Test 2</li>
+            <li>Test 3</li>
+          </ul>
+          <li>Test 3</li>
+          <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
+          <button onClick={() => this.setState({on: true})}>Click</button>
+          <h2>{this.state.input}</h2>
+          <input
+            onChange={(e) => this.setState({input: e.currentTarget.value})}
+            type="text"
+          />
+          <p className="App-intro">
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <Title text="Some title" />
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <p>Hello World</p>
+        </header>
+        <Test />
+      </div>
+    )
+  }
+}
+```
+
+When we run our tests:
+
+```
+npm test
+```
+
+And update our snapshots by pressing 'u' in the terminal, we should see our tests all pass.
+
+**"Now, as you can imagine, when we use this setState method on our wrapper, it will invoke setState on the root component and cause it re-render. This is useful for testing our components in different states."**
+
+### Resources 📖
+
+- [Lesson 11 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/10-test-new-component-state-with-set-state-in-enzyme)
+- [setState() - Enzyme](https://github.com/enzymejs/enzyme/blob/master/docs/api/ShallowWrapper/setState.md)
+
+## 🔁 Test React Component Lifecycle Methods with Enzyme
+
+### Testing Appropriate Usage and Purpose of Lifecycle Methods
+
+We can use Enzyme to test that our Lifecycle Methods are being called appropriately, and that our conditionally rendered components are being rendered appropriately.
+
+We begin by writing a new test in App.test.js:
+
+```js
+describe('<App /> shallow rendering', () => {
+  // ...
+  it('calls componentDidMount, updates p tag text', () => {
+    jest.spyOn(App.prototype, 'componentDidMount')
+    const wrapper = shallow(<App />)
+    expect(App.prototype.componentDidMount.mock.calls.length).toBe(1)
+    expect(wrapper.find('.lifeCycle').text()).toBe('componentDidMount')
+  })
+})
+```
+
+**"Jest's spyOn method gives this ability to mock out the componentDidMount method inside of our App component."**
+
+Our Jest assertion then tests for the lifecycle method to have been called once.
+
+When we run our tests:
+
+```
+npm test
+```
+
+We see that our newest test for the componentDidMount lifecycle method failed. This is because the componentDidMount method does not exist on our component.
+
+To make this test pass, we add a componentDidMount method to our App component:
+
+```js
+class App extends Component {
+  state = {
+    on: false,
+    input: '',
+    mainColor: 'blue',
+  }
+  componentDidMount() {
+    this.setState({lifeCycle: 'componentDidMount'})
+  }
+  // ...
+}
+```
+
+We can return to our terminal to see that all of our tests pass.
+
+To actually utilize our lifecycle method, we can add a 'lifeCycle' property to our state, update it with componentDidMount(), and render it under a p tag:
+
+```js
+class App extends Component {
+  state = {
+     on: false,
+     input: '',
+     mainColor: 'blue',
+     lifeCycle: ''
+  }
+  componentDidMount() {
+    this.setState({lifeCycle: 'componentDidMount'})
+  }
+  render() {
+      return(
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1>Welcome to React</h1>
+          <h3 className={this.state.mainColor}>Everyone is Welcome!</h3>
+          <ul className="tyler">
+            <li>Test 1</li>
+            <li>Test 2</li>
+            <li>Test 3</li>
+          </ul>
+          <li>Test 3</li>
+          // Begin new element:
+          <p className='lifeCycle'>{this.state.lifeCycle}</p>
+          // End new element
+          <p className='button-state'>{this.state.on ? 'Yes!' : 'No!'}</p>
+          // ...
+    );
+  }
+}
+```
+
+With that in place, we can write a new assertion that expects our p tag to contain the text 'componentDidMount' after our componentDidMount lifecycle method is called:
+
+```js
+it('calls componentDidMount, updates p tag text', () => {
+  jest.spyOn(App.prototype, 'componentDidMount')
+  const wrapper = shallow(<App />)
+  expect(App.prototype.componentDidMount.mock.calls.length).toBe(1)
+  expect(wrapper.find('.lifeCycle').text()).toBe('componentDidMount')
+})
+```
+
+Returning to our terminal, we see that our only failing tests are the snapshot tests because we update our App component. Update the snapshots by pressing 'u' in the terminal, and we should see that all of our tests pass.
+
+**"Now, in another test we've written, we've set props to test some come conditional content. We can take that once step further and test a corresponding lifecycle method."**
+
+We'll write a new test that expects setProps to call the componentWillReceiveProps lifecycle method. In App.test.js:
+
+```js
+it('setProps calls componentWillReceiveProps', () => {
+  jest.spyOn(App.prototype, 'componentWillReceiveProps')
+  const wrapper = shallow(<App />)
+  wrapper.setProps({hide: true})
+  expect(App.prototype.componentWillReceiveProps.mock.calls.length).toBe(1)
+})
+```
+
+Again, we see that this test fails if we return to our terminal because this function does not yet exist on our component.
+
+As we fixed the failing test with componentDidMount, we can add componentWillReceiveProps to our App component:
+
+```js
+class App extends Component {
+  state = {
+     on: false,
+     input: '',
+     mainColor: 'blue',
+     lifeCycle: ''
+  }
+  componentDidMount() {
+    this.setState({lifeCycle: 'componentDidMount'})
+  }
+  componentWillReceiveProps() {
+
+  }
+  render() {
+      // ...
+    );
+  }
+}
+```
+
+With our method in place, we can return to our terminal and see that our tests pass.
+
+Taking this one step further, we can have our componentWillReceiveProps lifecycle method update the lifecycle property in our component's state to be 'componentWillReceiveProps'.
+
+```js
+componentWillReceiveProps() {
+  this.setState({lifeCycle: 'componentWillReceiveProps'})
+}
+```
+
+Then we can return to our App.test.js and create a new assertion that expects our p tag to contain the text 'componentWillReceiveProps' after the componentWillReceiveProps lifecycle method is called.
+
+```js
+it('setProps calls componentWillReceiveProps', () => {
+  jest.spyOn(App.prototype, 'componentWillReceiveProps')
+  const wrapper = shallow(<App />)
+  wrapper.setProps({hide: true})
+  expect(App.prototype.componentWillReceiveProps.mock.calls.length).toBe(1)
+  expect(wrapper.find('.lifeCycle').text()).toBe('componentWillReceiveProps')
+})
+```
+
+Returning to our terminal, we should see that all of our tests pass.
+
+### Resources 📖
+
+- [Lesson 12 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/11-test-react-component-lifecycle-methods-with-enzyme)
+- [spyOn() - Jest](https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname)
+- [Lifecycle Methods - React](https://reactjs.org/docs/state-and-lifecycle.html#adding-lifecycle-methods-to-a-class)
+
+## 🏇 Test React Component Methods with Enzyme
+
+### Enzyme Method Testing
+
+We can use Enzyme to test the functionality of our component methods.
+
+In our App.test.js:
+
+```js
+describe('<App /> shallow rendering', () => {
+  // ...
+  it('handleStrings function returns correctly', () => {
+    const wrapper = shallow(<App />)
+    const trueReturn = wrapper.instance().handleStrings('Hello World')
+    expect(trueReturn).toBe(true)
+  })
+})
+```
+
+When we run our tests in the terminal:
+
+```
+npm test
+```
+
+We see that our newest test is failing because handleStrings() does not yet exist.
+
+**"We're able to access methods on this class because of enzyme's instance function. It returns the component that we've shadowed rendered, and give this access to its properties."**
+
+In our App.js file, we add the handleStrings() method to our component:
+
+```js
+class App extends Component {
+  state = {
+    on: false,
+    input: '',
+    mainColor: 'blue',
+    lifeCycle: '',
+  }
+  handleStrings(str) {
+    return true
+  }
+  // ...
+}
+```
+
+We should now see that our test passes on returning to the terminal.
+
+Let's now set up our test to expect a false return given a different input. In App.test.js:
+
+```js
+it('handleStrings function returns correctly', () => {
+  const wrapper = shallow(<App />)
+  const trueReturn = wrapper.instance().handleStrings('Hello World')
+  const falseReturn = wrapper.instance().handleStrings('')
+  expect(trueReturn).toBe(true)
+  expect(falseReturn).toBe(false)
+})
+```
+
+On returning to our terminal, we should see that our test fails because our handleStrings function always returns true.
+
+We'll now refactor our handleStrings function to conditionally return true or false:
+
+```js
+handleStrings(str) {
+  if (str === 'Hello World') return true
+  return false
+}
+```
+
+Returning to our terminal, we should see all of our tests pass.
+
+### Resources 📖
+
+- [Lesson 13 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/12-test-react-component-methods-with-enzyme)
+- [How to Directly Test React Component Methods with Enzyme](https://bambielli.com/til/2018-03-04-directly-test-react-component-methods/)
+- [.instance() - Enzyme](https://enzymejs.github.io/enzyme/docs/api/ShallowWrapper/instance.html)
+
+## ✅ Test Redux Connect Components with Enzyme
+
+### Following Along
+
+In order to follow along with this lesson, we need to add a couple things to our project.
+
+In our src folder, we need to add
+
+- TodoList.css
+- TodoList.js
+- TodoList.test.js
+- store.js
+
+Within these files:
+
+**Todolist.css**
+
+```css
+* {
+  box-sizing: border-box;
+}
+input {
+  font-size: 14px;
+  border-radius: 2em;
+  width: 100%;
+  background: none;
+  font-family: 'Source Sans Pro', sans-serif;
+  border: #4fc08d 1px solid;
+  -webkit-transition: border 250ms ease-out;
+  transition: border 250ms ease-out;
+}
+.todo--button {
+  font-size: 14px;
+  width: 100%;
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+  background: #4fc08d;
+  color: #fff;
+  border: 1px solid;
+  letter-spacing: 1px;
+  font-family: 'Source Sans Pro', sans-serif;
+  border: #4fc08d 1px solid;
+  -webkit-transition: 250ms ease-out;
+  transition: 250ms ease-out;
+}
+.todo--button:hover {
+  opacity: 0.7;
+}
+li {
+  font-size: 20px;
+  color: #4fc08d;
+  list-style: none;
+  transition: 0.4s;
+}
+ul {
+  text-align: left;
+}
+.todos--container {
+  max-width: 500px;
+  text-align: center;
+  margin: auto;
+  border: #4fc08d 1px solid;
+  padding: 20px 10px;
+  border-radius: 7px;
+}
+.todos--h1 {
+  color: #4fc08d;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+```
+
+**TodoList.js**
+
+```js
+import React, {Component, Fragment} from 'react'
+import {connect} from 'react-redux'
+import {addTodo, removeTodo} from './store'
+
+import './TodoList.css'
+
+export class TodoList extends Component {
+  state = {input: ''}
+
+  handleClick = (i) => () => {
+    this.props.removeTodo(i)
+  }
+
+  handleChange = (e) => {
+    this.setState({input: e.currentTarget.value})
+  }
+
+  handleSubmit = () => {
+    this.props.addTodo({text: this.state.input})
+    this.setState({input: ''})
+  }
+
+  render() {
+    return (
+      <div className="todos--container">
+        <h1 className="todos--h1">Todos</h1>
+        <input
+          type="text"
+          onChange={this.handleChange}
+          value={this.state.input}
+        />
+        <ul>
+          {this.props.todos.map(({text}, i) => (
+            <li onClick={this.handleClick(i)} key={i}>
+              {text}
+            </li>
+          ))}
+        </ul>
+        <button className="todo--button" onClick={this.handleSubmit}>
+          Add Todo
+        </button>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = ({currentList: {todos}}) => ({todos})
+
+const bindActionsToDispatch = (dispatch) => ({
+  addTodo: (todo) => dispatch(addTodo(todo)),
+  removeTodo: (id) => dispatch(removeTodo(id)),
+})
+
+const TodoListContainer = connect(
+  mapStateToProps,
+  bindActionsToDispatch,
+)(TodoList)
+
+export default TodoListContainer
+```
+
+**TodoList.test.js**
+
+```js
+import React from 'react'
+import {TodoList} from './TodoList'
+import {shallow, configure} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import toJson from 'enzyme-to-json'
+
+configure({adapter: new Adapter()})
+```
+
+**store.js**
+
+```js
+import {createStore} from 'redux'
+import {combineReducers} from 'redux'
+
+export const addTodo = (todo) => ({
+  type: 'ADD_TODO',
+  todo,
+})
+
+export const removeTodo = (id) => ({
+  type: 'REMOVE_TODO',
+  id,
+})
+
+const initialState = {
+  todos: [],
+}
+
+const handleNewTodo = (state, action) => ({
+  todos: [...state.todos, action.todo],
+})
+
+const handleRemoveTodo = (state, action) => ({
+  todos: [
+    ...state.todos.slice(0, action.id),
+    ...state.todos.slice(action.id + 1),
+  ],
+})
+
+const currentList = (state = initialState, action) => {
+  const handlers = {
+    REMOVE_TODO: handleRemoveTodo,
+    ADD_TODO: handleNewTodo,
+  }
+  return handlers[action.type] ? handlers[action.type](state, action) : state
+}
+
+const rootReducer = combineReducers({
+  currentList,
+})
+
+export const store = createStore(rootReducer)
+```
+
+In our terminal, we need to install Redux and React-Redux:
+
+```
+npm install redux react-redux
+```
+
+At this point, running our tests:
+
+```
+npm test
+```
+
+Should allow us to see that all of our tests pass.
+
+In order to actually render our component, we need to update our **index.js**:
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {Provider} from 'react-redux'
+import {store} from './store'
+import './index.css'
+import App from './App'
+import TodoListContainer from './TodoList'
+ReactDOM.render(
+  <Provider store={store}>
+    <TodoListContainer />
+  </Provider>,
+  document.getElementById('root'),
+)
+```
+
+To view our project, we can run in the terminal:
+
+```
+npm start
+```
+
+And navigate to the provided link in our browser (in my case, localhost:3000). The CSS was a bit messed up for me, but this won't affect our testing.
+
+### Testing Redux Connect Components
+
+In our browser, we can see a functioning Todo List. You can try it by entering a task, pressing "Add Todo", seeing the added task, then clicking on the added task to delete it.
+
+We can view our TodoList component within TodoList.js
+
+- The component state keeps track of our current input
+- The handleClick method attaches to our task li elements and fires removeTodo Action Creator on click.
+- The handleChange method lives on the input to update our input state on change.
+- The handleSubmit method lives on the addTodo button and calls addTodo Action Creator, sending off the current input state and clearing the input.
+
+All the Redux concepts can be found in src/store.js
+
+In index.js, we pass in our store through the Provider.
+
+In TodoList.test.js, we can begin writing our tests.
+
+**"When it comes to testing Redux components, as you can imagine, the biggest headache comes from trying to replicate a Redux store by mocking out its functionality."**
+
+Because we really just want to test our component methods and render, we can import our component directly in Todolist.test.js:
+
+```js
+import {TodoList} from './TodoList'
+```
+
+Here, we bring in our component and exclude the higher order connected component.
+
+We need to test that
+
+- Our addTodo is called when the button is clicked.
+- Our removeTodo is called when an li is clicked
+- Our component matches a snapshot
+
+In Todolist.test.js:
+
+```js
+describe('<TodoList />', () => {
+  it('calls addTodo Redux action creator with button click', () => {
+    const props = {
+      addTodo: jest.fn(),
+      todos: [],
+    }
+    const wrapper = shallow(<TodoList {...props} />)
+    wrapper
+      .find('input')
+      .simulate('change', {currentTarget: {value: 'Buy Groceries'}})
+    wrapper.find('.todo--button').simulate('click')
+
+    expect(props.addTodo).toHaveBeenCalledWith({text: 'Buy Groceries'})
+  })
+})
+```
+
+The props that we pass through our TodoList component replicate our Redux store data.
+
+By simulating a change in our input field and then simulating a click of our addTodo button, we can assert that our addTodo Action Creator is called with the correct parameter.
+
+We can navigate to our terminal and run these tests:
+
+```
+npm test
+```
+
+And we should see that our tests pass. We can edit the test by, for example, changing the toHaveBeenCalledWith() parameter, and we should see that the test then fails.
+
+Now let's test that our removeTodo Action Creator is called correctly on li click. In Todolist.test.js:
+
+```js
+describe('<TodoList />', () => {
+  // ...
+  it('calls removeTodo Redux action creator on li click', () => {
+    const props = {
+      removeTodo: jest.fn(),
+      todos: [{text: 'Buy groceries'}, {text: 'Change oil'}],
+    }
+    const wrapper = shallow(<TodoList {...props} />)
+    wrapper.find('li').at(0).simulate('click')
+
+    expect(props.removeTodo).toHaveBeenCalledWith(0)
+  })
+})
+```
+
+We again create our props object to replicate the store data and pass it through the TodoList component. In this case, we've given our TodoList two Todos (try saying that five times fast): 'Buy groceries' and 'Change oil'.
+
+We then find the first li in the list with .at(0) and simulate a click on it, and we assert that our removeTodo action is called with the correct index of 0.
+
+Again, we can navigate to our terminal and see that our tests pass. And again, we can edit the test, for example, by editing the toHaveBeenCalledWith() parameter, and we should see that the test tthen fails.
+
+Lastly, we can create a snapshot of the component. In Todolist.test.js:
+
+```js
+it('matches snapshot', () => {
+  const props = {
+    todos: [],
+  }
+  const wrapper = shallow(<TodoList {...props} />)
+  expect(toJson(wrapper)).toMatchSnapshot()
+})
+```
+
+Within src/\_\_snapshots\_\_, we should see our Todolist.test.js.snap snapshot.
+
+### Resources 📖
+
+- [Lesson 14 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/13-test-redux-connect-components-with-enzyme)
+- [React Redux](https://react-redux.js.org/)
+- [Testing a React-Redux app using Jest and Enzyme](https://medium.com/netscape/testing-a-react-redux-app-using-jest-and-enzyme-b349324803a9)
+
+## 📄 Testing React Forms with Enzyme
+
+### Following Along
+
+In order to follow along with this lesson, we need to add a couple things to our project.
+
+In our src folder, we need to add:
+
+- Form.css
+- Form.js
+- Form.test.js
+- api.js
+
+Within these files:
+**Form.css**
+
+```css
+form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 50px auto;
+  background: #535774;
+  padding: 35px;
+}
+input {
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  padding: 7px;
+}
+button {
+  background: #0f4fff;
+  border: none;
+  border-radius: 30px;
+  width: 300px;
+  color: #fff;
+  margin: auto;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size: 20px;
+  padding: 10px 0;
+  margin-top: 25px;
+}
+h2 {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 100;
+  letter-spacing: 3px;
+}
+.promotions {
+  display: inline-block;
+  margin-left: 10px;
+  color: #fff;
+}
+```
+
+**Form.js**
+
+```js
+import React, {Component} from 'react'
+import './Form.css'
+import api from './api'
+
+export default class Form extends Component {
+  state = {
+    name: '',
+    email: '',
+    number: '',
+    optIn: true,
+  }
+  handleChange = (str) => (e) => {
+    this.setState({[str]: e.currentTarget.value})
+  }
+  handleSubmit = (e) => {
+    e.preventDefault()
+    return api.addUser(this.state.name, this.state.email, this.state.number)
+  }
+  handlePromotionClick = (e) => {
+    this.setState((prevState) => ({optIn: !prevState.optIn}))
+  }
+  render() {
+    return (
+      <form data-testid="addUserForm" onSubmit={this.handleSubmit}>
+        <h2>Request Information</h2>
+        <input
+          data-testid="name"
+          type="text"
+          onChange={this.handleChange('name')}
+          placeholder="Name"
+          value={this.state.name}
+        />
+        <input
+          data-testid="email"
+          type="text"
+          onChange={this.handleChange('email')}
+          placeholder="Email"
+          value={this.state.email}
+        />
+        <input
+          data-testid="number"
+          type="text"
+          onChange={this.handleChange('number')}
+          placeholder="Number"
+          value={this.state.number}
+        />
+        <div>
+          <input
+            data-testid="checked"
+            type="checkbox"
+            checked={this.state.optIn}
+            onChange={() => {}}
+            onClick={this.handlePromotionClick}
+          />
+          <p data-testid="promotionsP" className="promotions">
+            Receive Promotions
+          </p>
+        </div>
+        <button type="submit" data-testid="submitButton">
+          Submit
+        </button>
+      </form>
+    )
+  }
+}
+```
+
+**Form.test.js**
+
+```js
+import React from 'react'
+import Form from './Form'
+import {shallow, configure} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import toJson from 'enzyme-to-json'
+import api from './api'
+
+configure({adapter: new Adapter()})
+
+describe('<Form />', () => {})
+```
+
+**api.js**
+
+```js
+export default {
+  addUser: (name, email, number) =>
+    fetch(`www.someurl.com`).then((res) => res.json()),
+}
+```
+
+In order to actually render our component, we need to update our **index.js**:
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {Provider} from 'react-redux'
+import {store} from './store'
+import './index.css'
+import App from './App'
+import TodoListContainer from './TodoList'
+import Form from './Form'
+
+ReactDOM.render(<Form />, document.getElementById('root'))
+```
+
+To view our project, we can run in the terminal:
+
+```
+npm start
+```
+
+And navigate to the provided link in our browser (in my case, localhost:3000). The CSS was a bit messed up for me, but this won't affect our testing.
+
+### React Form Testing in Enzyme
+
+We have now a basic Form component that accepts Name, Email, and Phone Number, and also contains a "Receive Promotions" button and a submit button that calls an AJAX API method with the inputted information.
+
+We can see in Form.js that the component state keeps track of the inputted information, and whether or not the user opted in for promotions.
+
+```js
+export default class Form extends Component {
+  state = {
+      name: '',
+      email: '',
+      number: '',
+      optIn: true
+  }
+
+  ...
+}
+```
+
+- The handleChange method updates the state of the corresponding input element that's being updated.
+- Our handleSubmit makes sure that the page doesn't reload once this is submitted, and calls the API addUser method with our state information.
+- Finally our handlePromotionClick method updates our input checkbox state on click.
+
+```js
+handleChange = (str) => (e) => {
+  this.setState({[str]: e.currentTarget.value})
+}
+handleSubmit = (e) => {
+  e.preventDefault()
+  return api.addUser(this.state.name, this.state.email, this.state.number)
+}
+handlePromotionClick = (e) => {
+  this.setState((prevState) => ({optIn: !prevState.optIn}))
+}
+```
+
+Our input fields have data attributes that we'll be using as selectors, as they give us more security than classes which can change with tools like CSS modules.
+
+```js
+<input
+  data-testid="name" // ...
+/>
+```
+
+For more information on data attributes, see the [resources below](#resources).
+
+We can now begin testing our form behavior with Enzyme.
+
+**"It's best to think about how will our users interact with the form, then to write unit tests to make sure our form answers that question."**
+
+We need to
+
+- Test that users are opted in to receive promotions by default
+- Test that users are able to input information
+- Test that users are able to submit the form and call our API method
+- Create a snapshot to ensure our form says in the order of name, email, then number
+
+Within Form.test.js, we first write a test that expects our users to be opted into promotions by default. **Note that 'it()' is an alias of 'test()', and that they are the same thing**:
+
+```js
+test('receive promotions default is true', () => {
+  const wrapper = shallow(<Form />)
+  const promotionInput = wrapper.find('[data-testid="checked"]')
+  expect(promotionInput.props().checked).toBe(true)
+})
+```
+
+Navigating to our terminal and running our tests:
+
+```
+npm test
+```
+
+We should see that our tests pass. Editing our test, for example, by changing .toBe(true) to .toBe(false), should cause our test to fail.
+
+Our test finds our checkbox and asserts that its "checked" prop is true by default.
+
+We'll now write a test that expects our user to be able to input their information. In Form.test.js, we start by creating a helper function outside of our describe block:
+
+```js
+const updateInput = (wrapper, instance, newValue) => {
+  const input = wrapper.find(instance)
+  input.simulate('change', {
+    currentTarget: {value: newValue},
+  })
+  return wrapper.find(instance)
+}
+```
+
+With that in place, we now call this function in our new test for each input, and assert that their "value" props are equal to what has been inputted:
+
+```js
+describe('<Form />', () => {
+  // ...
+  test('allows user to fill out form', () => {
+    const wrapper = shallow(<Form />)
+    const nameInput = updateInput(wrapper, '[data-testid="name"]', 'Tyler')
+    const emailInput = updateInput(
+      wrapper,
+      '[data-testid="email"]',
+      'test@gmail.com',
+    )
+    const numberInput = updateInput(
+      wrapper,
+      '[data-testid="number"]',
+      '8018882321',
+    )
+
+    expect(nameInput.props().value).toBe('Tyler')
+    expect(emailInput.props().value).toBe('test@gmail.com')
+    expect(numberInput.props().value).toBe('8018882321')
+  })
+})
+```
+
+We should see after navigating back to our terminal that the test passes.
+
+**"To recap, we made this helper function that accepts a wrapper or a shallow rendered component, a selector which will find our individual instant input, and the new value we want the provided input to update to, and then we use the simulate method to mock a simulated event, in our case an onChange, and passes through a mocked out event object with our new value."**
+
+In the same test, let's simulate a click on our check box, and expect that its "checked" prop is false. In Form.test.js:
+
+```js
+test('allows user to fill out form', () => {
+  const wrapper = shallow(<Form />)
+  const nameInput = updateInput(wrapper, '[data-testid="name"]', 'Tyler')
+  const emailInput = updateInput(
+    wrapper,
+    '[data-testid="email"]',
+    'test@gmail.com',
+  )
+  const numberInput = updateInput(
+    wrapper,
+    '[data-testid="number"]',
+    '8018882321',
+  )
+  // Find checkbox
+  wrapper.find('[data-testid="checked"]').simulate('click')
+  expect(nameInput.props().value).toBe('Tyler')
+  expect(emailInput.props().value).toBe('test@gmail.com')
+  expect(numberInput.props().value).toBe('8018882321')
+  // Assert "checked" prop is false
+  expect(wrapper.find('[data-testid="checked"]').props().checked).toBe(false)
+})
+```
+
+On navigating back to our terminal, we should see that our tests pass. We are now confident that our user can input their information and uncheck the "Receive Promotions" checkbox.
+
+Next, we're going to make sure that our form submits and calls the API. In Form.test.js:
+
+```js
+describe('<Form />', () => {
+  // ...
+  test('submits the form', () => {
+    jest
+      .spyOn(api, 'addUser')
+      .mockImplementation(() => Promise.resolve({data: 'New User Added'}))
+    const wrapper = shallow(<Form />)
+    updateInput(wrapper, '[data-testid="name"]', 'Tyler')
+    updateInput(wrapper, '[data-testid="email"]', 'test@gmail.com')
+    updateInput(wrapper, '[data-testid="number"]', '8018882321')
+    wrapper
+      .find('[data-testid="addUserForm"]')
+      .simulate('submit', {preventDefault: () => {}})
+
+    expect(api.addUser).toHaveBeenCalledWith(
+      'Tyler',
+      'test@gmail.com',
+      '8018882321',
+    )
+  })
+})
+```
+
+On returning to our terminal, we should see that our tests pass.
+
+**"To recap, we're using Jest's spyOn method to mock out our API method addUser. We tell it to just return a resolved promise with a data object. Then we find the form and simulate a submit event. We need to pass through this event object ({preventDefault: () => {}}) because we call this preventDefault method inside of our component. Finally we test that our API is not only called, but called with the right parameters (expect(api.addUser).toHaveBeenCalledWith('Tyler', 'test@gmail.com', '8018882321'))."**
+
+Finally, let's test that our component matches a snapshot. In Form.test.js:
+
+```js
+describe('<Form />', () => {
+  // ...
+  test('matches saved snapshot', () => {
+    const wrapper = shallow(<Form />)
+    expect(toJson(wrapper)).toMatchSnapshot()
+  })
+})
+```
+
+Returning to our terminal, we should see that a snapshot has been written, and that our tests still pass. We can see our snapshot in src/\_\_snapshots\_\_ as Form.test.js.snap.
+
+Our snapshot test ensures that our form layout will remain consistent with what currently exists in Form.js.
+
+### Resources 📖
+
+- [Lesson 15 Code](https://github.com/ParkerGits/react-enzyme-jest/tree/14-testing-react-forms-with-enzyme)
+- [Data Attributes](https://www.w3schools.com/tags/att_data-.asp)
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout
