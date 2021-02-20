@@ -70,6 +70,9 @@ module.exports = {
             pre: {
               backgroundColor: 'black',
             },
+            th: {
+              color: 'white',
+            },
           },
         },
       }),

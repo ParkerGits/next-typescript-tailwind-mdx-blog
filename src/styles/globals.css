@@ -30,7 +30,7 @@ code > .table {
     color:sandybrown;
 }
 
-.method {
+.method, .function {
     color:khaki;
 }
 
