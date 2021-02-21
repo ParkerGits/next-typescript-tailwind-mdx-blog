@@ -23,9 +23,12 @@ export const meta = {
   },
 }
 
-## Introduction
-
-This post consists of notes that I took while teaching myself SQL.
+<Image
+  src="/images/posts/self-taught-sql-notes/image.png"
+  width="1024"
+  height="480"
+  layout="responsive"
+/>
 
 ## 📗 w3schools SQL Tutorial
 
@@ -52,6 +55,9 @@ The following information comes from the [w3schools SQL Tutorial found here](htt
     - **DROP TABLE**: Deletes a table.
     - **CREATE INDEX**: Creates an index (search key)
     - **DROP INDEX**: Deletes an index.
+- **Stored Procedure**: Prepared SQL code that you can save, so the code can be reused over and over again.
+- **Indexes**: Used to retrieve data more quickly than otherwise. The user cannot see the indexes, they are just used to speed up searches/queries.
+- **Views**: Contain rows and columns, just like a real table. The fields in a view are fields freom one or more tables in the database.
 
 ### Keep in mind...
 
@@ -62,6 +68,8 @@ Some database systems require a semicolon at the end of each SQL statement.
 SQL requires single quotes around text values (most systems will also allow double quotes).
 
 Numeric fields should not be enclosed in quotes.
+
+To keep your queries simple and easy to maintain, do not allow time components in your dates.
 
 ### SELECT Statement
 
@@ -431,6 +439,407 @@ SELECT Orders.OrderID, Customers.CustomerName, Shippers.ShipperName
 FROM ((Orders
 INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID)
 INNER JOIN Shippers ON Orders.ShipperID = Shippers.ShipperID);
+```
+
+The above example selects all orders with customer and shipper information.
+
+### Self JOIN
+
+A regular join, but the table is joined with itself.
+
+```sql
+SELECT column_name(s)
+FROM table1 T1, table1 T2
+WHERE condition;
+```
+
+Note that T1 and T2 are table aliases for the same table.
+
+For example, the following matches customers from the same city:
+
+```sql
+SELECT A.CustomerName AS CustomerName1, B.CustomerName AS CustomerName2, A.City
+FROM Customers A, Customers B
+WHERE A.CustomerID <> B.CustomerID
+AND A.City = B.City
+ORDER BY A.City;
+```
+
+### UNION Operator
+
+Used to combine the result-set of two or more SELECT statements.
+
+- Each SELECT statement within UNION must have the same number of columns
+- The columns must also have similar data types
+- The columns in each SELECT statement must also be in the same order
+
+```sql
+SELECT column_name(s) FROM table1
+UNION
+SELECT column_name(s) FROM table2;
+```
+
+The `UNION` operator selects only distinct values, whereas the `UNION ALL` operator allows duplicate values.
+
+```sql
+SELECT column_name(s) FROM table1
+UNION ALL
+SELECT column_name(s) FROM table2;
+```
+
+### GROUP BY Statement
+
+Groups rows that have the same values into summary rows.
+
+Often used with aggregate functions (`COUNT`,`MAX`,`MIN`,`SUM`,`AVG`) to group the result-set by one or more columns.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+ORDER BY column_name(s);
+```
+
+For example, to list the number of customers in each country and sort from high to low:
+
+```sql
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+ORDER BY COUNT(CustomerID) DESC;
+```
+
+### HAVING Clause
+
+Added to SQL because the WHERE keyword could not be used with aggregate functions.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE condition
+GROUP BY column_name(s)
+HAVING condition
+ORDER BY column_name(s);
+```
+
+For example, to list the number of customers in each country that has more than 5 customers:
+
+```sql
+SELECT COUNT(CustomerID), Country
+FROM Customers
+GROUP BY Country
+HAVING COUNT(CustomerID) > 5;
+```
+
+### EXISTS Operator
+
+Used to test for the existence of any record in a subquery.
+
+Returns true if the subquery returns one or more records.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE EXISTS
+(SELECT column_name FROM table_name WHERE condition);
+```
+
+For example, to return `TRUE` and list the suppliers with a product price less than 20:
+
+```sql
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+```
+
+### ANY and ALL Operators
+
+Used with a `WHERE` or `HAVING` clause.
+
+The `ANY` operator returns true if any of the subquery values meet the condition.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator ANY
+(SELECT column_name FROM table_name WHERE condition);
+```
+
+The `ALL` operator returns true if all of the subquery values meet the condition.
+
+```sql
+SELECT column_name(s)
+FROM table_name
+WHERE column_name operator ALL
+(SELECT column_name FROM table_name WHERE condition);
+```
+
+`operator` must be a standard comparison operator (`=`,`<>`,`>`,`>=`,`<`,`<=`)
+
+### SELECT INTO Statement
+
+Copies data from one table into a new table.
+
+```sql
+SELECT column1, column2, column3, ...
+INTO newtable [IN externaldb]
+FROM oldtable
+WHERE condition;
+```
+
+For example, the following copies only the German customers into a new table:
+
+```sql
+SELECT * INTO CustomersGermany
+FROM Customers
+WHERE Country = 'Germany';
+```
+
+To create a new empty table using the schema of another, add a `WHERE` clause that causes the query to return no data:
+
+```sql
+SELECT * INTO newtable
+FROM oldtable
+WHERE 1 = 0;
+```
+
+### INSERT INTO SELECT Statement
+
+Copies data from one table and inserts it into another table.
+
+- Requires that data types in source and target tables match
+- Existing records in the target table are unaffected
+
+To copy all columns from one table to another table:
+
+```sql
+INSERT INTO table2
+SELECT * FROM table1
+WHERE condition;
+```
+
+To copy only some columns from one table into another table:
+
+```sql
+INSERT INTO table2 (column1, column2, column3, ...)
+SELECT column1, column2, column3, ...
+FROM table1
+WHERE condition;
+```
+
+### CASE Statement
+
+Goes through conditions and returns a value when the first condition is met.
+
+If no conditions are true, it returns `NULL`.
+
+```sql
+CASE
+  WHEN condition1 THEN result1
+  WHEN condition2 THEN result2
+  WHEN condition3 THEN result3
+  ELSE result
+END
+```
+
+For example, the following orders customers by City, but if city is `NULL`, then it orders by Country.
+
+### Stored Procedure
+
+Prepared SQL code that you can save, so the code can be reused over and over again.
+
+You can also pass parameters to a stored procedure.
+
+```sql
+CREATE PROCEDURE procedure_name
+AS
+sql_statement
+GO;
+```
+
+Execute:
+
+```sql
+EXEC procedure_name;
+```
+
+### CREATE DATABASE Statement
+
+Used to create a new SQL database.
+
+```sql
+CREATE DATABASE databasename
+```
+
+### DROP DATABASE Statement
+
+Used to drop an existing SQL database.
+
+```sql
+DROP DATABASE databasename;
+```
+
+### BACKUP DATABASE Statement
+
+Used in SQL Server to create a full back up of an existing SQL database.
+
+```sql
+BACKUP DATABASE databasename
+TO DISK = 'filepath';
+```
+
+To only back up the parts of the database that have changed since the last full database backup, use the `WITH DIFFERENTIAL STATEMENT`:
+
+```sql
+BACKUP DATABASE databasename
+TO DISK = 'filepath';
+WITH DIFFERENTIAL
+```
+
+### CREATE TABLE Statement
+
+Used to create a new table in a database.
+
+```sql
+CREATE TABLE table_name (
+  column1 datatype,
+  column2 datatype,
+  column3 datatype,
+  ...
+);
+```
+
+The w3schools Data Type reference can be found [here](https://www.w3schools.com/sql/sql_datatypes.asp)
+
+### DROP TABLE Statement
+
+Used to drop an existing table in a database.
+
+```sql
+DROP TABLE table_name;
+```
+
+### TRUNCATE TABLE Statement
+
+Used to delete the data inside a table, but not the table itself.
+
+```sql
+TRUNCATE TABLE table_name;
+```
+
+### ALTER TABLE Statement
+
+Used to add, delete, or modify columns in an existing table.
+
+To add a column:
+
+```sql
+ALTER TABLE table_name
+ADD column_name datatype;
+```
+
+To delete a column (some database systems don't allow for this)
+
+```sql
+ALTER TABLE table_name
+DROP COLUMN column_name
+```
+
+To change the data type of a column in a table (some use `MODIFY`, others use `ALTER`):
+
+```sql
+ALTER TABLE table_name
+MODIFY|ALTER COLUMN column_name datatype
+```
+
+### Create Constraints
+
+Used to specify rules for the data in the table.
+
+Used to limit the type of data that can go into a table. Action is aborted if constraint is violated by action.
+
+Can be column level or table level.
+
+Can be specified when the table is created with the `CREATE TABLE` statement, or after with the `ALTER TABLE` statement.
+
+```sql
+CREATE TABLE table_name (
+    column1 datatype constraint,
+    column2 datatype constraint,
+    column3 datatype constraint,
+    ...
+);
+```
+
+Common constraints:
+
+- [NOT NULL](https://www.w3schools.com/sql/sql_notnull.asp) - Ensures that a column cannot have a NULL value
+- [UNIQUE](https://www.w3schools.com/sql/sql_unique.asp) - Ensures that all values in a column are different
+- [PRIMARY KEY](https://www.w3schools.com/sql/sql_primarykey.asp) - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table
+- [FOREIGN KEY](https://www.w3schools.com/sql/sql_foreignkey.asp) - Uniquely identifies a row/record in another table
+- [CHECK](https://www.w3schools.com/sql/sql_check.asp) - Ensures that all values in a column satisfies a specific condition
+- [DEFAULT](https://www.w3schools.com/sql/sql_default.asp) - Sets a default value for a column when no value is specified
+- [INDEX](https://www.w3schools.com/sql/sql_create_index.asp) - Used to create and retrieve data from the database very quickly
+
+### PRIMARY KEY and FOREIGN KEY Constraints
+
+The `PRIMARY KEY` constraint uniquely identifies each record in a table.
+
+Primary keys must contain `UNIQUE` values, and cannot contain `NULL` values.
+
+A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns (fields).
+
+A `FOREIGN KEY` is a key used to link two tables together.
+
+A `FOREIGN KEY` is a field (or collection of fields) in one table that refers to the `PRIMARY KEY` in another table.
+
+The table containing the foreign key is called the child table, and the table containing the candidate key is called the referenced or parent table.
+
+The `FOREIGN KEY` constraint is used to prevent actions that would destroy links between tables.
+
+The `FOREIGN KEY` constraint also prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the table it points to.
+
+### CREATE INDEX Statement
+
+Used to create indexes in tables.
+
+Indexes are used to retrieve data more quickly than otherwise. The user cannot see the indexes, they are just used to speed up searches/queries.
+
+```sql
+CREATE INDEX index_name
+ON table_name (column1, column2, ...);
+```
+
+To disallow duplicate values, we use a `UNIQUE` index:
+
+```sql
+CREATE UNIQUE INDEX index_name
+ON table_name (column1, column2, ...);
+```
+
+We can also delete an index on a table. On MS Access:
+
+```sql
+DROP INDEX index_name ON table_name;
+```
+
+### AUTO INCREMENT Field
+
+Allows a unique number to be generated whena new record is insterted into a table.
+
+Often this is the primary key field that we would like to be created every time a new record is inserted.
+
+For example (MySQL Syntax):
+
+```sql
+CREATE TABLE Persons (
+    Personid int NOT NULL AUTO_INCREMENT,
+    LastName varchar(255) NOT NULL,
+    FirstName varchar(255),
+    Age int,
+    PRIMARY KEY (Personid)
+);
 ```
 
 import DefaultLayout from '../../../layouts/index'
