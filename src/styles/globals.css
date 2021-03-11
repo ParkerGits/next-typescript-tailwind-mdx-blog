@@ -3,53 +3,71 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;700&display=swap');
 
-
-h1, h2, h3 {
-    font-family: "Roboto Slab", serif;
+h1,
+h2,
+h3 {
+    font-family: 'Roboto Slab', serif;
 }
 
 .icon::after {
-    content: " #";
+    content: ' #';
     margin-left: '.5rem';
     display: none;
-    font-weight:bolder;
+    font-weight: bolder;
 }
 
-h1:hover > a > .icon::after, h2:hover > a > .icon::after, h3:hover > a > .icon::after {
+h1:hover > a > .icon::after,
+h2:hover > a > .icon::after,
+h3:hover > a > .icon::after {
     display: inline;
 }
 code > .table {
     display: inline !important;
 }
 
-.keyword, .tag, .boolean{
-    color:steelblue;
+.keyword,
+.tag,
+.boolean {
+    color: steelblue;
 }
 
-.template-string, .string {
-    color:sandybrown;
+.template-string,
+.string {
+    color: sandybrown;
 }
 
-.method, .function {
-    color:khaki;
+.method,
+.function {
+    color: khaki;
 }
 
-.operator, .punctuation  {
+.operator,
+.punctuation {
     color: white;
 }
 
 .comment {
-    color:olivedrab;
+    color: olivedrab;
 }
 
 .number {
-    color:rgb(137, 202, 137);
+    color: rgb(137, 202, 137);
 }
 
-.attr-name, .script, .property, pre.language-js > code, pre.language-jsx > code{
-    color:skyblue !important;
+.attr-name,
+.script,
+.property,
+pre.language-js > code,
+pre.language-jsx > code,
+pre.language-ts > code,
+pre.language-tsx > code {
+    color: skyblue !important;
 }
 
 .class-name {
-    color:rgb(43 195 170);
+    color: rgb(43 195 170);
+}
+
+.maybe-class-name {
+    color: rgb(43 195 170);
 }

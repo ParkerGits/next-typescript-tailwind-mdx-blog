@@ -1,0 +1,188 @@
+---
+title: Share State Throughout Your Next.js Application with React's useContext Hook 🤝
+topic: programming
+routename: share-state-throughout-your-next-js-application-with-react-usecontext-hook
+description: How React's useContext hook helped me share form submissions and user data between separate pages in my Next.js project.
+postnum: 8
+---
+
+import Image from 'next/image'
+import Link from 'next/link'
+
+export const meta = {
+    title:
+        "Share State Throughout Your Next.js Application with React's useContext Hook 🤝",
+    description:
+        "How React's useContext hook helped me share form submissions and user data between separate pages in my Next.js project.",
+    url:
+        'https://parkerlandon.com/posts/programming/share-state-throughout-your-next-js-application-with-react-usecontext-hook',
+    titleAppendSiteName: true,
+    ogImage: {
+        url:
+            'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Share%20State%20In%20Your%20Next.js%20Application%20with%20useContext&tags=react,nextjs,hooks',
+        width: 1200,
+        height: 630,
+    },
+}
+
+<Image
+    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/empty-tends-list.png"
+    width="1024"
+    height="480"
+    layout="responsive"
+/>
+
+The picture above shows the visual scaffolding for a web development project that I am working on with members of the [egghead.io](https://egghead.io) Portfolio Project Club. You can read more about the specifics of this project [here](https://github.com/ParkerGits/tends/blob/master/README.md), but I'll provide some context in this post (pun not intended). 😁
+
+My app **Tends** is a management app that lets users create a list of quantities that they would like to manage in their lives. These quantities are what I'm calling tendencies or "Tends," and are displayed for the user like this:
+
+<Image
+    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/parker-points-tend.png"
+    width="1024"
+    height="480"
+    layout="responsive"
+/>
+
+The user can click the '+' button to be redirected to the "Create New Tend" form:
+
+<Image
+    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-new-tend-blank.png"
+    width="1024"
+    height="480"
+    layout="responsive"
+/>
+
+In this form, the user can specify the **title** and **type** of their new Tend, as well as other properties related to the type of the tend.
+
+<Image
+    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-tend-form-quantity-empty.png"
+    width="1024"
+    height="480"
+    layout="responsive"
+/>
+
+Since the Create New Tend form and the list of Tends are on separate pages, I needed a way for both to have access to the user's complete list of Tends.
+
+My solution: React's `useContext` hook. 🎣🥳
+
+I start by creating a new **TendsContext.tsx** file in my **components** folder, and then I bring in `useState`, `useContext`, and `createContext` from React. I also bring in the types that I need since I am building this project with TypeScript.
+
+### TendsContext.tsx
+
+```ts
+import { createContext, useContext, useState } from 'react'
+import { QuantityTendProps } from './QuantityTend'
+import { TimerTendProps } from './TimerTend'
+```
+
+Now we'll initialize our context with `createContext`. I want to provide the pages in my app with the ability to get and set the user's list of tends. We'll create a component to manage the state of the list of tends next, but, for this initialization, we just need to give our context the necessary attributes. For me, these attributes are `tendsList` and `setTendsList`.
+
+For TypeScript users: I define a type for my `TendsContext`, with `tendsList` being an array made up of the different kinds of tends (quantity and timer) and `setTendsList` being of type `any`. We want to use type `any` here because, while we initialize our context to undefined, this context will never actually be undefined in our program. You'll see why this is in the next step.
+
+```ts
+type TendsContextType = {
+    tendsList: Array<QuantityTendProps | TimerTendProps>
+    setTendsList: any
+}
+
+// Initialize Context
+const TendsContext = createContext<TendsContextType>({
+    tendsList: [],
+    setTendsList: undefined,
+})
+```
+
+Now we want to create a component that manages our `tendsList` and `setTendsList` state. I call this component `AppWrapper` since it's going to wrap around `<Component />` in `_app.tsx`.
+
+Inside the component, we define our `tendsList` state with `useState`.
+
+```tsx
+export function AppWrapper({ children }: { children: React.ReactNode }) {
+    const [tendsList, setTendsList] = useState<
+        Array<QuantityTendProps | TimerTendProps>
+    >([])
+}
+```
+
+Now here's where the magic happens ✨.
+
+Notice that we provide this component with `{ children }` as props.
+
+In the return of this component, we wrap the component's children with `<TendsContext.Provider>`. This will provide the component's children with the context we created.
+
+Recall that we initialized our `TendsContext` with an object containing **tendsList** and **setTendsList** properties:
+
+```tsx
+const TendsContext = createContext<TendsContextType>({
+    tendsList: [],
+    setTendsList: undefined,
+})
+```
+
+in the **value** prop of `<TendsContext.Provider>`, we specify the **tendsList** property to be the **tendsList** state of the `<AppWrapper>` component, and the **setTendsList** property to be function that sets that **tendsList** state.
+
+```tsx
+export function AppWrapper({ children }: { children: React.ReactNode }) {
+    const [tendsList, setTendsList] = useState<
+        Array<QuantityTendProps | TimerTendProps>
+    >([])
+
+    return (
+        <TendsContext.Provider value={{ tendsList, setTendsList }}>
+            {children}
+        </TendsContext.Provider>
+    )
+}
+```
+
+Now all the children of the `<AppWrapper>` component are able to get and set the **tendsList** state!
+
+Finally, to provide our Next.js application with this state, we wrap `<Component>` in **\_app.tsx** with our `<AppWrapper>` component.
+
+```jsx
+import '../styles/globals.css'
+import { AppProps } from 'next/app'
+import { AppWrapper } from '../components/TendsContext'
+
+export default function MyApp({ Component, pageProps }: AppProps) {
+    return (
+        <AppWrapper>
+            <Component {...pageProps} />
+        </AppWrapper>
+    )
+}
+```
+
+It's that simple! 🎉
+
+Now any component in our Next.js application can access and change the **tendsList** state.
+
+To actually gain access to **tendsList** and **setTendsList** in our components, we could export our `TendsContext` from **TendsContext.tsx**, import both `TendsContext` and `useContext`, and then use `useContext(TendsContext)`. 🤮
+
+A more effective and efficient method is to export a function, call it `useTendsContext()`, from `TendsContext` that returns `useContext(TendsContext)`.
+
+```tsx
+export function useTendsContext() {
+    return useContext(TendsContext)
+}
+```
+
+Now we just have to import `useTendsContext()` in our component 🧠.
+
+```tsx
+import { useTendsContext } from "./TendsContext";
+...
+const { tendsList, setTendsList } = useTendsContext();
+```
+
+For my use case, I'll be able to use `setTendsList` to add a new tend to the user's list when the Create Tend Form is submitted. 🙌
+
+```ts
+setTendsList([...tendsList, newTend!])
+```
+
+(That exclamation mark following **newTend** is TypeScript's non-null assertion operator: a concept I learned while taking on this project with TypeScript's strict configuration. Read about the operator [here](https://medium.com/@tar.viturawong/a-note-on-typescript-non-null-assertion-operator-bad8fbe62bba)!)
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayout
