@@ -1,0 +1,166 @@
+---
+title: Using TypeScript with XState and React Context 🚀
+topic: programming
+routename: using-typescript-with-xstate-and-react-context
+description: When combining XState with React Context to provide global state to your application, you may find it tricky to implement the typing that you want.
+postnum: 9
+---
+
+import Image from 'next/image'
+import Link from 'next/link'
+export const meta = {
+    title: 'Using TypeScript with XState and React Context 🚀',
+    description:
+        'When combining XState with React Context to provide global state to your application, you may find it tricky to implement the typing that you want.',
+    url:
+        'https://parkerlandon.com/posts/programming/using-typescript-with-xstate-and-react-context',
+    titleAppendSiteName: true,
+    ogImage: {
+        url:
+            'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Using%20TypeScript%20with%20XState%20and%20React%20Context&tags=react,xstate,typescript',
+        width: 1200,
+        height: 630,
+    },
+}
+
+<Image
+    src="/images/posts/using-typescript-with-xstate-and-react-context/rpg-shop-cutscene.gif"
+    width={990}
+    height={752}
+    layout="responsive"
+/>
+
+(Warning: reading about React and XState is tricky because they each have their own kind of context. I will try to be clear about which I am discussing: React Context for React, and machine context for XState.)
+
+The gif above is from a project that I am currently working on as part of an [egghead.io Portfolio Project Club](https://egghead.io/clubs/portfolio-project). You can follow the progress that I'm making on it [here](https://github.com/ParkerGits/RPG-Portfolio), but, essentially, I am planning to have my developer portfolio be presented as an RPG shop cutscene.
+
+The functionality and interface you see above has been built using React, Next.js, TypeScript, and XState. The XState machine that runs the cutscene looks something like this:
+
+<Image
+    src="/images/posts/using-typescript-with-xstate-and-react-context/player-event-state-machine.png"
+    width={841}
+    height={298}
+    layout="responsive"
+/>
+
+In order to provide the current state of the machine to both the `Player` component and the `DialogueBox` component, I set up the machine to be provided to my application via React Context:
+
+```jsx
+import { createContext } from 'react'
+import { useInterpret } from '@xstate/react'
+import { playerEventMachine } from '../machines/playerEventMachine'
+
+export const PlayerEventContext = createContext({})
+
+export const PlayerEventProvider = ({ children }) => {
+    const playerEventState = useInterpret(playerEventMachine)
+
+    return (
+        <PlayerEventContext.Provider value={{ playerEventState }}>
+            {children}
+        </PlayerEventContext.Provider>
+    )
+}
+```
+
+This is almost identical to how it's done in the **Usage with React** recipe [on the XState docs](https://xstate.js.org/docs/recipes/react.html#context-provider).
+
+However, with TypeScript, this typeless implementation gives me a stack of nasty errors like the following:
+
+```
+Property 'playerEventState' does not exist on type '{}'. ts(2339)
+```
+
+```
+Property 'matches' does not exist on type 'unknown'. ts(2339)
+```
+
+These errors aren't actually preventing the application from working as intended, but they certainly aren't doing us any good. To fix this, we should start by defining some types for our machine's events and context (see [this section of the XState docs](https://xstate.js.org/docs/guides/typescript.html#using-typescript) about strongly typing your statecharts). This machine, in the current version of the project, only handles one event and does not manage any extended state, so our types aren't too complicated here:
+
+```ts
+import { createMachine } from 'xstate'
+
+export type PlayerEventMachineContext = {}
+
+export type PlayerEvent = { type: 'FINISH_DIALOGUE' }
+
+export const playerEventMachine = createMachine<
+	PlayerEventMachineContext,
+	PlayerEvent
+>({
+	...
+})
+
+```
+
+An example of more robust machine typing can be seen in [the state machine that handles the DialogueBox component](https://github.com/ParkerGits/RPG-Portfolio/blob/main/src/machines/dialogueMachine.ts?ts=2) (includes [typestates](https://xstate.js.org/docs/guides/typescript.html#typestates)).
+
+Now with our machine context and event types defined and exported, we can make use of them where we create our React Context. We'll also need to bring in the `Interpreter` type from XState.
+
+```ts
+import {
+    playerEventMachine,
+    PlayerEvent,
+    PlayerEventMachineContext,
+} from '../machines/playerEventMachine'
+import { Interpreter } from 'xstate'
+```
+
+With these types, we can define the type of context that we'll be providing our application with. The context will be an object whose value is that of the state of the machine as determined by XState's `useInterpret` hook. For TypeScript to recognize this, we use the `Interpreter` type and pass in type arguments.
+
+```ts
+type PlayerEventMachineInterpreter = {
+    playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
+}
+```
+
+The first type argument is our defined machine context type, and the third type argument is our defined machine event type. There is little documentation about that second argument, but it works just fine as `any`.
+
+Now, in `createContext`, we utilize this `Interpreter` type to fix errors we were having earlier.
+
+```ts
+export const PlayerEventContext = createContext<PlayerEventMachineInterpreter>(
+    {} as PlayerEventMachineInterpreter,
+)
+```
+
+Here's what we have in full with the implementation of types:
+
+```ts
+import { createContext } from 'react'
+import { useInterpret } from '@xstate/react'
+import {
+    playerEventMachine,
+    PlayerEvent,
+    PlayerEventMachineContext,
+} from '../machines/playerEventMachine'
+import { Interpreter } from 'xstate'
+
+type PlayerEventMachineInterpreter = {
+    playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
+}
+
+export const PlayerEventContext = createContext<PlayerEventMachineInterpreter>(
+    {} as PlayerEventMachineInterpreter,
+)
+
+export const PlayerEventProvider = ({ children }) => {
+    const playerEventState = useInterpret(playerEventMachine)
+
+    return (
+        <PlayerEventContext.Provider value={{ playerEventState }}>
+            {children}
+        </PlayerEventContext.Provider>
+    )
+}
+```
+
+That's it! 🎉
+
+TypeScript now gives no errors, and my IDE gives code completion when I want to send an event to my machine.
+
+import DefaultLayout from '../../../layouts/index'
+
+export default DefaultLayou
+
+t
