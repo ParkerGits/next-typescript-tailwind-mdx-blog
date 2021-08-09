@@ -43,7 +43,7 @@ The functionality and interface you see above has been built using React, Next.j
     layout="responsive"
 />
 
-In order to provide the current state of the machine to both the `Player` component and the `DialogueBox` component, I set up the machine to be provided to my application via React Context:
+The case for using React Context in this application is to allow both the `DialogueBox` and `Player` components to interact with the same machine instance. Providing the state machine through React Context is done as follows:
 
 ```jsx
 import { createContext } from 'react'
