@@ -1,6 +1,6 @@
 ---
 title: Add Internationalization to a React App Using React Intl 🌎
-topic: programming
+topic: egghead-notes
 routename: add-internationalization-to-react-app-using-react-intl
 description: Notes from Damon Bauer's Add Internationalization (i18n) to a React app using React Intl course on egghead.io.
 postnum: 3
@@ -557,7 +557,7 @@ For our second prop: if you look at the `BookDetail` user review header, you'll 
 <p>
   <FormattedMessage
     id="detail.userRating"
-    values={{name: <strong>{review.name}</strong>, rating: review.rating}}
+    values={{ name: <strong>{review.name}</strong>, rating: review.rating }}
   />
   <br />
   {new Date(review.date).toLocaleDateString()}
@@ -681,7 +681,7 @@ In our **src/components/BookDetail.js**, we will import `FormattedDate` and `For
 ### BookDetail.js
 
 ```js
-import {FormattedMessage, FormattedDate, FormattedTime} from 'react-intl'
+import { FormattedMessage, FormattedDate, FormattedTime } from 'react-intl'
 ```
 
 If we navigate to **src/books.json**, we can see that the `date` property is one long number
@@ -706,7 +706,10 @@ We'll pass the timestamp into a `Date` object, which we will then pass into a `F
   <p>
     <FormattedMessage
       id="detail.userRating"
-      values={{name: <strong>{review.name}</strong>, rating: review.rating}}
+      values={{
+        name: <strong>{review.name}</strong>,
+        rating: review.rating,
+      }}
     />
     <br />
     <FormattedDate
@@ -1037,7 +1040,7 @@ Now, let's head down to our average rating `FormattedMessage` component and pass
 <h3>
   <FormattedMessage
     id="detail.averageRating"
-    values={{avg: avgRating, count: book.reviews.length}}
+    values={{ avg: avgRating, count: book.reviews.length }}
   />
 </h3>
 ```
@@ -1242,7 +1245,7 @@ Now we can provide our `placeholder` attribute with the value `intl.formatMessag
 
 ```jsx
 <textarea
-  placeholder={intl.formatMessage({id: 'detail.inputPlaceholder'})}
+  placeholder={intl.formatMessage({ id: 'detail.inputPlaceholder' })}
 ></textarea>
 ```
 
@@ -1333,9 +1336,9 @@ As of react-intl v3, `getChildContext()` is deprecated, so the helper function t
  */
 
 import React from 'react'
-import {IntlProvider} from 'react-intl'
-import {mount, shallow} from 'enzyme'
-import {flattenMessages} from './utils'
+import { IntlProvider } from 'react-intl'
+import { mount, shallow } from 'enzyme'
+import { flattenMessages } from './utils'
 // You can pass your messages to the IntlProvider. Optional: remove if unneeded.
 import messages from './messages'
 const defaultLocale = 'en-US'
@@ -1379,7 +1382,7 @@ Inside of **BookDetail.test.js**, we're going to import from React, enzyme-to-js
 
 ```js
 import React from 'react'
-import {mountWithIntl, shallowWithIntl} from '../../intl-enzyme'
+import { mountWithIntl, shallowWithIntl } from '../../intl-enzyme'
 import toJson from 'enzyme-to-json'
 
 import BookDetail from '../BookDetail'
@@ -1399,17 +1402,17 @@ Next, in **BookDetail.test.js**, we'll configure the adapter:
 
 ```js
 import React from 'react'
-import {mountWithIntl, shallowWithIntl} from '../../intl-enzyme'
+import { mountWithIntl, shallowWithIntl } from '../../intl-enzyme'
 import toJson from 'enzyme-to-json'
 
 import BookDetail from '../BookDetail'
 
 // Configure enzyme
 
-import {configure} from 'enzyme'
+import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 ```
 
 Now we should be all good to get started writing tests!
@@ -1465,7 +1468,7 @@ Finally, we'll `expect` that `toJson(wrapper)` matches a snapshot (`toMatchSnaps
 ```js
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 })
@@ -1489,15 +1492,15 @@ In our `BookDetail.test.js`, we can redefine `Date.now` to be a mock Jest functi
 
 ```js
 import React from 'react'
-import {mountWithIntl, shallowWithIntl} from '../../intl-enzyme'
+import { mountWithIntl, shallowWithIntl } from '../../intl-enzyme'
 import toJson from 'enzyme-to-json'
 
 import BookDetail from '../BookDetail'
 
-import {configure} from 'enzyme'
+import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 
 Date.now = jest.fn(() => 1491111687199)
 
@@ -1505,7 +1508,7 @@ let wrapper = null
 
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 })
@@ -1522,7 +1525,7 @@ We're going to set up a nested `describe` block for `'intl messages'`, and withi
 ```js
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
   describe('intl messages', () => {
@@ -1544,12 +1547,14 @@ In the lesson, the instructor, to fix this issue, calls `.first()` on `shallowWi
 ```js
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
   describe('intl messages', () => {
     beforeEach(() => {
-      wrapper = shallowWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+      wrapper = shallowWithIntl(
+        <BookDetail match={{ params: { bookId: 1 } }} />,
+      )
         .shallow()
         .shallow()
     })
@@ -1564,17 +1569,19 @@ Now we can add an `it` block to define an assertion, and within it we'll `expect
 ```js
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
   describe('intl messages', () => {
     beforeEach(() => {
-      wrapper = shallowWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+      wrapper = shallowWithIntl(
+        <BookDetail match={{ params: { bookId: 1 } }} />,
+      )
         .shallow()
         .shallow()
     })
     it('renders a single "purchase" message', () => {
-      expect(wrapper.find({id: 'detail.purchase'})).toHaveLength(1)
+      expect(wrapper.find({ id: 'detail.purchase' })).toHaveLength(1)
     })
   })
 })
@@ -1589,24 +1596,28 @@ Finally, we can test that our our component `'passes number of merchants to "new
 ```js
 describe('BookDetail', () => {
   it('renders expected markup', () => {
-    wrapper = mountWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+    wrapper = mountWithIntl(<BookDetail match={{ params: { bookId: 1 } }} />)
     expect(toJson(wrapper)).toMatchSnapshot()
   })
 
   describe('intl messages', () => {
     beforeEach(() => {
-      wrapper = shallowWithIntl(<BookDetail match={{params: {bookId: 1}}} />)
+      wrapper = shallowWithIntl(
+        <BookDetail match={{ params: { bookId: 1 } }} />,
+      )
         .shallow()
         .shallow()
     })
 
     it('renders a single "purchase" message', () => {
-      expect(wrapper.find({id: 'detail.purchase'})).toHaveLength(1)
+      expect(wrapper.find({ id: 'detail.purchase' })).toHaveLength(1)
     })
 
     // New Test
     it('passes number of merchants to "new window" message', () => {
-      expect(wrapper.find({id: 'detail.window'}).prop('values')).toMatchObject({
+      expect(
+        wrapper.find({ id: 'detail.window' }).prop('values'),
+      ).toMatchObject({
         numMerchants: 3,
       })
     })

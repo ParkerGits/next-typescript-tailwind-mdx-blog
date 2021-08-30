@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://example.com/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-01-27T18:36:12.010Z</lastmod></url>
-<url><loc>https://example.com/list</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-01-27T18:36:12.010Z</lastmod></url>
-<url><loc>https://example.com/posts/personal/the-origin-of-lord-parker</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-01-27T18:36:12.010Z</lastmod></url>
+<url><loc>https://parkerlandon.com/</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/list</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/add-internationalization-to-react-app-using-react-intl</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/build-an-angular-search-component</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/gatsby-theme-authoring</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/get-started-with-angular</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/opengraph-image-generation-api</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/egghead-notes/test-react-components-with-enzyme-and-jest</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/personal/the-origin-of-lord-parker</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/programming/share-state-in-your-next-js-application-with-usecontext</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
+<url><loc>https://parkerlandon.com/posts/programming/using-typescript-with-xstate-and-react-context</loc><changefreq>daily</changefreq><priority>0.7</priority><lastmod>2021-08-30T22:19:17.921Z</lastmod></url>
 </urlset>

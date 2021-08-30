@@ -9,38 +9,38 @@ postnum: 9
 import Image from 'next/image'
 import Link from 'next/link'
 export const meta = {
-    title: 'Using TypeScript with XState and React Context 🚀',
-    description:
-        'When combining XState with React Context to provide global state to your application, you may find it tricky to implement the typing that you want.',
+  title: 'Using TypeScript with XState and React Context 🚀',
+  description:
+    'When combining XState with React Context to provide global state to your application, you may find it tricky to implement the typing that you want.',
+  url:
+    'https://parkerlandon.com/posts/programming/using-typescript-with-xstate-and-react-context',
+  titleAppendSiteName: true,
+  ogImage: {
     url:
-        'https://parkerlandon.com/posts/programming/using-typescript-with-xstate-and-react-context',
-    titleAppendSiteName: true,
-    ogImage: {
-        url:
-            'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Using%20TypeScript%20with%20XState%20and%20React%20Context&tags=react,xstate,typescript',
-        width: 1200,
-        height: 630,
-    },
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Using%20TypeScript%20with%20XState%20and%20React%20Context&tags=react,xstate,typescript',
+    width: 1200,
+    height: 630,
+  },
 }
 
 <Image
-    src="/images/posts/using-typescript-with-xstate-and-react-context/rpg-shop-cutscene.gif"
-    width={990}
-    height={752}
-    layout="responsive"
+  src="/images/posts/using-typescript-with-xstate-and-react-context/rpg-shop-cutscene.gif"
+  width={990}
+  height={752}
+  layout="responsive"
 />
 
 (Warning: reading about React and XState is tricky because they each have their own kind of context. I will try to be clear about which I am discussing: React Context for React, and machine context for XState.)
 
-The gif above is from a project that I am currently working on as part of an [egghead.io Portfolio Project Club](https://egghead.io/clubs/portfolio-project). You can follow the progress that I'm making on it [here](https://github.com/ParkerGits/RPG-Portfolio), but, essentially, I am planning to have my developer portfolio be presented as an RPG shop cutscene.
+The gif above is from a project that I am currently working on as part of an [egghead.io Portfolio Project Club](https://egghead.io/clubs/portfolio-project). You can try out what I've made so far [here](https://rpg-portfolio.vercel.app/), or you can check out the code repository [here](https://github.com/ParkerGits/RPG-Portfolio), but, essentially, I am planning to have my developer portfolio be presented as an RPG shop cutscene.
 
 The functionality and interface you see above has been built using React, Next.js, TypeScript, and XState. The XState machine that runs the cutscene looks something like this:
 
 <Image
-    src="/images/posts/using-typescript-with-xstate-and-react-context/player-event-state-machine.png"
-    width={841}
-    height={298}
-    layout="responsive"
+  src="/images/posts/using-typescript-with-xstate-and-react-context/player-event-state-machine.png"
+  width={841}
+  height={298}
+  layout="responsive"
 />
 
 The case for using React Context in this application is to allow both the `DialogueBox` and `Player` components to interact with the same machine instance. Providing the state machine through React Context is done as follows:
@@ -53,13 +53,13 @@ import { playerEventMachine } from '../machines/playerEventMachine'
 export const PlayerEventContext = createContext({})
 
 export const PlayerEventProvider = ({ children }) => {
-    const playerEventState = useInterpret(playerEventMachine)
+  const playerEventState = useInterpret(playerEventMachine)
 
-    return (
-        <PlayerEventContext.Provider value={{ playerEventState }}>
-            {children}
-        </PlayerEventContext.Provider>
-    )
+  return (
+    <PlayerEventContext.Provider value={{ playerEventState }}>
+      {children}
+    </PlayerEventContext.Provider>
+  )
 }
 ```
 
@@ -99,9 +99,9 @@ Now with our machine context and event types defined and exported, we can make u
 
 ```ts
 import {
-    playerEventMachine,
-    PlayerEvent,
-    PlayerEventMachineContext,
+  playerEventMachine,
+  PlayerEvent,
+  PlayerEventMachineContext,
 } from '../machines/playerEventMachine'
 import { Interpreter } from 'xstate'
 ```
@@ -110,7 +110,7 @@ With these types, we can define the type of context that we'll be providing our 
 
 ```ts
 type PlayerEventMachineInterpreter = {
-    playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
+  playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
 }
 ```
 
@@ -120,7 +120,7 @@ Now, in `createContext`, we utilize this `Interpreter` type to fix errors we wer
 
 ```ts
 export const PlayerEventContext = createContext<PlayerEventMachineInterpreter>(
-    {} as PlayerEventMachineInterpreter,
+  {} as PlayerEventMachineInterpreter,
 )
 ```
 
@@ -130,28 +130,28 @@ Here's what we have in full with the implementation of types:
 import { createContext } from 'react'
 import { useInterpret } from '@xstate/react'
 import {
-    playerEventMachine,
-    PlayerEvent,
-    PlayerEventMachineContext,
+  playerEventMachine,
+  PlayerEvent,
+  PlayerEventMachineContext,
 } from '../machines/playerEventMachine'
 import { Interpreter } from 'xstate'
 
 type PlayerEventMachineInterpreter = {
-    playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
+  playerEventState: Interpreter<PlayerEventMachineContext, any, PlayerEvent>
 }
 
 export const PlayerEventContext = createContext<PlayerEventMachineInterpreter>(
-    {} as PlayerEventMachineInterpreter,
+  {} as PlayerEventMachineInterpreter,
 )
 
 export const PlayerEventProvider = ({ children }) => {
-    const playerEventState = useInterpret(playerEventMachine)
+  const playerEventState = useInterpret(playerEventMachine)
 
-    return (
-        <PlayerEventContext.Provider value={{ playerEventState }}>
-            {children}
-        </PlayerEventContext.Provider>
-    )
+  return (
+    <PlayerEventContext.Provider value={{ playerEventState }}>
+      {children}
+    </PlayerEventContext.Provider>
+  )
 }
 ```
 

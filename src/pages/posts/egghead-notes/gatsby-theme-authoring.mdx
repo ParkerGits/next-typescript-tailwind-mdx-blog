@@ -1,6 +1,6 @@
 ---
 title: Gatsby Theme Authoring 🎨
-topic: programming
+topic: egghead-notes
 routename: gatsby-theme-authoring
 description: Notes from Jason Lengstorf's Gatsby Theme Authoring course on egghead.io.
 postnum: 5
@@ -405,7 +405,7 @@ We are going to have a custom `slug` field. We want to be able to query this alo
 ```javascript
 const fs = require('fs')
 
-exports.onPreBootstrap = ({reporter}) => {
+exports.onPreBootstrap = ({ reporter }) => {
   const contentPath = 'data'
 
   if (!fs.existsSync(contentPath)) {
@@ -442,7 +442,7 @@ Lastly we want to get the URL which is a string.
 ### gatsby-theme-events/gatsby-node.js
 
 ```javascript
-exports.sourceNodes = ({actions}) => {
+exports.sourceNodes = ({ actions }) => {
   actions.createTypes(`
     type Event implements Node @dontInfer {
       id: ID!
@@ -476,7 +476,7 @@ To gatsby-node.js, add the following:
 ### gatsby-theme-events/gatsby-node.js
 
 ```javascript
-exports.createResolvers = ({createResolvers}) => {
+exports.createResolvers = ({ createResolvers }) => {
   const basePath = '/'
 
   const slugify = (str) => {
@@ -659,7 +659,7 @@ Our goal now is to **display event data on our page**.
 ### src/templates/events.js
 
 ```javascript
-import {graphql, useStaticQuery} from 'gatsby'
+import { graphql, useStaticQuery } from 'gatsby'
 ```
 
 And refactor EventsTemplate():
@@ -668,7 +668,7 @@ And refactor EventsTemplate():
 const EventsTemplate = () => {
   const data = useStaticQuery(graphql`
     query {
-      allEvent(sort: {fields: startDate, order: ASC}) {
+      allEvent(sort: { fields: startDate, order: ASC }) {
         nodes {
           id
           name
@@ -705,7 +705,7 @@ We need to now create these two new components. Within gatsby-theme-events/src, 
 ```javascript
 import React from 'react'
 
-const Layout = ({children}) => (
+const Layout = ({ children }) => (
   <div>
     <h1>Gatsby Events Theme</h1>
     {children}
@@ -724,7 +724,7 @@ Within that we'll define our `EventList` component:
 ```javascript
 import React from 'react'
 
-const EventList = ({events}) => <pre>{JSON.stringify(events, null, 2)}</pre>
+const EventList = ({ events }) => <pre>{JSON.stringify(events, null, 2)}</pre>
 
 export default EventList
 ```
@@ -762,9 +762,9 @@ Instead of raw data, **we want to display the event data in markup**.
 In event-list.js, we refactor our EventList component:
 
 ```javascript
-import {Link} from 'gatsby'
+import { Link } from 'gatsby'
 
-const EventList = ({events}) => (
+const EventList = ({ events }) => (
   <>
     <h1>Upcoming Events</h1>
     <ul>
@@ -813,11 +813,11 @@ Our goal now is to **create a template React component for each individual `Even
 ### src/templates/event.js
 
 ```javascript
-import {graphql} from 'gatsby'
+import { graphql } from 'gatsby'
 
 export const query = graphql`
   query($eventID: String!) {
-    event(id: {eq: $eventID}) {
+    event(id: { eq: $eventID }) {
       name
       url
       startDate(formatString: "MMMM D, YYYY")
@@ -880,7 +880,7 @@ Back at our localhost:8000, we can click on one of our events to view the data a
 Again, our page displays raw data, so **our goal now is to display the data as markup**. In `components/event.js`, we refactor our `Event` component:
 
 ```javascript
-const Event = ({name, location, url, startDate, endDate}) => (
+const Event = ({ name, location, url, startDate, endDate }) => (
   <div>
     <h1>
       {name} ({location})
@@ -930,7 +930,7 @@ To get started, we'll create a helper function `getDate`. That will take in our 
 ### src/components/event.js
 
 ```javascript
-const getDate = (date, {day = true, month = true, year = true} = {}) =>
+const getDate = (date, { day = true, month = true, year = true } = {}) =>
   date.toLocaleDateString('en-US', {
     day: day ? 'numeric' : undefined,
     month: month ? 'long' : undefined,
@@ -943,20 +943,22 @@ Now we can use this helper function back inside of our `EventDate` component.
 Inside of the `time` tag, we'll call the function with the start date and tell it we only want to show the year if it's a one day event. We can also pass the start date to the time `dateTime` attribute.
 
 ```js
-const EventDate = ({startDate, endDate}) => {
+const EventDate = ({ startDate, endDate }) => {
   const start = new Date(startDate)
   const end = new Date(endDate)
   const isOneDay = start.toDateString() === end.toDateString()
   return (
     <>
       <time dateTime={start.toISOString()}>
-        {getDate(start, {year: isOneDay})}
+        {getDate(start, { year: isOneDay })}
       </time>
       {!isOneDay && (
         <>
           –
           <time dateTime={end.toISOString()}>
-            {getDate(end, {month: start.getMonth() !== end.getMonth()})}
+            {getDate(end, {
+              month: start.getMonth() !== end.getMonth(),
+            })}
           </time>
         </>
       )}
@@ -968,7 +970,7 @@ const EventDate = ({startDate, endDate}) => {
 We can now refactor our `Event` component to include `EventDate`:
 
 ```javascript
-const Event = ({name, location, url, startDate, endDate}) => (
+const Event = ({ name, location, url, startDate, endDate }) => (
   <div>
     <h1>
       {name} ({location})
@@ -1032,7 +1034,7 @@ We'll start by turning the gatsby-config into a function, and _passing in option
 ### gatsby-theme-events/gatsby-config.js
 
 ```javascript
-module.exports = ({contentPath = 'data', basePath = '/'}) => ({
+module.exports = ({ contentPath = 'data', basePath = '/' }) => ({
   plugins: [
     {
       resolve: 'gatsby-source-filesystem',
@@ -1061,7 +1063,7 @@ Here we can set `contentPath` to `options.contentPath`, and set the fallback to 
 ### gatsby-theme-events/gatsby-node.js
 
 ```javascript
-exports.onPreBootstrap = ({reporter}, options) => {
+exports.onPreBootstrap = ({ reporter }, options) => {
   const contentPath = options.contentPath || 'data'
   // ...
 }
@@ -1070,14 +1072,14 @@ exports.onPreBootstrap = ({reporter}, options) => {
 We can do the same thing for `createResolvers` and `createPages`.
 
 ```javascript
-exports.createResolvers = ({createResolvers}, options) => {
+exports.createResolvers = ({ createResolvers }, options) => {
   const basePath = options.basePath || '/'
   // ...
 }
 ```
 
 ```javascript
-exports.createPages = async ({actions, graphql, reporter}, options) => {
+exports.createPages = async ({ actions, graphql, reporter }, options) => {
   const basePath = options.basePath || '/'
   // ...
 }
@@ -1428,7 +1430,7 @@ Within gatsby-plugin-theme-ui/index.js:
 ### gatsby-theme-events/src/gatsby-theme-ui/index.js
 
 ```javascript
-import {theme} from '../theme'
+import { theme } from '../theme'
 
 export default theme
 ```
@@ -1441,9 +1443,9 @@ Because `Layout`, `Header`, and `Main` are **deprecated**, we will import our th
 
 ```javascript
 import React from 'react'
-import {Heading, Container} from 'theme-ui'
+import { Heading, Container } from 'theme-ui'
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
   return (
     <div>
       <Heading>Gatsby Events Theme</Heading>
@@ -1480,10 +1482,10 @@ In `event-list.js`:
 
 ```javascript
 import React from 'react'
-import {Link} from 'gatsby'
-import {Styled} from 'theme-ui'
+import { Link } from 'gatsby'
+import { Styled } from 'theme-ui'
 
-const EventList = ({events}) => {
+const EventList = ({ events }) => {
   const meta = useSiteMetadata()
 
   return (
@@ -1687,7 +1689,7 @@ Inside `index.js`:
 
 ```javascript
 import merge from 'lodash.merge'
-import {theme} from '@jlengstorf/gatsby-theme-events'
+import { theme } from '@jlengstorf/gatsby-theme-events'
 export default merge({}, theme, {
   colors: {
     primary: 'blue',
@@ -1732,7 +1734,7 @@ In `layout.js`, we add the following. I've provided what is added in both the vi
 ```javascript
 import React from 'react'
 
-export default ({children}) => (
+export default ({ children }) => (
   <>
     {children}
     <p>Added via component shadowing</p>
@@ -1745,7 +1747,7 @@ export default ({children}) => (
 ```javascript
 import React from 'react'
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
   return <>{children}</>
 }
 ```

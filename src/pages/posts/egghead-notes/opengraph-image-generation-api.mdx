@@ -1,6 +1,6 @@
 ---
 title: Building an OpenGraph Image Generation API 📷
-topic: programming
+topic: egghead-notes
 routename: opengraph-image-generation-api
 description: How to impress your Discord servers and Twitter followers! Notes from Chris Biscardi's Building an OpenGraph image generation API with Cloudinary, Netlify Functions, and React course on egghead.io.
 postnum: 7
@@ -221,11 +221,11 @@ exports.handler = async function (event, ctx) {
   `)
   const boundingRect = await page.evaluate(() => {
     const corgi = document.getElementById('corgi')
-    const {x, y, width, height} = corgi.children[0].getBoundingClientRect()
-    return {x, y, width, height}
+    const { x, y, width, height } = corgi.children[0].getBoundingClientRect()
+    return { x, y, width, height }
   })
 
-  const screenshotBuffer = await page.screenshot({clip: boundingRect})
+  const screenshotBuffer = await page.screenshot({ clip: boundingRect })
   await browser.close()
   return {
     isBase64Encoded: true,
@@ -334,7 +334,7 @@ await page.setContent(`<!DOCTYPE html>
 `)
 
 // New:
-await page.addScriptTag({content: script})
+await page.addScriptTag({ content: script })
 ```
 
 We'll also need to add a script to our `package.json` that will call rollup for us.
@@ -536,11 +536,11 @@ await page.addScriptTag({
   `,
 })
 // Original
-await page.addScriptTag({content: script})
+await page.addScriptTag({ content: script })
 const boundingRect = await page.evaluate(() => {
   const corgi = document.getElementById('corgi')
-  const {x, y, width, height} = corgi.children[0].getBoundingClientRect()
-  return {x, y, width, height}
+  const { x, y, width, height } = corgi.children[0].getBoundingClientRect()
+  return { x, y, width, height }
 })
 
 // ...
@@ -555,7 +555,7 @@ Now we want to control our window variables. To do this, we'll get `queryStringP
 ### gen-opengraph-image.js
 
 ```js
-const {queryStringParameters} = event
+const { queryStringParameters } = event
 const tags = queryStringParameters.tags
   ? decodeURIComponent(queryStringParameters.tags).split(',')
   : []
@@ -609,7 +609,7 @@ cloudinary.config({
 })
 
 exports.handler = async function (event, ctx) {
-  const {queryStringParameters} = event
+  const { queryStringParameters } = event
 
   try {
     // https://res.cloudinary.com/sector/image/upload/v1583637123/og-images/img-1.png

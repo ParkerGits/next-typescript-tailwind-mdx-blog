@@ -1,4 +1,4 @@
-const {NONAME} = require('dns')
+const { NONAME } = require('dns')
 
 module.exports = {
   darkMode: 'class',
@@ -9,6 +9,10 @@ module.exports = {
         lord: '#53d5f8',
         hover: '#389bb5',
       },
+      darkblue: {
+        lord: '#0a2d61',
+        hover: '#061b3b',
+      },
       pink: {
         lord: '#C8549C',
         hover: '#ab4685',
@@ -16,6 +20,10 @@ module.exports = {
       yellow: {
         lord: '#fbb04d',
         hover: '#c2873a',
+      },
+      orange: {
+        lord: '#d4620d',
+        hover: '#9e4a0b',
       },
       gray: {
         300: '#d1d5db',

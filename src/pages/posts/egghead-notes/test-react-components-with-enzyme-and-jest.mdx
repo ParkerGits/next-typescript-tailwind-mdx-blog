@@ -1,6 +1,6 @@
 ---
 title: Test React Components with Enzyme and Jest 🧪
-topic: programming
+topic: egghead-notes
 routename: test-react-components-with-enzyme-and-jest
 description: Notes from Tyler Clark's Test React Components with Enzyme and Jest course on egghead.io.
 postnum: 1
@@ -208,10 +208,10 @@ With this package, we can now configure our application to use this adapter. In 
 
 ```js
 // ...
-import {configure} from 'enzyme'
+import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 // ...
 ```
 
@@ -233,14 +233,14 @@ Shallow Rendering is useful to test components as individual units.
 Start by importing shallow from 'enzyme'. In App.test.js:
 
 ```js
-import {configure, shallow} from 'enzyme'
+import { configure, shallow } from 'enzyme'
 ```
 
 Now we describe our shallow render in App.test.js. Make sure to remove the default Create React App code:
 
 ```js
 // ...
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 
 describe('<App />', () => {
   it('should render App', () => {
@@ -257,7 +257,7 @@ describe('<App />', () => {
 We can see what our shallow rendered component looks like by calling the debug method on the wrapper:
 
 ```js
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 
 describe('<App />', () => {
   it('should render App', () => {
@@ -319,7 +319,7 @@ We can also pass configurations to our shallow rendered component.
 In App.test.js:
 
 ```js
-const wrapper = shallow(<App />, {context: {}, disableLifecycleMethods: bool})
+const wrapper = shallow(<App />, { context: {}, disableLifecycleMethods: bool })
 ```
 
 The context property allows us to provide context to our rendered component, if that is important in our test.
@@ -538,7 +538,7 @@ In app.js, we create a Title component that returns a div with a text prop, then
 const Test = () => <div>Testing</div>
 
 // Title Component:
-const Title = ({text}) => <div>{text}</div>
+const Title = ({ text }) => <div>{text}</div>
 
 function App() {
   return (
@@ -599,7 +599,7 @@ expect(wrapper.find('App').text()).toBe('Welcome to React')
 We can use the object property selector to find nodes by passing in an object that matches the property of a node as a selector. As demonstrated in the video, the following could select an img element with an alt tag of 'logo':
 
 ```js
-expect(wrapper.find({alt: 'logo'}).text()).toBe('Welcome to React')
+expect(wrapper.find({ alt: 'logo' }).text()).toBe('Welcome to React')
 ```
 
 **Undefined properties are not allowed in the object property selector, and will cause error.**
@@ -623,7 +623,7 @@ Navigate to App.test.js and write a new test:
 describe('<App />', () => {
   const wrapper = shallow(<App />)
   it('should contain an element with logo as alt tag', () => {
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   // New Test:
   it('matches the snapshot', () => {
@@ -712,7 +712,7 @@ export class Link extends Component {
 **Make sure to import Component from React**:
 
 ```js
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 ```
 
 Now we have a simple Link component that returns an 'a' element with an href tag that receives an address via props.
@@ -814,7 +814,7 @@ describe('<Link />', () => {
   it('returns null with a true hide props', () => {
     const wrapper = shallow(<Link hide={false} />)
     expect(wrapper.find('a').length).toBe(1)
-    wrapper.setProps({hide: true})
+    wrapper.setProps({ hide: true })
     expect(wrapper.get(0)).toBeNull()
   })
 })
@@ -842,7 +842,7 @@ In App.test.js:
 
 ```js
 // ...
-import {configure, shallow, mount} from 'enzyme'
+import { configure, shallow, mount } from 'enzyme'
 // ...
 ```
 
@@ -852,7 +852,7 @@ Now, duplicate our first describe block, and specify the first as using shallow 
 describe('<App /> shallow rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   it('matches the snapshot', () => {
     const tree = shallow(<App />)
@@ -863,7 +863,7 @@ describe('<App /> shallow rendering', () => {
 describe('<App /> mount rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = mount(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   it('matches the snapshot', () => {
     const tree = mount(<App />)
@@ -883,7 +883,7 @@ npm install jsdom
 We can input a second argument in our wrapper mount render:
 
 ```js
-const wrapper = mount(<App />, {context: {}, attachTo: DOMElement})
+const wrapper = mount(<App />, { context: {}, attachTo: DOMElement })
 ```
 
 The context object allows us to pass context into our component, and the attachTo object allows us to attach our component to a specific DOM element. Check out the [resources](#resources) for more information on mount rendering and its arguments.
@@ -903,7 +903,7 @@ Adding the unmount() method at the end of each mount render test unmounts the co
 describe('<App /> mount rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = mount(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
     wrapper.unmount()
   })
   it('matches the snapshot', () => {
@@ -928,7 +928,7 @@ The mount toJson rendering is slightly different than the shallow rendering, so 
 describe('<App /> mount rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
     // wrapper.unmount()
   })
   it('matches the snapshot', () => {
@@ -958,7 +958,7 @@ In App.test.js, we define a new test:
 describe('<App /> shallow rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   it('matches the snapshot', () => {
     const tree = shallow(<App />)
@@ -985,7 +985,7 @@ In App.js, we introduce the new p tag with class 'button-state' and the button w
 
 ```js
 class App extends Component {
-  state = {on: false}
+  state = { on: false }
   render() {
     return (
       <div className="App">
@@ -1000,7 +1000,7 @@ class App extends Component {
           <li>Test 3</li>
           // Begin new elements
           <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
-          <button onClick={() => this.setState({on: true})}>Click</button>
+          <button onClick={() => this.setState({ on: true })}>Click</button>
           // End new elements
           <p className="App-intro">
             Edit <code>src/App.js</code> and save to reload.
@@ -1045,7 +1045,7 @@ We define a new test in App.test.js:
 describe('<App /> shallow rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   it('matches the snapshot', () => {
     const tree = shallow(<App />)
@@ -1090,11 +1090,11 @@ class App extends Component {
           </ul>
           <li>Test 3</li>
           <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
-          <button onClick={() => this.setState({on: true})}>Click</button>
+          <button onClick={() => this.setState({ on: true })}>Click</button>
           // Begin new elements
           <h2>{this.state.input}</h2>
           <input
-            onChange={(e) => this.setState({input: e.currentTarget.value})}
+            onChange={(e) => this.setState({ input: e.currentTarget.value })}
             type="text"
           />
           // End new elements
@@ -1130,7 +1130,7 @@ it('on input change, title changes text', () => {
   const wrapper = shallow(<App />)
   const input = wrapper.find('input')
   expect(wrapper.find('h2').text()).toBe('')
-  input.simulate('change', {currentTarget: {value: 'Tyler'}})
+  input.simulate('change', { currentTarget: { value: 'Tyler' } })
   expect(wrapper.find('h2').text()).toBe('Tyler')
 })
 ```
@@ -1157,7 +1157,7 @@ In App.test.js, we define a new test:
 describe('<App /> shallow rendering', () => {
   it('should contain an element with logo as alt tag', () => {
     const wrapper = shallow(<App />)
-    expect(wrapper.find({alt: 'logo'}).exists()).toBe(true)
+    expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true)
   })
   it('matches the snapshot', () => {
     const tree = shallow(<App />)
@@ -1168,7 +1168,7 @@ describe('<App /> shallow rendering', () => {
     const wrapper = shallow(<App />)
     expect(wrapper.find('.blue').length).toBe(1)
     expect(wrapper.find('.red').length).toBe(0)
-    wrapper.setState({mainColor: 'red'})
+    wrapper.setState({ mainColor: 'red' })
     expect(wrapper.find('.blue').length).toBe(0)
     expect(wrapper.find('.red').length).toBe(1)
   })
@@ -1184,7 +1184,7 @@ describe('<App /> shallow rendering', () => {
     const wrapper = shallow(<App />)
     const input = wrapper.find('input')
     expect(wrapper.find('h2').text()).toBe('')
-    input.simulate('change', {currentTarget: {value: 'Tyler'}})
+    input.simulate('change', { currentTarget: { value: 'Tyler' } })
     expect(wrapper.find('h2').text()).toBe('Tyler')
   })
 })
@@ -1216,10 +1216,10 @@ class App extends Component {
           </ul>
           <li>Test 3</li>
           <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
-          <button onClick={() => this.setState({on: true})}>Click</button>
+          <button onClick={() => this.setState({ on: true })}>Click</button>
           <h2>{this.state.input}</h2>
           <input
-            onChange={(e) => this.setState({input: e.currentTarget.value})}
+            onChange={(e) => this.setState({ input: e.currentTarget.value })}
             type="text"
           />
           <p className="App-intro">
@@ -1300,7 +1300,7 @@ class App extends Component {
     mainColor: 'blue',
   }
   componentDidMount() {
-    this.setState({lifeCycle: 'componentDidMount'})
+    this.setState({ lifeCycle: 'componentDidMount' })
   }
   // ...
 }
@@ -1365,7 +1365,7 @@ We'll write a new test that expects setProps to call the componentWillReceivePro
 it('setProps calls componentWillReceiveProps', () => {
   jest.spyOn(App.prototype, 'componentWillReceiveProps')
   const wrapper = shallow(<App />)
-  wrapper.setProps({hide: true})
+  wrapper.setProps({ hide: true })
   expect(App.prototype.componentWillReceiveProps.mock.calls.length).toBe(1)
 })
 ```
@@ -1411,7 +1411,7 @@ Then we can return to our App.test.js and create a new assertion that expects ou
 it('setProps calls componentWillReceiveProps', () => {
   jest.spyOn(App.prototype, 'componentWillReceiveProps')
   const wrapper = shallow(<App />)
-  wrapper.setProps({hide: true})
+  wrapper.setProps({ hide: true })
   expect(App.prototype.componentWillReceiveProps.mock.calls.length).toBe(1)
   expect(wrapper.find('.lifeCycle').text()).toBe('componentWillReceiveProps')
 })
@@ -1581,26 +1581,26 @@ ul {
 **TodoList.js**
 
 ```js
-import React, {Component, Fragment} from 'react'
-import {connect} from 'react-redux'
-import {addTodo, removeTodo} from './store'
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { addTodo, removeTodo } from './store'
 
 import './TodoList.css'
 
 export class TodoList extends Component {
-  state = {input: ''}
+  state = { input: '' }
 
   handleClick = (i) => () => {
     this.props.removeTodo(i)
   }
 
   handleChange = (e) => {
-    this.setState({input: e.currentTarget.value})
+    this.setState({ input: e.currentTarget.value })
   }
 
   handleSubmit = () => {
-    this.props.addTodo({text: this.state.input})
-    this.setState({input: ''})
+    this.props.addTodo({ text: this.state.input })
+    this.setState({ input: '' })
   }
 
   render() {
@@ -1613,7 +1613,7 @@ export class TodoList extends Component {
           value={this.state.input}
         />
         <ul>
-          {this.props.todos.map(({text}, i) => (
+          {this.props.todos.map(({ text }, i) => (
             <li onClick={this.handleClick(i)} key={i}>
               {text}
             </li>
@@ -1627,7 +1627,7 @@ export class TodoList extends Component {
   }
 }
 
-const mapStateToProps = ({currentList: {todos}}) => ({todos})
+const mapStateToProps = ({ currentList: { todos } }) => ({ todos })
 
 const bindActionsToDispatch = (dispatch) => ({
   addTodo: (todo) => dispatch(addTodo(todo)),
@@ -1646,19 +1646,19 @@ export default TodoListContainer
 
 ```js
 import React from 'react'
-import {TodoList} from './TodoList'
-import {shallow, configure} from 'enzyme'
+import { TodoList } from './TodoList'
+import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import toJson from 'enzyme-to-json'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 ```
 
 **store.js**
 
 ```js
-import {createStore} from 'redux'
-import {combineReducers} from 'redux'
+import { createStore } from 'redux'
+import { combineReducers } from 'redux'
 
 export const addTodo = (todo) => ({
   type: 'ADD_TODO',
@@ -1719,8 +1719,8 @@ In order to actually render our component, we need to update our **index.js**:
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {store} from './store'
+import { Provider } from 'react-redux'
+import { store } from './store'
 import './index.css'
 import App from './App'
 import TodoListContainer from './TodoList'
@@ -1762,7 +1762,7 @@ In TodoList.test.js, we can begin writing our tests.
 Because we really just want to test our component methods and render, we can import our component directly in Todolist.test.js:
 
 ```js
-import {TodoList} from './TodoList'
+import { TodoList } from './TodoList'
 ```
 
 Here, we bring in our component and exclude the higher order connected component.
@@ -1785,10 +1785,10 @@ describe('<TodoList />', () => {
     const wrapper = shallow(<TodoList {...props} />)
     wrapper
       .find('input')
-      .simulate('change', {currentTarget: {value: 'Buy Groceries'}})
+      .simulate('change', { currentTarget: { value: 'Buy Groceries' } })
     wrapper.find('.todo--button').simulate('click')
 
-    expect(props.addTodo).toHaveBeenCalledWith({text: 'Buy Groceries'})
+    expect(props.addTodo).toHaveBeenCalledWith({ text: 'Buy Groceries' })
   })
 })
 ```
@@ -1813,7 +1813,7 @@ describe('<TodoList />', () => {
   it('calls removeTodo Redux action creator on li click', () => {
     const props = {
       removeTodo: jest.fn(),
-      todos: [{text: 'Buy groceries'}, {text: 'Change oil'}],
+      todos: [{ text: 'Buy groceries' }, { text: 'Change oil' }],
     }
     const wrapper = shallow(<TodoList {...props} />)
     wrapper.find('li').at(0).simulate('click')
@@ -1909,7 +1909,7 @@ h2 {
 **Form.js**
 
 ```js
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import './Form.css'
 import api from './api'
 
@@ -1921,14 +1921,14 @@ export default class Form extends Component {
     optIn: true,
   }
   handleChange = (str) => (e) => {
-    this.setState({[str]: e.currentTarget.value})
+    this.setState({ [str]: e.currentTarget.value })
   }
   handleSubmit = (e) => {
     e.preventDefault()
     return api.addUser(this.state.name, this.state.email, this.state.number)
   }
   handlePromotionClick = (e) => {
-    this.setState((prevState) => ({optIn: !prevState.optIn}))
+    this.setState((prevState) => ({ optIn: !prevState.optIn }))
   }
   render() {
     return (
@@ -1981,12 +1981,12 @@ export default class Form extends Component {
 ```js
 import React from 'react'
 import Form from './Form'
-import {shallow, configure} from 'enzyme'
+import { shallow, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import toJson from 'enzyme-to-json'
 import api from './api'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 
 describe('<Form />', () => {})
 ```
@@ -2005,8 +2005,8 @@ In order to actually render our component, we need to update our **index.js**:
 ```js
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {store} from './store'
+import { Provider } from 'react-redux'
+import { store } from './store'
 import './index.css'
 import App from './App'
 import TodoListContainer from './TodoList'
@@ -2048,14 +2048,14 @@ export default class Form extends Component {
 
 ```js
 handleChange = (str) => (e) => {
-  this.setState({[str]: e.currentTarget.value})
+  this.setState({ [str]: e.currentTarget.value })
 }
 handleSubmit = (e) => {
   e.preventDefault()
   return api.addUser(this.state.name, this.state.email, this.state.number)
 }
 handlePromotionClick = (e) => {
-  this.setState((prevState) => ({optIn: !prevState.optIn}))
+  this.setState((prevState) => ({ optIn: !prevState.optIn }))
 }
 ```
 
@@ -2106,7 +2106,7 @@ We'll now write a test that expects our user to be able to input their informati
 const updateInput = (wrapper, instance, newValue) => {
   const input = wrapper.find(instance)
   input.simulate('change', {
-    currentTarget: {value: newValue},
+    currentTarget: { value: newValue },
   })
   return wrapper.find(instance)
 }
@@ -2178,14 +2178,14 @@ describe('<Form />', () => {
   test('submits the form', () => {
     jest
       .spyOn(api, 'addUser')
-      .mockImplementation(() => Promise.resolve({data: 'New User Added'}))
+      .mockImplementation(() => Promise.resolve({ data: 'New User Added' }))
     const wrapper = shallow(<Form />)
     updateInput(wrapper, '[data-testid="name"]', 'Tyler')
     updateInput(wrapper, '[data-testid="email"]', 'test@gmail.com')
     updateInput(wrapper, '[data-testid="number"]', '8018882321')
     wrapper
       .find('[data-testid="addUserForm"]')
-      .simulate('submit', {preventDefault: () => {}})
+      .simulate('submit', { preventDefault: () => {} })
 
     expect(api.addUser).toHaveBeenCalledWith(
       'Tyler',

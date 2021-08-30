@@ -1,6 +1,6 @@
 ---
 title: Build an Angular Search Component 🔎
-topic: programming
+topic: egghead-notes
 routename: build-an-angular-search-component
 description: Notes from Christoph Burgdorf's Build an Angular Search Component course on egghead.io.
 postnum: 2
@@ -114,13 +114,13 @@ The following are the changes that were made to the code above in order to get o
 In the imports on line 3, we change
 
 ```js
-import {Subject} from 'rxjs/Subject'
+import { Subject } from 'rxjs/Subject'
 ```
 
 to
 
 ```js
-import {Subject} from 'rxjs'
+import { Subject } from 'rxjs'
 ```
 
 and on line 6:
@@ -132,7 +132,7 @@ import 'rxjs/add/operator/map'
 to
 
 ```js
-import {map} from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 ```
 
 On line 9, remove
@@ -146,13 +146,13 @@ moduleId: module.id,
 Replace line 4
 
 ```js
-import {JsonpModule} from '@angular/http'
+import { JsonpModule } from '@angular/http'
 ```
 
 with
 
 ```js
-import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http'
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'
 ```
 
 and line 10
@@ -172,13 +172,13 @@ imports: [BrowserModule, HttpClientModule, HttpClientJsonpModule],
 Change line 2 from
 
 ```js
-import {URLSearchParams, Jsonp} from '@angular/http'
+import { URLSearchParams, Jsonp } from '@angular/http'
 ```
 
 to
 
 ```js
-import {HttpClient} from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 ```
 
 and line 3 replace
@@ -190,7 +190,7 @@ import 'rxjs/add/operator/delay'
 with
 
 ```js
-import {map} from 'rxjs/operators'
+import { map } from 'rxjs/operators'
 ```
 
 Finally, our injectable, instead of looking like
@@ -255,7 +255,7 @@ debounceTime() is an RxJS operator, and RxJS operators are handled differently i
 We can import debounceTime in the same line as we imported map:
 
 ```js
-import {map, debounceTime} from 'rxjs/operators'
+import { map, debounceTime } from 'rxjs/operators'
 ```
 
 Another change to RxJS operators is that they are applied through the .pipe() method. To learn more about .pipe(), take a look at [Using Operators in RxJS 6](https://academind.com/learn/javascript/rxjs-6-what-changed/#using-operators-in-rxjs-6). The code we write to apply .debounceTime() to our program is as follows:
@@ -284,7 +284,7 @@ Like with debounceTime(), distinctUntilChanged() is an operator and will need to
 First, add distinctUntilChanged to your operator imports:
 
 ```js
-import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators'
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 ```
 
 Now, in the pipe method, add distinctUntilChanged() after debounceTime():
@@ -312,7 +312,12 @@ this.term$
 Another operator has been introduced, and so it can be imported accordingly:
 
 ```js
-import {map, debounceTime, distinctUntilChanged, mergeMap} from 'rxjs/operators'
+import {
+  map,
+  debounceTime,
+  distinctUntilChanged,
+  mergeMap,
+} from 'rxjs/operators'
 ```
 
 In the lesson, he calls the method flatMap(). The operator is now only called mergeMap(), just like it is called on import. mergeMap is added to our .pipe() method like so:
@@ -398,13 +403,13 @@ If you noticed, I passed debounceMs into debounceTime() instead of 400. I think 
 Next, your Observable import should look like:
 
 ```js
-import {Observable} from 'rxjs'
+import { Observable } from 'rxjs'
 ```
 
 Instead of:
 
 ```js
-import {Observable} from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable'
 ```
 
 Finally, my imports in **app.component.ts** were not being shared application-wide, so I simply moved

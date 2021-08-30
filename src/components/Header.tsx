@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {useTheme} from 'next-themes'
+import { useTheme } from 'next-themes'
 
 const Header = () => {
-  const {theme, setTheme} = useTheme()
+  const { theme, setTheme } = useTheme()
   return (
     <header>
       <div className="flex my-5 xl:my-11 justify-between mx-1 md:mx-5 py-3 ">
-        <Link href="/">
+        <Link href="/" passHref>
           <div className="flex items-center cursor-pointer ">
             <Image
               src="/images/logo.svg"
@@ -33,16 +33,20 @@ const Header = () => {
             className="opacity-50 hover:opacity-100 cursor-pointer"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           />
-          <Link href="/list">
-            <Image
-              src={
-                theme === 'dark' ? '/images/list-dark.svg' : '/images/list.svg'
-              }
-              alt="Post List"
-              width={30}
-              height={30}
-              className="opacity-50 hover:opacity-100 cursor-pointer"
-            />
+          <Link href="/list" passHref>
+            <div className="flex align-middle">
+              <Image
+                src={
+                  theme === 'dark'
+                    ? '/images/list-dark.svg'
+                    : '/images/list.svg'
+                }
+                alt="Post List"
+                width={30}
+                height={30}
+                className="opacity-50 hover:opacity-100 cursor-pointer"
+              />
+            </div>
           </Link>
         </div>
       </div>

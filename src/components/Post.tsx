@@ -15,15 +15,23 @@ const Post = ({
   onClick: (topic: string) => any
 }) => {
   return (
-    <div className="my-0" css={{margin: '0 !important'}}>
+    <div className="my-0" css={{ margin: '0 !important' }}>
       <span
-        onClick={() => onClick(frontmatter.topic)}
-        className={`text-xs ml-1 mt-1 rounded-md p-1 md:text-sm md:p-1.3 text-white hover: cursor-pointer font-semibold ${
+        onClick={
+          frontmatter.topic === 'egghead-notes'
+            ? () => {}
+            : () => onClick(frontmatter.topic)
+        }
+        className={`text-xs ml-1 mt-1 rounded-md p-1 md:text-sm md:p-1.3 text-white ${
+          frontmatter.topic === 'egghead-notes'
+            ? 'cursor-default'
+            : 'cursor-pointer'
+        } font-semibold ${
           frontmatter.topic == 'programming'
             ? 'bg-pink-lord hover:bg-pink-hover'
-            : frontmatter.topic == 'math'
-            ? 'bg-blue-lord hover:bg-blue-hover'
-            : 'bg-yellow-lord hover:bg-yellow-hover'
+            : frontmatter.topic == 'egghead-notes'
+            ? 'bg-darkblue-lord hover:bg-darkblue-hover'
+            : 'bg-orange-lord hover:bg-orange-hover'
         } float-right`}
       >
         {frontmatter.topic}
@@ -35,8 +43,8 @@ const Post = ({
       </Link>
       <br />
       <span
-        className="text-xs sm:text-sm md:text-base rounded-lg text-gray-500 hover:text dark:text-white"
-        css={{padding: '0 !important', marginLeft: '0 !important'}}
+        className="text-xs sm:text-sm md:text-base rounded-lg text-gray-600 hover:text dark:text-white"
+        css={{ padding: '0 !important', marginLeft: '0 !important' }}
       >
         {frontmatter.description}
       </span>

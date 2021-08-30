@@ -1,6 +1,6 @@
 ---
 title: Get Started with Angular 🅰
-topic: programming
+topic: egghead-notes
 routename: get-started-with-angular
 description: Notes from John Lindquist's Get Started with Angular course on egghead.io.
 postnum: 4
@@ -153,7 +153,7 @@ Here, we should see:
 ### app.component.ts
 
 ```js
-import {Component} from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
@@ -170,7 +170,7 @@ Our component templateUrl property points to **app.component.html**. To match th
 ### app.component.ts
 
 ```js
-import {Component} from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
@@ -224,7 +224,7 @@ Navigate to **src/app/simple-form/simple-form.component.ts**. We should see that
 ### simple-form.component.ts
 
 ```js
-import {Component, OnInit} from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-simple-form',
@@ -243,7 +243,7 @@ We can now use this selector to display our new component. Return to **src/app/a
 ### app.component.ts
 
 ```js
-import {Component} from '@angular/core'
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
@@ -558,13 +558,13 @@ Now, navigate to **src/app/app.module.ts**, import `MailService`, and add it as 
 ### app.module.ts
 
 ```js
-import {BrowserModule} from '@angular/platform-browser'
-import {NgModule} from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import {AppComponent} from './app.component'
-import {SimpleFormComponent} from './simple-form/simple-form.component'
+import { AppComponent } from './app.component'
+import { SimpleFormComponent } from './simple-form/simple-form.component'
 // Import:
-import {MailService} from './mail.service'
+import { MailService } from './mail.service'
 
 @NgModule({
   declarations: [AppComponent, SimpleFormComponent],
@@ -608,7 +608,7 @@ For example, if we create a `message` variable in `MailService`, we can access i
 ### mail.service.ts
 
 ```js
-import {Injectable} from '@angular/core'
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
@@ -1049,15 +1049,15 @@ In this lesson, we'll use `[(ngModel)]` on our `<input>` element in **src/app/si
 ### app.module.ts
 
 ```js
-import {BrowserModule} from '@angular/platform-browser'
-import {NgModule} from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 // Here:
-import {FormsModule} from '@angular/forms'
+import { FormsModule } from '@angular/forms'
 
-import {AppComponent} from './app.component'
-import {SimpleFormComponent} from './simple-form/simple-form.component'
+import { AppComponent } from './app.component'
+import { SimpleFormComponent } from './simple-form/simple-form.component'
 
-import {MailService} from './mail.service'
+import { MailService } from './mail.service'
 
 @NgModule({
   declarations: [AppComponent, SimpleFormComponent],
@@ -1067,8 +1067,8 @@ import {MailService} from './mail.service'
     FormsModule,
   ],
   providers: [
-    {provide: 'mail', useClass: MailService},
-    {provide: 'api', useValue: 'http://localhost:3000'},
+    { provide: 'mail', useClass: MailService },
+    { provide: 'api', useValue: 'http://localhost:3000' },
   ],
   bootstrap: [AppComponent],
 })
@@ -1148,7 +1148,7 @@ In **src/app/simple-forms/simple-forms.component.ts**, we add an `@Output` decor
 ### simple-forms.component.ts
 
 ```js
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 
 @Component({
   selector: 'app-simple-form',
@@ -1183,13 +1183,13 @@ We can now change the `onClick()` call on our `(click)` event to `update.emit({t
 ### simple-forms.component.ts
 
 ```js
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 
 @Component({
   selector: 'app-simple-form',
   template: `<div>
     <input #myInput type="text" [(ngModel)]="message" />
-    <button (click)="update.emit({text: message})">Click me!</button>
+    <button (click)="update.emit({ text: message })">Click me!</button>
   </div>`,
   styles: [],
 })
@@ -1290,16 +1290,16 @@ Now we navigate to **src/app/mail.service.ts**. To give us a way of looking up e
 ### mail.service.ts
 
 ```js
-import {Injectable} from '@angular/core'
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailService {
   messages = [
-    {id: 0, text: `You're now friends with John`},
-    {id: 1, text: `John liked your tweet`},
-    {id: 2, text: `You'll never believe what John said...`},
+    { id: 0, text: `You're now friends with John` },
+    { id: 1, text: `John liked your tweet` },
+    { id: 2, text: `You'll never believe what John said...` },
   ]
   constructor() {}
 }
@@ -1347,16 +1347,16 @@ We called `update()` on our `MailService`, so now we need to define that method 
 ### mail.service.ts
 
 ```js
-import {Injectable} from '@angular/core'
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailService {
   messages = [
-    {id: 0, text: `You're now friends with John`},
-    {id: 1, text: `John liked your tweet`},
-    {id: 2, text: `You'll never believe what John said...`},
+    { id: 0, text: `You're now friends with John` },
+    { id: 1, text: `John liked your tweet` },
+    { id: 2, text: `You'll never believe what John said...` },
   ]
 
   update(id, text) {
