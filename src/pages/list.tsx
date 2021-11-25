@@ -1,6 +1,6 @@
-import fs, {readdirSync, readFile, readFileSync} from 'fs'
+import fs, { readdirSync, readFile, readFileSync } from 'fs'
 import path from 'path'
-import {GetStaticProps} from 'next'
+import { GetStaticProps } from 'next'
 import matter from 'gray-matter'
 import Layout from '../layouts/index'
 import PostList from '../components/PostList'
@@ -13,11 +13,12 @@ interface frontmatter {
   postnum: number
 }
 
-const List = ({frontmatterList}: {frontmatterList: frontmatter[]}) => {
+const List = ({ frontmatterList }: { frontmatterList: frontmatter[] }) => {
   return (
     <Layout
       meta={{
         title: 'List of Posts',
+        titleText: 'List of Posts',
         description: "Every post ever made under Parker's rule.",
         url: 'https://parkerlandon.com/list',
         titleAppendSiteName: true,

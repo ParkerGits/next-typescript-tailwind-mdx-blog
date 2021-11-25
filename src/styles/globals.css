@@ -6,52 +6,52 @@
 h1,
 h2,
 h3 {
-    font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Slab', serif;
 }
 
 .icon::after {
-    content: ' #';
-    margin-left: '.5rem';
-    display: none;
-    font-weight: bolder;
+  content: ' #';
+  margin-left: '.5rem';
+  display: none;
+  font-weight: bolder;
 }
 
 h1:hover > a > .icon::after,
 h2:hover > a > .icon::after,
 h3:hover > a > .icon::after {
-    display: inline;
+  display: inline;
 }
 code > .table {
-    display: inline !important;
+  display: inline !important;
 }
 
 .keyword,
 .tag,
 .boolean {
-    color: steelblue;
+  color: steelblue;
 }
 
 .template-string,
 .string {
-    color: sandybrown;
+  color: sandybrown;
 }
 
 .method,
 .function {
-    color: khaki;
+  color: khaki;
 }
 
 .operator,
 .punctuation {
-    color: white;
+  color: white;
 }
 
 .comment {
-    color: olivedrab;
+  color: olivedrab;
 }
 
 .number {
-    color: rgb(137, 202, 137);
+  color: rgb(137, 202, 137);
 }
 
 .attr-name,
@@ -61,13 +61,13 @@ pre.language-js > code,
 pre.language-jsx > code,
 pre.language-ts > code,
 pre.language-tsx > code {
-    color: skyblue !important;
+  color: skyblue !important;
 }
 
 .class-name {
-    color: rgb(43 195 170);
+  color: rgb(43 195 170);
 }
 
 .maybe-class-name {
-    color: rgb(43 195 170);
+  color: rgb(43 195 170);
 }

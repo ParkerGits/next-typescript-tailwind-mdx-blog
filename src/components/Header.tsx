@@ -6,7 +6,7 @@ const Header = () => {
   const { theme, setTheme } = useTheme()
   return (
     <header>
-      <div className="flex my-5 xl:my-11 justify-between mx-1 md:mx-5 py-3 ">
+      <div className="flex my-3 xl:my-5 justify-between mx-1 md:mx-5 py-3 ">
         <Link href="/" passHref>
           <div className="flex items-center cursor-pointer ">
             <Image

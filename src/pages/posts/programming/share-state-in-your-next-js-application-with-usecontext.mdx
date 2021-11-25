@@ -10,25 +10,27 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export const meta = {
-    title: 'Share State in Your Next.js Application with useContext 🤝',
-    description:
-        "How I implemented React's useContext to help me share form submissions and user data between separate pages in my Next.js project.",
+  title: 'Share State in Your Next.js Application with useContext 🤝',
+  titleText: 'Share State in Your Next.js Application with useContext',
+  titleEmoji: '🤝',
+  description:
+    "How I implemented React's useContext to help me share form submissions and user data between separate pages in my Next.js project.",
+  url:
+    'https://parkerlandon.com/posts/programming/share-state-in-your-next-js-application-with-usecontext',
+  titleAppendSiteName: true,
+  ogImage: {
     url:
-        'https://parkerlandon.com/posts/programming/share-state-in-your-next-js-application-with-usecontext',
-    titleAppendSiteName: true,
-    ogImage: {
-        url:
-            'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Share%20State%20in%20Your%20Next.js%20Application%20with%20useContext&tags=react,nextjs,hooks',
-        width: 1200,
-        height: 630,
-    },
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Share%20State%20in%20Your%20Next.js%20Application%20with%20useContext&tags=react,nextjs,hooks',
+    width: 1200,
+    height: 630,
+  },
 }
 
 <Image
-    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/empty-tends-list.png"
-    width="1024"
-    height="480"
-    layout="responsive"
+  src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/empty-tends-list.png"
+  width="1024"
+  height="480"
+  layout="responsive"
 />
 
 The picture above shows the visual scaffolding for a web development project that I am working on with members of the [egghead.io](https://egghead.io) Portfolio Project Club. You can read more about the specifics of this project [here](https://github.com/ParkerGits/tends/blob/master/README.md), but I'll provide some context in this post (no pun intended). 😁
@@ -36,28 +38,28 @@ The picture above shows the visual scaffolding for a web development project tha
 My app **Tends** is a management app that lets users create a list of quantities that they would like to manage in their lives. These quantities are what I'm calling tendencies or "Tends," and are displayed for the user like this:
 
 <Image
-    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/parker-points-tend.png"
-    width="1024"
-    height="480"
-    layout="responsive"
+  src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/parker-points-tend.png"
+  width="1024"
+  height="480"
+  layout="responsive"
 />
 
 The user can click the '+' button to be redirected to the "Create New Tend" form:
 
 <Image
-    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-new-tend-blank.png"
-    width="1024"
-    height="480"
-    layout="responsive"
+  src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-new-tend-blank.png"
+  width="1024"
+  height="480"
+  layout="responsive"
 />
 
 In this form, the user can specify the **title** and **type** of their new Tend, as well as other properties related to the type of the tend.
 
 <Image
-    src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-tend-form-quantity-empty.png"
-    width="1024"
-    height="480"
-    layout="responsive"
+  src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/create-tend-form-quantity-empty.png"
+  width="1024"
+  height="480"
+  layout="responsive"
 />
 
 Since the Create New Tend form and the list of Tends are on separate pages, I needed a way for both to have access to the user's complete list of Tends.
@@ -80,14 +82,14 @@ For TypeScript users: I define a type for my `TendsContext`, with `tendsList` be
 
 ```ts
 type TendsContextType = {
-    tendsList: Array<QuantityTendProps | TimerTendProps>
-    setTendsList: any
+  tendsList: Array<QuantityTendProps | TimerTendProps>
+  setTendsList: any
 }
 
 // Initialize Context
 const TendsContext = createContext<TendsContextType>({
-    tendsList: [],
-    setTendsList: undefined,
+  tendsList: [],
+  setTendsList: undefined,
 })
 ```
 
@@ -97,9 +99,9 @@ Inside the component, we define our `tendsList` state with `useState`.
 
 ```tsx
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-    const [tendsList, setTendsList] = useState<
-        Array<QuantityTendProps | TimerTendProps>
-    >([])
+  const [tendsList, setTendsList] = useState<
+    Array<QuantityTendProps | TimerTendProps>
+  >([])
 }
 ```
 
@@ -113,8 +115,8 @@ Recall that we initialized our `TendsContext` with an object containing **tendsL
 
 ```tsx
 const TendsContext = createContext<TendsContextType>({
-    tendsList: [],
-    setTendsList: undefined,
+  tendsList: [],
+  setTendsList: undefined,
 })
 ```
 
@@ -122,15 +124,15 @@ in the **value** prop of `<TendsContext.Provider>`, we specify the **tendsList**
 
 ```tsx
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-    const [tendsList, setTendsList] = useState<
-        Array<QuantityTendProps | TimerTendProps>
-    >([])
+  const [tendsList, setTendsList] = useState<
+    Array<QuantityTendProps | TimerTendProps>
+  >([])
 
-    return (
-        <TendsContext.Provider value={{ tendsList, setTendsList }}>
-            {children}
-        </TendsContext.Provider>
-    )
+  return (
+    <TendsContext.Provider value={{ tendsList, setTendsList }}>
+      {children}
+    </TendsContext.Provider>
+  )
 }
 ```
 
@@ -144,11 +146,11 @@ import { AppProps } from 'next/app'
 import { AppWrapper } from '../components/TendsContext'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-    return (
-        <AppWrapper>
-            <Component {...pageProps} />
-        </AppWrapper>
-    )
+  return (
+    <AppWrapper>
+      <Component {...pageProps} />
+    </AppWrapper>
+  )
 }
 ```
 
@@ -162,7 +164,7 @@ A more effective and efficient method is to export a function, call it `useTends
 
 ```tsx
 export function useTendsContext() {
-    return useContext(TendsContext)
+  return useContext(TendsContext)
 }
 ```
 

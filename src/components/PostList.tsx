@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
-import { jsx } from '@emotion/core'
+import jsx from '@emotion/core'
+
 type Frontmatter = {
   title: string
   topic: string
