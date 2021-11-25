@@ -47,7 +47,7 @@ const DefaultLayout: FunctionComponent<LayoutProps> = ({ children, meta }) => {
             </h1>
           )}
         </div>
-        <article className="prose dark:prose-dark lg:prose-lg  mx-auto px-5 sm:px-0 mt-6 max-w-3xl">
+        <article className="prose dark:prose-dark lg:prose-lg px-5 lg:px-0 mx-auto mt-6 max-w-3xl">
           {children}
         </article>
         <Footer />

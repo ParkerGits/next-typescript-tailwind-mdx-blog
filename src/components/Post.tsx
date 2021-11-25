@@ -22,7 +22,7 @@ const Post = ({
             ? () => {}
             : () => onClick(frontmatter.topic)
         }
-        className={`text-xs ml-1 mt-1 rounded-md p-1 md:text-sm md:p-1.3 text-white ${
+        className={`text-xs leading-tight ml-1 mt-1 rounded-md p-1 pb-1.5 md:text-sm text-white ${
           frontmatter.topic === 'egghead-notes'
             ? 'cursor-default'
             : 'cursor-pointer'
