@@ -7,6 +7,7 @@ postnum: 6
 ---
 
 import Image from 'next/image'
+import LordParkerOriginThumbnail from '../../../../public/images/posts/the-origin-of-lord-parker.png'
 
 export const meta = {
   title: 'The Origin of Lord Parker 👑',
@@ -25,10 +26,12 @@ export const meta = {
 }
 
 <Image
-  src="/images/posts/the-origin-of-lord-parker.png"
+  src={LordParkerOriginThumbnail}
   alt="The Golden Days"
+  placeholder="blur"
   width={1280}
   height={720}
+  loading="eager"
   layout="responsive"
 />
 

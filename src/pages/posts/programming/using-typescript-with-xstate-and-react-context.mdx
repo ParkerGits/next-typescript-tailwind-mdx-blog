@@ -8,6 +8,8 @@ postnum: 9
 
 import Image from 'next/image'
 import Link from 'next/link'
+import XStateContextThumbnail from '../../../../public/images/posts/using-typescript-with-xstate-and-react-context/rpg-shop-cutscene.gif'
+
 export const meta = {
   title: 'Using TypeScript with XState and React Context 🚀',
   titleText: 'Using TypeScript with XState and React Context',
@@ -26,7 +28,8 @@ export const meta = {
 }
 
 <Image
-  src="/images/posts/using-typescript-with-xstate-and-react-context/rpg-shop-cutscene.gif"
+  src={XStateContextThumbnail}
+  loading="eager"
   width={990}
   height={752}
   layout="responsive"

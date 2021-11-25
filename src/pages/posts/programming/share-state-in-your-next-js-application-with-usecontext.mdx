@@ -8,6 +8,7 @@ postnum: 8
 
 import Image from 'next/image'
 import Link from 'next/link'
+import ShareStateThumbnail from '../../../../public/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/empty-tends-list.png'
 
 export const meta = {
   title: 'Share State in Your Next.js Application with useContext 🤝',
@@ -27,9 +28,11 @@ export const meta = {
 }
 
 <Image
-  src="/images/posts/share-state-throughout-your-next-js-application-with-react-usecontext-hook/empty-tends-list.png"
+  src={ShareStateThumbnail}
   width="1024"
   height="480"
+  placeholder="blur"
+  loading="eager"
   layout="responsive"
 />
 

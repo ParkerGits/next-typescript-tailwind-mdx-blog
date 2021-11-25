@@ -6,7 +6,7 @@ import Document, {
   NextScript,
   DocumentContext,
 } from 'next/document'
-import {extractCritical} from 'emotion-server'
+import { extractCritical } from 'emotion-server'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
           {initialProps.styles}
           <style
             data-emotion-css={styles.ids.join(' ')}
-            dangerouslySetInnerHTML={{__html: styles.css}}
+            dangerouslySetInnerHTML={{ __html: styles.css }}
           />
         </>
       ),
@@ -33,6 +33,10 @@ export default class MyDocument extends Document {
           <link
             rel="icon"
             href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/microsoft/209/crown_1f451.png"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap"
+            rel="stylesheet"
           />
         </Head>
         <body className="dark:bg-gray-800">
