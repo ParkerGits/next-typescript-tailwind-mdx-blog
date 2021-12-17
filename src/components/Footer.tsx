@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import {useTheme} from 'next-themes'
+import { useTheme } from 'next-themes'
 const Footer = () => {
-  const {theme, setTheme} = useTheme()
+  const { theme, setTheme } = useTheme()
   return (
     <header>
       <div className="flex items-center my-5 xl:my-11 justify-between mx-5 pt-3 ">

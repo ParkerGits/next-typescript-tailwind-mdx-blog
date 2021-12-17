@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Post from './Post'
 import jsx from '@emotion/core'
+import Link from 'next/link'
 
 type Frontmatter = {
   title: string
@@ -24,9 +25,9 @@ export default function PostList({
   frontmatterList: Frontmatter[]
 }) {
   const [topicSort, setTopicSort] = useState<null | string>(null)
-  const [topicFrontmatter, setTopicFrontmatter] = useState<Frontmatter[]>(
-    frontmatterList,
-  )
+  const [topicFrontmatter, setTopicFrontmatter] = useState<
+    Frontmatter[] | null
+  >(null)
   const [showEggheadNotes, setShowEggheadNotes] = useState(false)
   useEffect(() => {
     setTopicFrontmatter(
@@ -42,12 +43,16 @@ export default function PostList({
   function topicOnClick(topic: string) {
     setTopicSort(topic)
   }
+  if (!topicFrontmatter) return null
   return (
     <div className="flex flex-col">
-      <ul id="postlist" css={{ margin: '0 !important' }}>
+      <ul
+        id="postlist"
+        className="list-none px-1"
+        css={{ margin: '0 !important' }}
+      >
         {topicFrontmatter.map((frontmatter, index) => (
           <div key={frontmatter.routename}>
-            {index !== 0 && <hr css={hrStyle} />}
             <li key={index} css={liStyle}>
               <Post
                 frontmatter={frontmatter}
@@ -55,6 +60,7 @@ export default function PostList({
                 key={index}
               />
             </li>
+            <hr css={hrStyle} />
           </div>
         ))}
       </ul>
@@ -68,9 +74,16 @@ export default function PostList({
           &#8592; all topics
         </button>
       ) : (
-        <div className="w-100 flex justify-end">
+        <div className="w-100 flex flex-col-reverse xs:flex-row justify-around mt-1 sm:mt-3 gap-2 sm:gap-4 items-center">
+          <div className="h-9">
+            <Link href="/portfolio">
+              <button className="w-full h-full bg-pink-lord hover:bg-pink-hover rounded-md text-white leading-none px-1.5 text-sm sm:text-base">
+                check out my portfolio &rarr;
+              </button>
+            </Link>
+          </div>
           <div
-            className="p-1.3 px-1.5 rounded-md border border-gray-300 cursor-pointer"
+            className="px-1 sm:px-1.5 rounded-md bg-darkblue-lord cursor-pointer text-white leading-none flex items-center h-9 text-sm sm:text-base text-center"
             onClick={() => setShowEggheadNotes(!showEggheadNotes)}
           >
             <label htmlFor="egghead-notes-toggle" className="cursor-pointer">

@@ -1,9 +1,13 @@
-const { NONAME } = require('dns')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
-  purge: ['./src/**/*.tsx'],
+  content: ['./src/**/*.tsx'],
   theme: {
+    screens: {
+      xs: '475px',
+      ...defaultTheme.screens,
+    },
     colors: {
       blue: {
         lord: '#53d5f8',
@@ -26,8 +30,10 @@ module.exports = {
         hover: '#9e4a0b',
       },
       gray: {
+        50: '#f8fafc',
         300: '#d1d5db',
         500: '#6b7280',
+        700: '#1e293b',
         800: '#121212',
       },
       white: '#FFFFFF',
@@ -85,9 +91,6 @@ module.exports = {
         },
       }),
     },
-  },
-  variants: {
-    typography: ['dark', 'responsive'],
   },
   plugins: [require('@tailwindcss/typography')],
 }
