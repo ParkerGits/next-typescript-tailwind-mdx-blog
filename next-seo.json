@@ -5,7 +5,7 @@
   "canonical": "https://parkerlandon.com",
   "favicon": "/favicon.ico",
   "additionalMetaTags": [
-    {"property": "author", "content": "Parker Landon"},
+    { "property": "author", "content": "Parker Landon" },
     {
       "property": "keywords",
       "content": ""
@@ -26,7 +26,7 @@
     },
     "images": [
       {
-        "url": "https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Parker%27s%20Digital%20Domain&tags=parkerlandon.com",
+        "url": "/public/images/thumbnail.png",
         "width": 1200,
         "height": 630
       }
