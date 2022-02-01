@@ -6,8 +6,8 @@ export default function Portfolio() {
   return (
     <Layout
       meta={{
-        title: "Parker's Portfolio",
-        titleText: "Parker's Portfolio",
+        title: "Parker Landon's Portfolio",
+        titleText: "Parker Landon's Portfolio",
         description: 'Everything that Parker has produced and deems worthy!',
         url: 'https://parkerlandon.com/portfolio',
         titleAppendSiteName: true,
@@ -19,6 +19,13 @@ export default function Portfolio() {
         },
       }}
     >
+      <div className="bg-gray-100 dark:bg-gray-700 rounded-md mb-4 text-center ">
+        <p className="py-2">
+          Computer Science, Applied Math, and Honors Student at Seattle Pacific
+          University ✨
+          <br /> Self-Taught Web Developer 🧙‍♂️
+        </p>
+      </div>
       <PortfolioList portfolio={portfolio} />
     </Layout>
   )
