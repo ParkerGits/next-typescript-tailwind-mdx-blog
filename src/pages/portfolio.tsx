@@ -22,8 +22,10 @@ export default function Portfolio() {
       <div className="bg-gray-100 dark:bg-gray-700 rounded-md mb-4 text-center ">
         <p className="py-2 font-medium">
           Computer Science, Applied Math, and Honors Student at Seattle Pacific
-          University ✨
-          <br /> Self-Taught Web Developer 🧙‍♂️
+          University ✨ <br />
+          <span className="font-normal">
+            Expected graduation June 2024
+          </span>{' '}
         </p>
       </div>
       <PortfolioList portfolio={portfolio} />
