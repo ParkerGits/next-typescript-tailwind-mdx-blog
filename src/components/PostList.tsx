@@ -74,8 +74,8 @@ export default function PostList({
           &#8592; all topics
         </button>
       ) : (
-        <div className="w-100 flex flex-col-reverse xs:flex-row justify-around mt-1 sm:mt-3 gap-2 sm:gap-4 items-center">
-          <div className="h-9">
+        <div className="w-100 flex flex-col xs:flex-row justify-around space-between items-center">
+          <div className="h-9 my-1">
             <Link href="/portfolio">
               <button className="w-full h-full bg-pink-lord hover:bg-pink-hover rounded-md text-white leading-none px-1.5 text-sm sm:text-base">
                 check out my portfolio &rarr;
@@ -83,14 +83,14 @@ export default function PostList({
             </Link>
           </div>
           <div
-            className="px-1 sm:px-1.5 rounded-md bg-darkblue-lord cursor-pointer text-white leading-none flex items-center h-9 text-sm sm:text-base text-center"
+            className="px-1 sm:px-1.5 rounded-md bg-darkblue-lord cursor-pointer text-white leading-none flex items-center h-9 text-sm sm:text-base my-1 text-center"
             onClick={() => setShowEggheadNotes(!showEggheadNotes)}
           >
             <label htmlFor="egghead-notes-toggle" className="cursor-pointer">
               <input
                 name="egghead-notes-toggle"
                 type="checkbox"
-                className="mr-2"
+                className="mr-1"
                 onChange={(e) => setShowEggheadNotes(e.target.checked)}
                 checked={showEggheadNotes}
               />
