@@ -1,6 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
+import GitHubIcon from './SVG/GitHub'
+import TwitterIcon from './SVG/Twitter'
+import LinkedInIcon from './SVG/LinkedIn'
 const Footer = () => {
   const { theme, setTheme } = useTheme()
   return (
@@ -11,58 +13,10 @@ const Footer = () => {
             Parker Landon &copy; 2022
           </p>
         </div>
-        <div className="flex">
-          <a
-            href="https://www.instagram.com/parkerlandon_/"
-            target="_blank"
-            className="flex items-center px-1"
-          >
-            <Image
-              src={
-                theme === 'dark'
-                  ? '/images/instagram-dark.svg'
-                  : '/images/instagram.svg'
-              }
-              alt="Instagram"
-              width={40}
-              height={40}
-              className="opacity-50 hover:opacity-100"
-            />
-          </a>
-          <a
-            href="https://twitter.com/LordPrkr"
-            target="_blank"
-            className="flex items-center px-1"
-          >
-            <Image
-              src={
-                theme === 'dark'
-                  ? '/images/twitter-dark.svg'
-                  : '/images/twitter.svg'
-              }
-              alt="Twitter"
-              width={40}
-              height={40}
-              className="opacity-50 hover:opacity-100"
-            />
-          </a>
-          <a
-            href="https://github.com/ParkerGits"
-            target="_blank"
-            className="flex items-center px-1"
-          >
-            <Image
-              src={
-                theme === 'dark'
-                  ? '/images/github-dark.svg'
-                  : '/images/github.svg'
-              }
-              alt="GitHub"
-              width={40}
-              height={40}
-              className="opacity-50 hover:opacity-100"
-            />
-          </a>
+        <div className="flex h-9 gap-1">
+          <TwitterIcon />
+          <LinkedInIcon />
+          <GitHubIcon />
         </div>
       </div>
     </header>
