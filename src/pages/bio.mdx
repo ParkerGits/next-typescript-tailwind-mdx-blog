@@ -1,0 +1,36 @@
+import Link from 'next/link'
+import DefaultLayout from '../layouts/index'
+
+export const meta = {
+  title: "Parker's Bio",
+  titleText: "Parker's Bio",
+  titleEmoji: '👑',
+  description: 'Everything you could ever want to know about Parker.',
+  titleAppendSiteName: true,
+  url: 'https://parkerlandon.com/bio',
+  ogImage: {
+    url:
+      'https://adoring-jackson-1187ff.netlify.app/.netlify/functions/gen-opengraph-image?title=Parker%27s%20Bio&tags=parkerlandon.com',
+    width: 1200,
+    height: 630,
+    alt: "Welcome to Parker's Digital Domain.",
+  },
+}
+
+Hey, I'm Parker Landon 👋
+
+I'm currently a sophomore at Seattle Pacific University pursuing _three majors_: Computer Science, Applied Mathematics, and Honors Liberal Arts. Maybe that sounds crazy, but, thanks to the college credits that I earned in high school and to the fact that many of the courses in each major overlap, I'm planning on graduating on time with three degrees.
+
+I'm truly passionate about the topics that I'm studying. In a way, I enjoy the stress of the workload. It reminds me that I'm pursuing what is meaningful. It's not so hard to calm myself when it all becomes overwhelming because the work feels so aligned with what I am called to do.
+
+I stumbled upon coding when I was in 5th grade. Our class would often go to the computer lab to work with various educational software; however, of course, when the teacher wasn't looking, my friends and I would play Flash games like Adventure Quest and Bloons Tower Defense. When the librarian caught on, she restricted access to those websites. I was forced to find a way to entertain myself offline. I thought, "What if I made my own Flash game website?" So, I lept down the rabbit hole and began to learn HTML, CSS, and JavaScript. Although the dream of creating a Flash game website was never actualized, I found writing code to be entertaining in itself. Plus, the librarian could never restrict my access to Notepad (my then IDE of choice).
+
+After that, I programmed off-and-on for a while. I picked up some Python in 8th grade, and, in my junior year of high school, I learned Java through my AP Computer Science class. During that year, I also became connected with the folks at <a href="https://egghead.io" target="_blank">egghead.io</a> and began to do some work reviewing older web development courses hosted on their platform. I initially thought that my web development experience from 5th and 6th grade would suffice, but I quickly found myself overwhelmed by the numerous foreign packages and frameworks being used in these courses. While I struggled for some time, I eventually learned how to effectively read documentation and learn independently. It wasn't long before I began pumping out course reviews and fixing code deprecations autonomously.
+
+My work at egghead reignited my interest in web development. Throughout my senior year of high school and my freshman year of (Zoom) university, I picked up React, TypeScript, and several other useful technologies. Eventually, I participated in a Portfolio Project Club hosted by egghead.io. The goal of this club was for each member to design and build a web project that would make for an impressive portfolio piece. I built an app called _tends_ that simplified the tracking of quantities (i.e. calories, exercise, etc.) for users. The club also presented an opportunity to have published a technical case study detailing the design and build process; I excitedly took advantage of that opportunity, and now have my own <a href="https://egghead.io" target="_blank">technical case study sitting on egghead.io</a>.
+
+In the summer following that club, I worked as an intern for egghead.io. I took on some GitHub issues, made contributions to the site, and continued reviewing courses. I also got to lead my own Portfolio Project Club iteration, this time focusing on state management in React. During this internship experience, I grew confident as a web developer. As the summer ended and my sophomore year of college began, I felt ready to take on large-scale projects and demanding developer responsibilities.
+
+As I write, the winter term of my sophomore year is quickly coming to a close. In the past nine weeks, I've developed a full-stack Participation Tracking application for professors to use in their courses, and I've applied and interviewed for numerous summer software engineering internship positions. Looking forward, I foresee that my passions will continue to guide me through meaningful challenges and subsequent growth. As I undergo these endeavors, I expect to keep this site updated. For now, you can see what I've created so far in my <Link href="/portfolio">portfolio section</Link>.
+
+export default DefaultLayout

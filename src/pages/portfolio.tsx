@@ -1,6 +1,7 @@
 import PortfolioList from 'components/PortfolioList'
 import Layout from '../layouts/index'
 import { portfolio } from 'data/portfolio'
+import Link from 'next/link'
 
 export default function Portfolio() {
   return (
@@ -23,9 +24,14 @@ export default function Portfolio() {
         <p className="py-2 font-medium">
           Computer Science, Applied Math, and Honors Student at Seattle Pacific
           University ✨ <br />
-          <span className="font-normal">
+          <span className="font-normal italic">
             Expected graduation June 2024
-          </span>{' '}
+          </span>
+          <br />
+          <span className="font-normal">
+            Read more about me and my journey in my
+            <Link href="/bio"> bio section</Link> 👑
+          </span>
         </p>
       </div>
       <PortfolioList portfolio={portfolio} />

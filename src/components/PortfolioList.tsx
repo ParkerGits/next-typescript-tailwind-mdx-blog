@@ -28,7 +28,7 @@ export default function PortfolioList({
               }
             >
               {portfolioItem.images.map((image) => (
-                <Image src={image} className="rounded-xl" />
+                <Image placeholder="blur" src={image} className="rounded-xl" />
               ))}
             </div>
           )}
