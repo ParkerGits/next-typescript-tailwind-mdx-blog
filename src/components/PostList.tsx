@@ -76,6 +76,13 @@ export default function PostList({
       ) : (
         <div className="w-100 flex flex-col xs:flex-row justify-around space-between items-center">
           <div className="h-9 my-1">
+            <Link href="/bio">
+              <button className="w-full h-full bg-orange-lord hover:bg-orange-hover rounded-md text-white leading-none px-1.5 text-sm sm:text-base">
+                read my bio &rarr;
+              </button>
+            </Link>
+          </div>
+          <div className="h-9 my-1">
             <Link href="/portfolio">
               <button className="w-full h-full bg-pink-lord hover:bg-pink-hover rounded-md text-white leading-none px-1.5 text-sm sm:text-base">
                 check out my portfolio &rarr;

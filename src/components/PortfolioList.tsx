@@ -6,7 +6,10 @@ export default function PortfolioList({
 }: {
   portfolio: PortfolioItem[]
 }) {
-  const [expandImage, setExpandImage] = useState<number | null>(null)
+  const [expandImage, setExpandImage] = useState<{
+    index: number
+    num: number
+  } | null>(null)
   return (
     <div className="flex flex-col gap-2">
       {portfolio.map((portfolioItem, index) => (
@@ -21,14 +24,26 @@ export default function PortfolioList({
           {portfolioItem.images && (
             <div
               className={`flex gap-2 cursor-pointer mx-2 ${
-                expandImage === index ? 'flex-col' : 'flex-row'
+                expandImage && expandImage.index === index
+                  ? expandImage.num == 0
+                    ? 'flex-col'
+                    : 'flex-col-reverse'
+                  : 'flex-row'
               }`}
-              onClick={() =>
-                setExpandImage(expandImage === index ? null : index)
-              }
             >
-              {portfolioItem.images.map((image) => (
-                <Image placeholder="blur" src={image} className="rounded-xl" />
+              {portfolioItem.images.map((image, num) => (
+                <Image
+                  placeholder="blur"
+                  src={image}
+                  className="rounded-xl"
+                  onClick={() =>
+                    setExpandImage(
+                      expandImage && expandImage.index === index
+                        ? null
+                        : { index, num },
+                    )
+                  }
+                />
               ))}
             </div>
           )}

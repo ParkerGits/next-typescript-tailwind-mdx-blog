@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="flex items-center my-5 xl:my-11 justify-between mx-5 pt-3 ">
         <div>
           <p className="text-black dark:text-gray-300 text-opacity-50">
-            Parker Landon &copy; 2022
+            Parker Landon &copy; {new Date().getFullYear()}
           </p>
         </div>
         <div className="flex h-9 gap-1">
