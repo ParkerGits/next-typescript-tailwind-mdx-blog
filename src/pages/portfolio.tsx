@@ -1,7 +1,8 @@
 import PortfolioList from 'components/PortfolioList'
 import Layout from '../layouts/index'
-import { portfolio } from 'data/portfolio'
+import { projects, professionalExperiences } from 'data/portfolio'
 import Link from 'next/link'
+import jsx from '@emotion/core'
 
 export default function Portfolio() {
   return (
@@ -34,7 +35,17 @@ export default function Portfolio() {
           </span>
         </p>
       </div>
-      <PortfolioList portfolio={portfolio} />
+      <h2 css={{ marginBottom: '0.5em !important' }}>Projects</h2>
+      <PortfolioList
+        portfolioItems={projects}
+        linksHeader="check it out"
+        expandFirst
+      />
+      <h2 css={{ marginBottom: '0.5em !important' }}>Professional</h2>
+      <PortfolioList
+        portfolioItems={professionalExperiences}
+        linksHeader="read more"
+      />
     </Layout>
   )
 }

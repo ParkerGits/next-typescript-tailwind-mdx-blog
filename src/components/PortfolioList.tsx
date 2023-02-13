@@ -2,9 +2,13 @@ import type { PortfolioItem } from 'data/portfolio'
 import Image from 'next/image'
 import { useState } from 'react'
 export default function PortfolioList({
-  portfolio,
+  portfolioItems,
+  expandFirst,
+  linksHeader,
 }: {
-  portfolio: PortfolioItem[]
+  portfolioItems: PortfolioItem[]
+  expandFirst?: boolean
+  linksHeader: string
 }) {
   const [expandImage, setExpandImage] = useState<{
     index: number
@@ -12,9 +16,9 @@ export default function PortfolioList({
   } | null>(null)
   return (
     <div className="flex flex-col gap-2">
-      {portfolio.map((portfolioItem, index) => (
+      {portfolioItems.map((portfolioItem, index) => (
         <details
-          open={index === 0}
+          open={expandFirst && index === 0}
           className="p-1 rounded-xl open:bg-gray-100 dark:open:bg-gray-700"
         >
           <summary className="open:text-center">
@@ -35,7 +39,7 @@ export default function PortfolioList({
                 <Image
                   placeholder="blur"
                   src={image}
-                  className="rounded-xl"
+                  className="rounded-xl object-cover"
                   onClick={() =>
                     setExpandImage(
                       expandImage && expandImage.index === index
@@ -58,7 +62,7 @@ export default function PortfolioList({
           </p>
           <div className="my-1">
             <span className="leading-none">
-              ✨<span className="font-semibold"> check it out</span>
+              ✨ <span className="font-semibold">{linksHeader}</span>
             </span>
             <ul>
               {portfolioItem.links.map((link) => (

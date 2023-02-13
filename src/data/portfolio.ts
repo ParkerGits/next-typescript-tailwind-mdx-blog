@@ -11,8 +11,15 @@ import PortfolioShop from '../../public/images/portfolio/state/portfolioshop.png
 import HuffmanCLI from '../../public/images/portfolio/huffman/cli.png'
 import HuffmanDecoded from '../../public/images/portfolio/huffman/decoded.png'
 // Participation
-import ParticipationRating from '../../public/images/portfolio/participation/rating.png'
-import ParticipationDiagram from '../../public/images/portfolio/participation/diagram.png'
+import KnowtedHome from '../../public/images/portfolio/participation/homesm.png'
+import KnowtedModal from '../../public/images/portfolio/participation/modal.png'
+// Pokecommit
+import PokecommitEncounter from '../../public/images/portfolio/pokecommit/encounter.png'
+import PokecommitFight from '../../public/images/portfolio/pokecommit/fight.png'
+
+// Smartsheet Internship 2022
+import Smartsheet2022Logo from '../../public/images/portfolio/smartsheet2022/logo.png'
+import Smartsheet2022Proofing from '../../public/images/portfolio/smartsheet2022/proofing.png'
 
 export type PortfolioItem = {
   title: string
@@ -22,7 +29,24 @@ export type PortfolioItem = {
   links: { text: string; url: string }[]
 }
 
-export const portfolio: PortfolioItem[] = [
+export const projects: PortfolioItem[] = [
+  {
+    title: 'Knowted Participation Tracking App',
+    description:
+      'With guidance from a Seattle Pacific University professor, I am producing an app called Knowted that streamlines student participation tracking for course instructors in the classroom. By integrating with the popular Canvas Learning Management System, Knowted can query and mutate student data. The app centralizes student data with a dashboard, facilitates the systematic selection of students for participation, enables quick recording of student interaction quality, simplifies exporting grades to the grade book, and promotes classroom inclusivity and student attentiveness. The application benefits instructors today as it sees growing usage among professors at Seattle Pacific University. The next step of this project is to expand beyond Seattle Pacific University and enable instructors from other institutions to use it.',
+    emoji: '🙋‍♂️',
+    images: [KnowtedHome, KnowtedModal],
+    links: [
+      {
+        text: 'Watch a demo of the app! (current as of 09/14/2022)',
+        url: 'https://www.youtube.com/watch?v=eVq5nL27vsw',
+      },
+      {
+        text: 'Check out the homepage!',
+        url: 'https://knowted.app',
+      },
+    ],
+  },
   {
     title: 'tends',
     description:
@@ -65,15 +89,15 @@ export const portfolio: PortfolioItem[] = [
     ],
   },
   {
-    title: 'Participation App',
+    title: 'Pokecommit CLI',
     description:
-      "With guidance from a Seattle Pacific University professor, I am producing an application for professors who track student participation in their courses. This app randomly selects a student who is enrolled in the course, and allows the professor to score that student's participation. Student scores are then stored in a PostgreSQL database and accessed via backend queries. This way, the professor may manage class participation via the app. Eventually, I would like to implement integration with Canvas LMS; this will provide authentication as well as data about the professor's classes and students. Currently, the application consists of a frontend built with React and Next.js, and a backend built with tRPC and Prisma ORM. The goal is to also create a mobile frontend with Expo and React Native, and to have the entire application live in a monorepo.",
-    emoji: '🎒',
-    images: [ParticipationRating],
+      'Inspired by my love for Pokemon and a desire to learn the Go programming language, I created this simple CLI wrapper for git commit that allows users to catch a Pokemon with each commit!',
+    emoji: '🦑',
+    images: [PokecommitEncounter, PokecommitFight],
     links: [
       {
-        text: '12/5/2021 Participation App Functionality Demo',
-        url: 'https://www.youtube.com/watch?v=gN-dsE9fbho',
+        text: 'GitHub repository',
+        url: 'https://github.com/ParkerGits/pokecommit',
       },
     ],
   },
@@ -104,6 +128,28 @@ export const portfolio: PortfolioItem[] = [
       {
         text: 'ParkerGits/minecraft-furnace-xstate-react Repository',
         url: 'https://github.com/ParkerGits/minecraft-furnace-xstate-react',
+      },
+    ],
+  },
+]
+
+export const professionalExperiences: PortfolioItem[] = [
+  {
+    title: 'Smartsheet Software Engineering Intern, Content Solutions Team',
+    description:
+      'For ten weeks during the summer of 2022, I worked at Smartsheet as a full-time software engineering intern. Smartsheet is a cloud-based spreadsheet application for planning, managing, automating, and collaborating on business tasks. The team I belonged to, Content Solutions, was primarily focused on developing the platform\'s "proofing" feature, which streamlines the iterative process of content creation by facilitating document versioning, feedback requests, and comments. My task over the summer was to design and implement a "due dates" feature for feedback requests to give requestors a better sense of when to expect recipient feedback. My commitment to this project spanned the duration of my internship and entailed me working with managers, designers, user-experience researchers, and other engineers across all of Smartsheet\'s product development teams. The project began with me drafting a systems design document for the feature. After receiving feedback and iterating on my planned approach, I began the development work. I implemented the frontend components with TypeScript, React, Redux, and SASS, used Java Spring and MySQL to build the backend functionality, and used Docker to manage microservices during development. At the end of my internship, I presented the functioning feature in a meeting open to all product development employees. Beyond the t technical skills I developed while working on this feature, I also grew familiar with Agile Scrum by attending daily standup meetings and biweekly sprint planning and retrospective meetings.',
+    emoji: '📄',
+    images: [Smartsheet2022Logo, Smartsheet2022Proofing],
+    links: [
+      {
+        text: 'Check out my feature in this article from the Smartsheet team!',
+        url:
+          'https://www.smartsheet.com/content-center/executive-center/leadership/internship-inside-look',
+      },
+      {
+        text: "Learn more about Smartsheet's proofing feature",
+        url:
+          'https://help.smartsheet.com/learning-track/smartsheet-intermediate/proofing',
       },
     ],
   },
