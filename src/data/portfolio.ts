@@ -57,7 +57,7 @@ export const projects: PortfolioItem[] = [
       {
         text: 'Technical Case Study published on egghead.io!',
         url:
-          'https://egghead.io/blog/saas-application-with-next-js-stripe-and-firebase',
+          'https://egghead.io/blog/saas-applicatiodn-with-next-js-stripe-and-firebase',
       },
       {
         text: 'Related article - sharing state in Next.js with useContext',
