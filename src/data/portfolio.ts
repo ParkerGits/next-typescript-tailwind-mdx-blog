@@ -69,7 +69,7 @@ export const projects: PortfolioItem[] = [
   {
     title: 'State Management Project Club',
     description:
-      'Over six weeks, from July to August 2021, I led a Portfolio Project Club in the egghead.io community. The objective of the project club was for each member to design, demonstrate, and document a portfolio project that demonstrates a mastery of State Management in React. The project I developed was an RPG Cutscene in which the animations, events, and dialogue are all controlled by state machines created with the XState library.',
+      'Over six weeks, from July to August 2021, I led a Portfolio Project Club in the egghead.io community. The objective of the project club was for each member to design, demonstrate, and document a portfolio project that demonstrates a mastery of State Management in React. The project I developed was an RPG Cutscene in which the animations, events, and dialogue are all controlled by state machines managed by the XState library.',
     emoji: '🌵',
     images: [RPGPortfolio, PortfolioShop],
     links: [
