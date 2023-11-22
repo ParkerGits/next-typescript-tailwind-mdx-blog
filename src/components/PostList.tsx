@@ -1,15 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Post from './Post'
-import jsx from '@emotion/core'
 import Link from 'next/link'
-
-type Frontmatter = {
-  title: string
-  topic: string
-  routename: string
-  description: string
-  postnum: number
-}
+import { PostFrontmatter } from 'pages/list'
 
 const liStyle = {
   lineHeight: '120% !important',
@@ -17,33 +9,24 @@ const liStyle = {
   padding: '0px !important',
   border: '0px solid grey',
 }
+
 const hrStyle = { margin: '0 !important', marginBottom: '.5rem !important' }
 
 export default function PostList({
   frontmatterList,
 }: {
-  frontmatterList: Frontmatter[]
+  frontmatterList: PostFrontmatter[]
 }) {
-  const [topicSort, setTopicSort] = useState<null | string>(null)
-  const [topicFrontmatter, setTopicFrontmatter] = useState<
-    Frontmatter[] | null
-  >(null)
+  const [topicSort, setTopicSort] = useState<string | null>(null)
   const [showEggheadNotes, setShowEggheadNotes] = useState(false)
-  useEffect(() => {
-    setTopicFrontmatter(
-      frontmatterList.filter((frontmatter) =>
-        showEggheadNotes
-          ? frontmatter.topic === 'egghead-notes'
-          : topicSort
-          ? frontmatter.topic === topicSort
-          : frontmatter.topic !== 'egghead-notes',
-      ),
-    )
-  }, [topicSort, showEggheadNotes])
-  function topicOnClick(topic: string) {
-    setTopicSort(topic)
+
+  const frontmatterFilterCallback = (frontmatter: PostFrontmatter) => {
+    if (showEggheadNotes) return frontmatter.topic === 'egghead-notes'
+    if (!topicSort) return frontmatter.topic !== 'egghead-notes'
+    return frontmatter.topic === topicSort
   }
-  if (!topicFrontmatter) return null
+  const filteredPosts = frontmatterList.filter(frontmatterFilterCallback)
+
   return (
     <div className="flex flex-col">
       <ul
@@ -51,12 +34,12 @@ export default function PostList({
         className="list-none px-1"
         css={{ margin: '0 !important' }}
       >
-        {topicFrontmatter.map((frontmatter, index) => (
+        {filteredPosts.map((frontmatter, index) => (
           <div key={frontmatter.routename}>
             <li key={index} css={liStyle}>
               <Post
                 frontmatter={frontmatter}
-                onClick={topicOnClick}
+                onClick={setTopicSort}
                 key={index}
               />
             </li>

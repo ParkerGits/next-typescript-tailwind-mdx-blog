@@ -1,19 +1,19 @@
-import fs, { readdirSync, readFile, readFileSync } from 'fs'
+import fs, { readFileSync } from 'fs'
 import path from 'path'
 import { GetStaticProps } from 'next'
 import matter from 'gray-matter'
 import Layout from '../layouts/index'
 import PostList from '../components/PostList'
 
-interface frontmatter {
+export interface PostFrontmatter {
   title: string
-  topic: string
+  topic: 'programming' | 'personal' | 'egghead-notes'
   routename: string
   description: string
   postnum: number
 }
 
-const List = ({ frontmatterList }: { frontmatterList: frontmatter[] }) => {
+const List = ({ frontmatterList }: { frontmatterList: PostFrontmatter[] }) => {
   return (
     <Layout
       meta={{
@@ -52,15 +52,7 @@ export const getStaticProps: GetStaticProps = async () => {
       orderedPostFrontmatter.push(matter(readFileSync(postFile, 'utf-8')).data)
     }
   }
-  orderedPostFrontmatter.sort((a, b) => {
-    if (a.postnum > b.postnum) {
-      return -1
-    }
-    if (a.postnum < b.postnum) {
-      return 1
-    }
-    return 0
-  })
+  orderedPostFrontmatter.sort((a, b) => b.postnum - a.postnum)
   return {
     props: {
       frontmatterList: orderedPostFrontmatter,

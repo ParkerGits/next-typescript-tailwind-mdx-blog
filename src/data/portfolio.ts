@@ -16,6 +16,9 @@ import KnowtedModal from '../../public/images/portfolio/participation/modal.png'
 // Pokecommit
 import PokecommitEncounter from '../../public/images/portfolio/pokecommit/encounter.png'
 import PokecommitFight from '../../public/images/portfolio/pokecommit/fight.png'
+// hngr
+import HngrList from '../../public/images/portfolio/hngr/discover.png'
+import HngrSearch from '../../public/images/portfolio/hngr/search.png'
 
 // Smartsheet Internship 2022
 import Smartsheet2022Logo from '../../public/images/portfolio/smartsheet2022/logo.png'
@@ -31,9 +34,17 @@ export type PortfolioItem = {
 
 export const projects: PortfolioItem[] = [
   {
+    title: 'hngr',
+    description:
+      "Hngr is a peer-to-peer restaurant recommendation and review platform. Like other vertical social platforms such as Goodreads for books and Letterboxd for movies, hngr provides a social space for foodies to share and discover restaurant experiences. I was the sole developer of hngr for the first four months, implementing the groundwork features and architecture for the application. Now, I lead three other developers on the project as manager and scrummaster; we meet for standup three times weekly and work in 2-week sprints. We've implemented hngr with Expo (React Native) and TypeScript on the frontend, Node.js with TypeScript and Express on the backend, and services like Planetscale to store app data and the Foursquare Places API for restaurant data. The team plans to launch hngr to our waitlist of users sometime in the winter or spring. ",
+    emoji: '🍽️',
+    images: [HngrList, HngrSearch],
+    links: [{ text: 'Check out the launch page!', url: 'https://hngrapp.xyz' }],
+  },
+  {
     title: 'Knowted Participation Tracking App',
     description:
-      'I am producing an app called Knowted that streamlines student participation tracking for course instructors in the classroom. By integrating with the popular Canvas Learning Management System, Knowted centralizes student data with a dashboard and facilitates the quick and systematic selection of students for participation. Knowted enables professors to effortlessly grade student interactions and export those grades to the grade book. The application already benefits instructors as it sees growing usage among professors at Seattle Pacific University. The next step of this project is to expand beyond Seattle Pacific University and support instructors at other institutions.',
+      'Inspired by the needs of a professor, I developed a web application called Knowted that streamlines student participation tracking for course instructors in the classroom. By integrating with the popular Canvas Learning Management System, Knowted centralizes student data with a dashboard and facilitates the quick and systematic selection of students for participation. Knowted enables professors to effortlessly grade student interactions and export those grades to the grade book. The application already benefits instructors as it sees growing usage among professors at Seattle Pacific University. The next step of this project is to expand beyond Seattle Pacific University and support instructors at other institutions.',
     emoji: '🙋‍♂️',
     images: [KnowtedHome, KnowtedModal],
     links: [

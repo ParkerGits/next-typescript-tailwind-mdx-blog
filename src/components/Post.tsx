@@ -1,17 +1,11 @@
 import Link from 'next/link'
-interface frontmatter {
-  title: string
-  topic: string
-  routename: string
-  description: string
-  postnum: number
-}
+import { PostFrontmatter } from 'pages/list'
 
 const Post = ({
   frontmatter,
   onClick,
 }: {
-  frontmatter: frontmatter
+  frontmatter: PostFrontmatter
   onClick: (topic: string) => any
 }) => {
   return (
